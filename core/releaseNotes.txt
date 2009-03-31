@@ -1,0 +1,252 @@
+Release notes for Beans Binding (http://beansbinding.dev.java.net)
+
+
+1.2.1 Release (2007/11/02)
+--------------------------
+This is a bug fix release, solving the following issues:
+
+Issue 16: JTable/JListAdapterProvider: don't re-wire listening to selectionModel on change
+Issue 19: clear() on an empty ObservableList bound to JList/JTable causes exception
+Issue 20: AbstractButtonAdapterProvider.Adapter.cachedSelected
+
+
+1.2 Release (2007/10/29)
+--------------------------
+This release contains some minor API changes and bug fixes.
+
+API changes:
+
+- The hasEditedSource and hasEditedTarget properties have been removed from
+  Binding and AutoBinding, as have the hasEditedTargetBindings property and
+  getEditedTargetBindings() method from BindingGroup. These properties and
+  methods, which existed to assist in tracking which Bindings require saving,
+  are to be replaced with a more robust system of notifications and methods.
+
+- The semantics of Binding's sourceUnreadableValue property has changed such
+  that it is only used if explicity set by the developer. A new SyncFailure
+  type, SOURCE_UNREADABLE, has been added to indicate an attempt to refresh
+  with an unreadable source and no sourceUnreadableValue set.
+
+- BindingListener's sourceEdited and targetEdited methods have been deprecated
+  and replaced with sourceChanged and targetChanged methods that provide the
+  originating PropertyStateEvent.
+
+- BindingListener's syncFailed method has been changed to take a single
+  SyncFailure rather than a varargs. The original signature was designed to
+  support AutoBinding's current update strategies, which have been deemed
+  too complex and will be simplified in a future update.
+
+Issues Resolved:
+
+Issue 15: MissingResourceException on wrong ELProperty
+Issue 4: targetEdited not fired when changing a JTable cell
+
+
+1.1.1 Release (2007/10/18)
+--------------------------
+This release contains one bug fix, for the following issue:
+
+Issue 12: sourceUnreadableValue/sourceNullValue ignored for
+          JTableBinding.ColumnBinding and JListBinding.DetailBinding
+
+
+1.1 Release (2007/10/17)
+--------------------------
+This release provides a major performance improvement over version 1.0,
+a small set of bug fixes, and the addition of support for binding to JSpinner's
+value property.
+
+An extreme difference in performance can be seen with BeanProperty and
+ELProperty in this version. As these classes are central to binding, the result
+is that most things now perform MUCH faster. Consider the following simple
+testcase:
+
+    Person person = new Person(10, "John", "Smith", true, 30);
+    Property p = BeanProperty.create("firstName");
+    p.addPropertyStateListener(person, new PSL());
+    long start = System.currentTimeMillis();
+    for (int i = 0; i < 100000; i++) {
+        p.getValue(person);
+    }
+    System.out.println(System.currentTimeMillis() - start);
+
+In 1.0, this test takes approximately 13,100 milliseconds on my fast machine.
+On the contrary, this test takes approximately 8 milliseconds in 1.1!
+
+In addition to the performance improvements, the following were fixed or enhanced:
+
+- Added support for binding to a JSpinner's value property
+- JSlider's "value_IGNORE_ADJUSTING" property, which was broken in 1.0, has been fixed
+- Fixed Issue 8: Typo in removeTableModelListener
+- Fixed Issue 10: Binding does not work after updating a target value with JList/JTable/JComboBox
+- Fixed Issue 11: Setting convertor on ColumnBinding dosn't work
+- Other small tweaks and fixes
+
+
+1.0 Release (2007/09/05)
+--------------------------
+This release represents a major re-architecture of the Beans Binding API, based
+on feedback from members of the expert group and the community (Thank You!).
+While the work on this project continues through the JCP process,
+with feature additions and possible API changes to come, the current
+state represents the core API that is expected, for the most part, to
+persist. As such, we're calling it 1.0 and releasing!
+
+Some of the major points of interest in this release:
+
+  1) The concept of a property has been factored out into an abstract Property class,
+     with two concrete implementations of interest: BeanProperty and ELProperty.
+
+  2) Binding is now an abstract class representing a binding between two Property
+     instances (typically associated with two objects).
+
+  3) Binding with automatic syncing is implemented by a new concrete AutoBinding subclass.
+
+  4) Bindings to complex Swing components (such as JTable, JList and JComboBox) are
+     now handled by custom Binding subclasses.
+
+  5) For those synthetic Swing properties that we expose via adapters, those with
+     multiple possible behaviors are exposed as multiple synthetic properties.
+     For example: "text", "text_ON_FOCUS_LOST" and "text_ON_ACTION_OR_FOCUS_LOST"
+     for JTextField; "selectedElement" and "selectedElement_IGNORE_ADJUSTING" for
+     JList and JTable.
+
+  6) Everything has been repackaged into org.jdesktop packages.
+
+Please note that the process of updating the project's unit test suite for the
+re-architecture has not yet been completed. As such, the majority of unit tests
+are not compileable or runnable.
+
+
+0.6.1 Release (2007/06/22)
+--------------------------
+The purpose of this release is a set of name changes that make things
+more intuitive and easier to use.
+
+API changes:
+
+  1) UpdateStrategy.READ_FROM_SOURCE has been renamed to the shorter
+     UpdateStrategy.READ
+
+  2) TextChangeStategy is now a top-level enum. In addition, the values
+     CHANGE_ON_TYPE, CHANGE_ON_ACTION_OR_FOCUS_LOST and CHANGE_ON_FOCUS_LOST
+     have been shortened to ON_TYPE, ON_ACTION_OR_FOCUS_LOST, ON_FOCUS_LOST.
+
+  3) Binding.Parameter has been renamed to Binding.ParameterKey and
+     Binding.setValue/getValue have been given the more appropriate names
+     Binding.putParameter/getParameter.
+
+  4) All Swing ParameterKeys are now in a top-level ParameterKeys class.
+     They've been renamed as appropriate to reflect the fact that
+     they are constants. A few have also been shortened.
+
+  5) SwingBindingSupport has been removed. Documentation for Swing binding
+     is now in the package-level documentation.
+
+To see how some of these changes affect you, let's look at two examples:
+
+Before:
+
+Binding b = new Binding(list, null, table, "elements");
+b.addChildBinding("${firstName}, null)
+    .setValue(SwingBindingSupport.TableColumnParameter, 0)
+    .setValue(SwingBindingSupport.TableColumnClassParameter, String.class);
+
+After:
+
+Binding b = new Binding(list, null, table, "elements");
+b.addChildBinding("${firstName}, null)
+    .putParameter(ParameterKeys.COLUMN, 0)
+    .putParameter(ParameterKeys.COLUMN_CLASS, String.class);
+
+Likewise, before:
+
+Binding b = new Binding(object, "${property}", textField, "text");
+b.setValue(SwingBindingSupport.TextChangeStrategyParameter,
+           SwingBindingSupport.TextChangeStrategy.CHANGE_ON_TYPE);
+
+After:
+
+Binding b = new Binding(object, "${property}", textField, "text");
+binding.putParameter(ParameterKeys.TEXT_CHANGE_STRATEGY,
+                     TextChangeStrategy.ON_TYPE);
+
+
+0.6 Release (2007/06/20)
+--------------------------
+Notes on this release are broken into the following sections:
+  API Changes/Additions, Issues Resolved, Other
+
+*** API Changes/Additions ***
+
+  1) Binding.addBinding/removeBinding/getBindings have been renamed to the more
+     descriptive Binding.addChildBinding/removeChildBinding/getChildBindings
+
+  2) Binding.setSourcePath/getSourcePath have been renamed to the more
+     appropriate Binding.setSourceExpression/getSourceExpression
+
+  3) To enforce compile-time type safety, the Object varargs parameter has been
+     removed from all constructors and methods in Binding and BindingContext.
+     You must now call setValue directly. To allow for method chaining, setValue
+     now returns the Binding. As an example, replace this Binding:
+
+     Binding b = new Binding(source, "${property}", target, "property",
+                             Parameter1, param1Value, Parameter2, param2Value);
+
+     with this:
+
+     Binding b = new Binding(source, "${property}", target, "property");
+     b.setValue(Parameter1, param1Value).setValue(Parameter2, param2Value);
+
+  4) Some Binding and BindingContext methods were updated to throw the more
+     appropriate IllegalArgumentException (rather than IllegalStateException)
+     for certain conditions.
+
+  5) Binding now has a name property. The ability to name a binding assists in
+     debugging. Its main goal, however, is to make it possible to fetch
+     bindings by name. This will show its full utility with future changes
+     making it easier to validate and then commit or revert bindings as a group.
+
+     To support naming a Binding, the following API additions have been
+     made to Binding:
+       - Constructors that take a String name parameter
+       - void setName(String name)
+       - String getName()
+       - addChildBinding methods that take a String name parameter
+       - Binding getChildBinding(String name)
+     In addition, the following additions have been made to BindingContext:
+       - addBinding methods that take a String name parameter
+       - Binding getBinding(String name)
+
+  6) Added a Parameter to control the editability of a JTable when it is the
+     target of a binding. A new EditableParameter has been added to
+     SwingBindingSupport to control this. It can be used on a top-level
+     binding to control the editability of the entire JTable, and/or on the
+     binding's individual child bindings to control editability of individual
+     columns. For example, to make all columns non-editable, except for
+     the first:
+
+     Binding b = new Binding(list, null, table, "elements");
+     // whole table is non-editable
+     b.setValue(SwingBindingSupport.EditableParameter, false);
+     b.addChildBinding("${firstName}, null)
+         .setValue(SwingBindingSupport.TableColumnParameter, 0)
+         // this column IS editable
+         .setValue(SwingBindingSupport.EditableParameter, true);
+     b.addChildBinding("${lastName}, null)
+         .setValue(SwingBindingSupport.TableColumnParameter, 1);
+
+*** Issues Resolved ***
+
+  2: Need converters between various types and String
+  5: JTable binding support doesn't support sorting and filtering
+
+*** Other ***
+
+  The JavaDoc in Binding and SwingBindingSupport has been updated to reflect the
+  change to use EL for the source "property".
+
+
+0.5 Release (2007/04/02)
+--------------------------
+Initial public release.
