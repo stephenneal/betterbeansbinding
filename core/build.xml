@@ -3,35 +3,71 @@
     <description>Builds, tests, and runs the project beansbinding.</description>
     <import file="_nbproject/build-impl.xml"/>
 
-   <property name="tools.dir" value="${basedir}/tools"/>
+    <property name="tools.dir" value="${basedir}/tools"/>
 
-   <import file="${tools.dir}/ant/openbluesky.xml"/>
+    <!-- import file="${tools.dir}/ant/openbluesky.xml"/ -->
 
-   <target name="build" depends="jar"/>
+    <target name="build" depends="jar"/>
 
-  <target name="-post-init">
-    <property name="javac.debug" value="on"/>
-  </target>
-  <target name="dist" depends="javadoc,jar">
-    <property name="buildVersion" value="1.2.2"/>
-    <zip destfile="${dist.dir}/${ant.project.name}-${buildVersion}-doc.zip"
+    <target name="-post-init">
+        <property name="javac.debug" value="on"/>
+    </target>
+    <target name="dist" depends="javadoc,jar">
+        <property name="buildVersion" value="1.2.2"/>
+        <zip destfile="${dist.dir}/${ant.project.name}-${buildVersion}-doc.zip"
          basedir="${dist.javadoc.dir}"/>
-    <zip destfile="${dist.dir}/${ant.project.name}-${buildVersion}-src.zip" >
-      <fileset dir="." >
-        <include name="${src.dir}/**" />
-      	<exclude name="**/CVS/**" />
-      </fileset>
-      <fileset dir=".">
-        <include name="nbproject/build-impl.xml" />
-        <include name="nbproject/project.xml" />
-        <include name="nbproject/genfiles.properties" />
-        <include name="nbproject/project.properties" />
-        <include name="build.xml" />
-        <include name="license.txt" />
-        <include name="releaseNotes.txt" />
-      </fileset>
-    </zip>
-    <copy file="${dist.dir}/${ant.project.name}.jar"
+        <zip destfile="${dist.dir}/${ant.project.name}-${buildVersion}-src.zip" >
+            <fileset dir="." >
+                <include name="${src.dir}/**" />
+                <exclude name="**/CVS/**" />
+            </fileset>
+            <fileset dir=".">
+                <include name="nbproject/build-impl.xml" />
+                <include name="nbproject/project.xml" />
+                <include name="nbproject/genfiles.properties" />
+                <include name="nbproject/project.properties" />
+                <include name="build.xml" />
+                <include name="license.txt" />
+                <include name="releaseNotes.txt" />
+            </fileset>
+        </zip>
+        <copy file="${dist.dir}/${ant.project.name}.jar"
           tofile="${dist.dir}/${ant.project.name}-${buildVersion}.jar"/>
-  </target>
+    </target>
+
+    <target name="-init-sigtest">
+        <taskdef name="setup-sigtest" classname="com.sun.tdk.signaturetest.ant.ASetup" classpath="/home/fritz/Desktop/SigTest/sigtest-2.1/lib/sigtestdev.jar"/>
+        <taskdef name="sigtest" classname="com.sun.tdk.signaturetest.ant.ATest" classpath="/home/fritz/Desktop/SigTest/sigtest-2.1/lib/sigtest.jar"/>
+    </target>
+
+    <target name="setup-sigtest" depends="-init-sigtest">
+        <setup-sigtest failonerror="true" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-v1.2.2.sig">
+            <package name="org.jdesktop.beansbinding" />
+            <package name="org.jdesktop.beansbinding.ext" />
+            <package name="org.jdesktop.observablecollections" />
+            <package name="org.jdesktop.swingbinding" />
+            <package name="org.jdesktop.swingbinding.adapters" />
+            <exclude package="org.jdesktop.swingbinding.impl" />
+            <classpath>
+                <pathelement location="${java.home}/lib/rt.jar"/>
+                <pathelement location="target/BetterBeansBinding-1.2.2-SNAPSHOT.jar"/>
+            </classpath>
+        </setup-sigtest>
+    </target>
+
+    <target name="sigtest" depends="-init-sigtest">
+        <sigtest failonerror="true" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-v1.2.2.sig" backward="true" output="target/st_report.txt">
+            <package name="org.jdesktop.beansbinding" />
+            <package name="org.jdesktop.beansbinding.ext" />
+            <package name="org.jdesktop.observablecollections" />
+            <package name="org.jdesktop.swingbinding" />
+            <package name="org.jdesktop.swingbinding.adapters" />
+            <exclude package="org.jdesktop.swingbinding.impl" />
+            <classpath>
+                <pathelement location="${java.home}/lib/rt.jar"/>
+                <pathelement location="target/BetterBeansBinding-1.2.2-SNAPSHOT.jar"/>
+            </classpath>
+        </sigtest>
+    </target>
+
 </project>
