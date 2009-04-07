@@ -41,10 +41,16 @@
     </target>
 
     <target name="setup-sigtest" depends="-init-sigtest">
-        <setup-sigtest failonerror="true" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-v1.2.2.sig">
+        <setup-sigtest failonerror="true" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-core-v1.2.2.sig">
             <package name="org.jdesktop.beansbinding" />
             <package name="org.jdesktop.beansbinding.ext" />
             <package name="org.jdesktop.observablecollections" />
+            <classpath>
+                <pathelement location="${java.home}/lib/rt.jar"/>
+                <pathelement location="target/BetterBeansBinding-1.2.2-SNAPSHOT.jar"/>
+            </classpath>
+        </setup-sigtest>
+        <setup-sigtest failonerror="true" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-swing-v1.2.2.sig">
             <package name="org.jdesktop.swingbinding" />
             <package name="org.jdesktop.swingbinding.adapters" />
             <exclude package="org.jdesktop.swingbinding.impl" />
@@ -56,10 +62,16 @@
     </target>
 
     <target name="sigtest" depends="-init-sigtest">
-        <sigtest failonerror="true" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-v1.2.2.sig" backward="true" output="target/st_report.txt">
+        <sigtest failonerror="true" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-core-v1.2.2.sig" backward="true" output="target/sigtest-core-report.txt">
             <package name="org.jdesktop.beansbinding" />
             <package name="org.jdesktop.beansbinding.ext" />
             <package name="org.jdesktop.observablecollections" />
+            <classpath>
+                <pathelement location="${java.home}/lib/rt.jar"/>
+                <pathelement location="target/BetterBeansBinding-1.2.2-SNAPSHOT.jar"/>
+            </classpath>
+        </sigtest>
+        <sigtest failonerror="true" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-swing-v1.2.2.sig" backward="true" output="target/sigtest-swing-report.txt">
             <package name="org.jdesktop.swingbinding" />
             <package name="org.jdesktop.swingbinding.adapters" />
             <exclude package="org.jdesktop.swingbinding.impl" />
