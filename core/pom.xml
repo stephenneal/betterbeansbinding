@@ -27,6 +27,7 @@
                 <version>2.2</version>
                 <configuration>
                     <formats>
+                        <format>html</format>
                         <format>xml</format>
                     </formats>
                     <instrumentation>
@@ -52,7 +53,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
+<!--
     <reporting>
         <plugins>
             <plugin>
@@ -81,5 +82,5 @@
             </plugin>
         </plugins>
     </reporting>
-
+-->
 </project>
