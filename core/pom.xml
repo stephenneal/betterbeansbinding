@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 34 2009-04-25 17:27:10Z fabriziogiudici $
+ * $Id: pom.xml 37 2009-04-25 19:36:02Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -36,8 +36,66 @@
     <packaging>jar</packaging>
     <version>1.2.2-SNAPSHOT</version>
     <name>BetterBeansBinding Core</name>
-    <url>http://maven.apache.org</url>
-
+    <url>http://betterbeansbinding.kenai.com</url>
+    <description>Keeping JavaBeans in sync.</description>
+    <organization>
+        <name>Tidalwave s.a.s.</name>
+        <url>http://www.tidalwave.it</url>
+    </organization>
+    <inceptionYear>2009</inceptionYear>
+    <issueManagement>
+        <system>Jira</system>
+        <url>http://kenai.com/jira/browse/BETTERBEANSBINDING</url>
+    </issueManagement>
+    <scm>
+        <connection>scm:svn:http://kenai.com/svn/betterbeansbinding~svn/trunk/src</connection>
+        <developerConnection>scm:svn:https://kenai.com/svn/betterbeansbinding~svn/trunk/src</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://kenai.com/svn/betterbeansbinding~svn/trunk/src</url>
+    </scm>
+    <contributors>
+        <contributor>
+            <name>Fabrizio Giudici</name>
+            <email>fabrizio.giudici@tidalwave.it</email>
+            <url>http://www.tidalwave.it/people</url>
+            <organization>Tidalwave s.a.s.</organization>
+            <organizationUrl>http://www.tidalwave.it</organizationUrl>
+            <roles>
+                <role>manager</role>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </contributor>
+    </contributors>
+    <mailingLists>
+        <mailingList>
+            <name>Commits</name>
+            <post>commits@betterbeansbinding.kenai.com</post>
+            <archive>http://kenai.com/projects/betterbeansbinding/lists/commits/archive</archive>
+        </mailingList>
+        <mailingList>
+            <name>Dev</name>
+            <post>dev@betterbeansbinding.kenai.com</post>
+            <archive>http://kenai.com/projects/betterbeansbinding/lists/dev/archive</archive>
+        </mailingList>
+        <mailingList>
+            <name>Issues</name>
+            <post>issues@betterbeansbinding.kenai.com</post>
+            <archive>http://kenai.com/projects/betterbeansbinding/lists/issues/archive</archive>
+        </mailingList>
+        <mailingList>
+            <name>Users</name>
+            <post>users@betterbeansbinding.kenai.com</post>
+            <archive>http://kenai.com/projects/betterbeansbinding/lists/users/archive</archive>
+        </mailingList>
+    </mailingLists>
+    <licenses>
+        <license>
+            <name>LGPL 2.1 </name>
+            <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
     <build>
         <plugins>
             <plugin>
