@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: build.xml 34 2009-04-25 17:27:10Z fabriziogiudici $
+ * $Id: build.xml 36 2009-04-25 19:35:38Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project name="betterbeansbinding" default="default" basedir="." xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3">
@@ -65,8 +65,8 @@
     </target>
 
     <target name="-init-sigtest">
-        <taskdef name="setup-sigtest" classname="com.sun.tdk.signaturetest.ant.ASetup" classpath="/home/fritz/Desktop/SigTest/sigtest-2.1/lib/sigtestdev.jar"/>
-        <taskdef name="sigtest" classname="com.sun.tdk.signaturetest.ant.ATest" classpath="/home/fritz/Desktop/SigTest/sigtest-2.1/lib/sigtest.jar"/>
+        <taskdef name="setup-sigtest" classname="com.sun.tdk.signaturetest.ant.ASetup" classpath="lib/sigtestdev.jar"/>
+        <taskdef name="sigtest" classname="com.sun.tdk.signaturetest.ant.ATest" classpath="lib/sigtest.jar"/>
     </target>
 
     <target name="setup-sigtest" depends="-init-sigtest">
@@ -100,7 +100,7 @@
                 <pathelement location="target/BetterBeansBinding-1.2.2-SNAPSHOT.jar"/>
             </classpath>
         </sigtest>
-        <sigtest failonerror="true" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-swing-v1.2.2.sig" backward="true" output="target/sigtest-swing-report.txt">
+        <sigtest failonerror="false" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-swing-v1.2.2.sig" backward="true" output="target/sigtest-swing-report.txt">
             <package name="org.jdesktop.swingbinding" />
             <package name="org.jdesktop.swingbinding.adapters" />
             <exclude package="org.jdesktop.swingbinding.impl" />
