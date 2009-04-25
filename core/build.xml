@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: build.xml 33 2009-04-25 16:43:54Z fabriziogiudici $
+ * $Id: build.xml 34 2009-04-25 17:27:10Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project name="betterbeansbinding" default="default" basedir="." xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3">

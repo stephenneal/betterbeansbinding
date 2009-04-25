@@ -24,7 +24,7 @@
  * 
  ***********************************************************************************************************************
  * 
- * $Id: AbstractButtonAdapterProvider.java 33 2009-04-25 16:43:54Z fabriziogiudici $
+ * $Id: AbstractButtonAdapterProvider.java 34 2009-04-25 17:27:10Z fabriziogiudici $
  * 
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding.adapters;
