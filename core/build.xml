@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: build.xml 36 2009-04-25 19:35:38Z fabriziogiudici $
+ * $Id: build.xml 48 2009-04-25 21:32:05Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project name="betterbeansbinding" default="default" basedir="." xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3">
@@ -76,7 +76,7 @@
             <package name="org.jdesktop.observablecollections" />
             <classpath>
                 <pathelement location="${java.home}/lib/rt.jar"/>
-                <pathelement location="target/BetterBeansBinding-1.2.2-SNAPSHOT.jar"/>
+                <pathelement location="target/BetterBeansBinding-1.2.3-SNAPSHOT.jar"/>
             </classpath>
         </setup-sigtest>
         <setup-sigtest failonerror="true" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-swing-v1.2.2.sig">
@@ -85,7 +85,7 @@
             <exclude package="org.jdesktop.swingbinding.impl" />
             <classpath>
                 <pathelement location="${java.home}/lib/rt.jar"/>
-                <pathelement location="target/BetterBeansBinding-1.2.2-SNAPSHOT.jar"/>
+                <pathelement location="target/BetterBeansBinding-1.2.3-SNAPSHOT.jar"/>
             </classpath>
         </setup-sigtest>
     </target>
@@ -97,7 +97,7 @@
             <package name="org.jdesktop.observablecollections" />
             <classpath>
                 <pathelement location="${java.home}/lib/rt.jar"/>
-                <pathelement location="target/BetterBeansBinding-1.2.2-SNAPSHOT.jar"/>
+                <pathelement location="target/BetterBeansBinding-1.2.3-SNAPSHOT.jar"/>
             </classpath>
         </sigtest>
         <sigtest failonerror="false" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-swing-v1.2.2.sig" backward="true" output="target/sigtest-swing-report.txt">
@@ -106,7 +106,7 @@
             <exclude package="org.jdesktop.swingbinding.impl" />
             <classpath>
                 <pathelement location="${java.home}/lib/rt.jar"/>
-                <pathelement location="target/BetterBeansBinding-1.2.2-SNAPSHOT.jar"/>
+                <pathelement location="target/BetterBeansBinding-1.2.3-SNAPSHOT.jar"/>
             </classpath>
         </sigtest>
     </target>
