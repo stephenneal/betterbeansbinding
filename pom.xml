@@ -25,17 +25,17 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 47 2009-04-25 21:11:00Z fabriziogiudici $
+ * $Id: pom.xml 49 2009-04-25 22:31:22Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>org.jdesktop.betterbeansbinding</groupId>
-    <artifactId>BetterBeansBinding-root-pom</artifactId>
+    <artifactId>BetterBeansBinding</artifactId>
     <packaging>pom</packaging>
     <version>1.2.3-SNAPSHOT</version>
     <name>BetterBeansBinding</name>
@@ -146,6 +146,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <reporting>
         <plugins>
 <!--
@@ -179,6 +180,8 @@
 
     <modules>
         <module>core</module>
+        <module>EL</module>
+        <module>jar</module>
     </modules>
 
 </project>

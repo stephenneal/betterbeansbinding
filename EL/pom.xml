@@ -40,15 +40,9 @@
         <version>1.2.3-SNAPSHOT</version>
     </parent>
     
-    <artifactId>BetterBeansBinding-core</artifactId>
+    <artifactId>BetterBeansBinding-EL</artifactId>
     <packaging>jar</packaging>
     <version>1.2.3-SNAPSHOT</version>
-    <name>BetterBeansBinding Core</name>
-    <dependencies>
-        <dependency>
-            <groupId>org.jdesktop.betterbeansbinding</groupId>
-            <artifactId>BetterBeansBinding-EL</artifactId>
-            <version>1.2.3-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
+    <name>BetterBeansBinding EL</name>
+
 </project>

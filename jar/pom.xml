@@ -40,11 +40,40 @@
         <version>1.2.3-SNAPSHOT</version>
     </parent>
     
-    <artifactId>BetterBeansBinding-core</artifactId>
+    <artifactId>BetterBeansBinding-jar</artifactId>
     <packaging>jar</packaging>
     <version>1.2.3-SNAPSHOT</version>
-    <name>BetterBeansBinding Core</name>
+    <name>BetterBeansBinding Jar</name>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <artifactSet>
+              </artifactSet>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
     <dependencies>
+        <dependency>
+            <groupId>org.jdesktop.betterbeansbinding</groupId>
+            <artifactId>BetterBeansBinding-core</artifactId>
+            <version>1.2.3-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.jdesktop.betterbeansbinding</groupId>
             <artifactId>BetterBeansBinding-EL</artifactId>
