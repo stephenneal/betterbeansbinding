@@ -36,9 +36,8 @@
     <version>1.2.2-SNAPSHOT</version>
     <name>BetterBeansBinding</name>
 
-        <modules>
-                <module>core</module>
-        </modules>
-
+    <modules>
+        <module>core</module>
+    </modules>
 
 </project>
