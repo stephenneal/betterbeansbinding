@@ -24,7 +24,7 @@
  * 
  ***********************************************************************************************************************
  * 
- * $Id: $
+ * $Id: AstChoice.java 33 2009-04-25 16:43:54Z fabriziogiudici $
  * 
  **********************************************************************************************************************/
 /*
@@ -42,7 +42,7 @@ import org.jdesktop.el.impl.lang.EvaluationContext;
 
 /**
  * @author Jacob Hookom [jacob@hookom.net]
- * @version $Change: 181177 $$DateTime: 2001/06/26 08:45:09 $$Author: kchung $
+ * @version $Change: 181177 $$DateTime: 2001/06/26 08:45:09 $$Author: fabriziogiudici $
  */
 public final class AstChoice extends SimpleNode {
     public AstChoice(int id) {

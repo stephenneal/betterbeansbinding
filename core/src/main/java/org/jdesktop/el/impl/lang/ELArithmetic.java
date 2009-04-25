@@ -24,7 +24,7 @@
  * 
  ***********************************************************************************************************************
  * 
- * $Id: $
+ * $Id: ELArithmetic.java 33 2009-04-25 16:43:54Z fabriziogiudici $
  * 
  **********************************************************************************************************************/
 package org.jdesktop.el.impl.lang;
@@ -37,7 +37,7 @@ import org.jdesktop.el.impl.util.MessageFactory;
 /**
  * A helper class of Arithmetic defined by the EL Specification
  * @author Jacob Hookom [jacob@hookom.net]
- * @version $Change: 181177 $$DateTime: 2001/06/26 08:45:09 $$Author: kchung $
+ * @version $Change: 181177 $$DateTime: 2001/06/26 08:45:09 $$Author: fabriziogiudici $
  */
 public abstract class ELArithmetic {
 
