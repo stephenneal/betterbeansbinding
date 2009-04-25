@@ -24,93 +24,73 @@
  * 
  ***********************************************************************************************************************
  * 
- * $Id: JSliderAdapterProvider.java 34 2009-04-25 17:27:10Z fabriziogiudici $
+ * $Id: AbstractButtonAdapterProvider.java 50 2009-04-25 22:47:38Z fabriziogiudici $
  * 
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding.adapters;
 
 import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.event.*;
 import java.beans.*;
 import org.jdesktop.beansbinding.ext.BeanAdapterProvider;
 
 /**
  * @author Shannon Hickey
  */
-public final class JSliderAdapterProvider implements BeanAdapterProvider {
+public final class AbstractButtonAdapterProvider implements BeanAdapterProvider {
 
-    private static final String PROPERTY_BASE = "value";
-    private static final String IGNORE_ADJUSTING = PROPERTY_BASE + "_IGNORE_ADJUSTING";
+    private static final String SELECTED_P = "selected";
 
     public static final class Adapter extends BeanAdapterBase {
-        private JSlider slider;
+        private AbstractButton button;
         private Handler handler;
-        private int cachedValue;
+        private boolean cachedSelected;
 
-        private Adapter(JSlider slider, String property) {
-            super(property);
-            this.slider = slider;
+        private Adapter(AbstractButton button) {
+            super(SELECTED_P);
+            this.button = button;
         }
 
-        public int getValue() {
-            return slider.getValue();
+        public boolean isSelected() {
+            return button.isSelected();
         }
 
-        public int getValue_IGNORE_ADJUSTING() {
-            return getValue();
-        }
-
-        public void setValue(int value) {
-            slider.setValue(value);
-        }
-        
-        public void setValue_IGNORE_ADJUSTING(int value) {
-            setValue(value);
+        public void setSelected(boolean selected) {
+            button.setSelected(selected);
         }
 
         protected void listeningStarted() {
             handler = new Handler();
-            cachedValue = getValue();
-            slider.addChangeListener(handler);
-            slider.addPropertyChangeListener("model", handler);
+            cachedSelected = isSelected();
+            button.addItemListener(handler);
+            button.addPropertyChangeListener("model", handler);
         }
 
         protected void listeningStopped() {
-            slider.removeChangeListener(handler);
-            slider.removePropertyChangeListener("model", handler);
+            button.removeItemListener(handler);
+            button.removePropertyChangeListener("model", handler);
             handler = null;
         }
         
-        private class Handler implements ChangeListener, PropertyChangeListener {
-            private void sliderValueChanged() {
-                int oldValue = cachedValue;
-                cachedValue = getValue();
-                firePropertyChange(oldValue, cachedValue);
+        private class Handler implements ItemListener, PropertyChangeListener {
+            private void buttonSelectedChanged() {
+                boolean oldSelected = cachedSelected;
+                cachedSelected = isSelected();
+                firePropertyChange(oldSelected, cachedSelected);
             }
-
-            public void stateChanged(ChangeEvent ce) {
-                if (property == IGNORE_ADJUSTING && slider.getValueIsAdjusting()) {
-                    return;
-                }
-
-                sliderValueChanged();
+            
+            public void itemStateChanged(ItemEvent ie) {
+                buttonSelectedChanged();
             }
 
             public void propertyChange(PropertyChangeEvent pe) {
-                sliderValueChanged();
+                buttonSelectedChanged();
             }
         }
     }
 
     public boolean providesAdapter(Class<?> type, String property) {
-        if (!JSlider.class.isAssignableFrom(type)) {
-            return false;
-        }
-
-        property = property.intern();
-        
-        return property == PROPERTY_BASE ||
-               property == IGNORE_ADJUSTING;
+        return AbstractButton.class.isAssignableFrom(type) && property.intern() == SELECTED_P;
     }
 
     public Object createAdapter(Object source, String property) {
@@ -118,12 +98,12 @@ public final class JSliderAdapterProvider implements BeanAdapterProvider {
             throw new IllegalArgumentException();
         }
 
-        return new Adapter((JSlider)source, property);
+        return new Adapter((AbstractButton)source);
     }
 
     public Class<?> getAdapterClass(Class<?> type) {
-        return JSlider.class.isAssignableFrom(type) ?
-            JSliderAdapterProvider.Adapter.class :
+        return AbstractButton.class.isAssignableFrom(type) ?
+            AbstractButtonAdapterProvider.Adapter.class :
             null;
     }
 

@@ -24,7 +24,7 @@
  * 
  ***********************************************************************************************************************
  * 
- * $Id: JSpinnerAdapterProvider.java 34 2009-04-25 17:27:10Z fabriziogiudici $
+ * $Id: JSliderAdapterProvider.java 50 2009-04-25 22:47:38Z fabriziogiudici $
  * 
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding.adapters;
@@ -37,60 +37,80 @@ import org.jdesktop.beansbinding.ext.BeanAdapterProvider;
 /**
  * @author Shannon Hickey
  */
-public final class JSpinnerAdapterProvider implements BeanAdapterProvider {
+public final class JSliderAdapterProvider implements BeanAdapterProvider {
 
-    private static final String VALUE_P = "value";
+    private static final String PROPERTY_BASE = "value";
+    private static final String IGNORE_ADJUSTING = PROPERTY_BASE + "_IGNORE_ADJUSTING";
 
     public static final class Adapter extends BeanAdapterBase {
-        private JSpinner spinner;
+        private JSlider slider;
         private Handler handler;
-        private Object cachedValue;
+        private int cachedValue;
 
-        private Adapter(JSpinner spinner) {
-            super(VALUE_P);
-            this.spinner = spinner;
+        private Adapter(JSlider slider, String property) {
+            super(property);
+            this.slider = slider;
         }
 
-        public Object getValue() {
-            return spinner.getValue();
+        public int getValue() {
+            return slider.getValue();
         }
 
-        public void setValue(Object value) {
-            spinner.setValue(value);
+        public int getValue_IGNORE_ADJUSTING() {
+            return getValue();
+        }
+
+        public void setValue(int value) {
+            slider.setValue(value);
+        }
+        
+        public void setValue_IGNORE_ADJUSTING(int value) {
+            setValue(value);
         }
 
         protected void listeningStarted() {
             handler = new Handler();
             cachedValue = getValue();
-            spinner.addChangeListener(handler);
-            spinner.addPropertyChangeListener("model", handler);
+            slider.addChangeListener(handler);
+            slider.addPropertyChangeListener("model", handler);
         }
 
         protected void listeningStopped() {
-            spinner.removeChangeListener(handler);
-            spinner.removePropertyChangeListener("model", handler);
+            slider.removeChangeListener(handler);
+            slider.removePropertyChangeListener("model", handler);
             handler = null;
         }
         
         private class Handler implements ChangeListener, PropertyChangeListener {
-            private void spinnerValueChanged() {
-                Object oldValue = cachedValue;
+            private void sliderValueChanged() {
+                int oldValue = cachedValue;
                 cachedValue = getValue();
                 firePropertyChange(oldValue, cachedValue);
             }
 
             public void stateChanged(ChangeEvent ce) {
-                spinnerValueChanged();
+                if (property == IGNORE_ADJUSTING && slider.getValueIsAdjusting()) {
+                    return;
+                }
+
+                sliderValueChanged();
             }
 
             public void propertyChange(PropertyChangeEvent pe) {
-                spinnerValueChanged();
+                sliderValueChanged();
             }
         }
     }
 
     public boolean providesAdapter(Class<?> type, String property) {
-        return JSpinner.class.isAssignableFrom(type) && property == VALUE_P;
+        if (!JSlider.class.isAssignableFrom(type)) {
+            return false;
+        }
+
+        property = property.intern();
+        
+        return property == PROPERTY_BASE ||
+               property == IGNORE_ADJUSTING;
     }
 
     public Object createAdapter(Object source, String property) {
@@ -98,12 +118,12 @@ public final class JSpinnerAdapterProvider implements BeanAdapterProvider {
             throw new IllegalArgumentException();
         }
 
-        return new Adapter((JSpinner)source);
+        return new Adapter((JSlider)source, property);
     }
 
     public Class<?> getAdapterClass(Class<?> type) {
-        return JSpinner.class.isAssignableFrom(type) ?
-            JSpinnerAdapterProvider.Adapter.class :
+        return JSlider.class.isAssignableFrom(type) ?
+            JSliderAdapterProvider.Adapter.class :
             null;
     }
 

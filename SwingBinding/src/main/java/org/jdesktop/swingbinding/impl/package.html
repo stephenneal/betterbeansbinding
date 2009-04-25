@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: package.html 34 2009-04-25 17:27:10Z fabriziogiudici $
+ * $Id: package.html 50 2009-04-25 22:47:38Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 
@@ -35,18 +35,10 @@
     </head>
     <body>
         <p>
-            Private implementation details for Swing binding. Contains adapters
-            for certain Swing classes to adapt existing properties of
-            interest to the Beans specification, and provide additional
-            synthetic properties. These classes are public as required to enable the
-            properties to be inspected at runtime. Nonetheless, they are an
-            implementation detail of the Swing binding support. Do not access them
-            directly as they may change or go away at any time.
-        </p>
-        <p>
-            For the public list of interesting Swing properties, see the
-            <a href="../package-summary.html">swingbinding</a> package level
-            documentation.
+            Private implementation details for Swing binding. These classes
+            are public only to allow sharing between packages containing the
+            Swing binding implementation. Do not use them directly as they
+            may change or go away at any time.
         </p>
     </body>
 </html>
