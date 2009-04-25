@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: build.xml 48 2009-04-25 21:32:05Z fabriziogiudici $
+ * $Id: build.xml 51 2009-04-25 22:55:11Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project name="betterbeansbinding" default="default" basedir="." xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3">
@@ -62,53 +62,6 @@
         </zip>
         <copy file="${dist.dir}/${ant.project.name}.jar"
           tofile="${dist.dir}/${ant.project.name}-${buildVersion}.jar"/>
-    </target>
-
-    <target name="-init-sigtest">
-        <taskdef name="setup-sigtest" classname="com.sun.tdk.signaturetest.ant.ASetup" classpath="lib/sigtestdev.jar"/>
-        <taskdef name="sigtest" classname="com.sun.tdk.signaturetest.ant.ATest" classpath="lib/sigtest.jar"/>
-    </target>
-
-    <target name="setup-sigtest" depends="-init-sigtest">
-        <setup-sigtest failonerror="true" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-core-v1.2.2.sig">
-            <package name="org.jdesktop.beansbinding" />
-            <package name="org.jdesktop.beansbinding.ext" />
-            <package name="org.jdesktop.observablecollections" />
-            <classpath>
-                <pathelement location="${java.home}/lib/rt.jar"/>
-                <pathelement location="target/BetterBeansBinding-1.2.3-SNAPSHOT.jar"/>
-            </classpath>
-        </setup-sigtest>
-        <setup-sigtest failonerror="true" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-swing-v1.2.2.sig">
-            <package name="org.jdesktop.swingbinding" />
-            <package name="org.jdesktop.swingbinding.adapters" />
-            <exclude package="org.jdesktop.swingbinding.impl" />
-            <classpath>
-                <pathelement location="${java.home}/lib/rt.jar"/>
-                <pathelement location="target/BetterBeansBinding-1.2.3-SNAPSHOT.jar"/>
-            </classpath>
-        </setup-sigtest>
-    </target>
-
-    <target name="sigtest" depends="-init-sigtest">
-        <sigtest failonerror="true" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-core-v1.2.2.sig" backward="true" output="target/sigtest-core-report.txt">
-            <package name="org.jdesktop.beansbinding" />
-            <package name="org.jdesktop.beansbinding.ext" />
-            <package name="org.jdesktop.observablecollections" />
-            <classpath>
-                <pathelement location="${java.home}/lib/rt.jar"/>
-                <pathelement location="target/BetterBeansBinding-1.2.3-SNAPSHOT.jar"/>
-            </classpath>
-        </sigtest>
-        <sigtest failonerror="false" apiVersion="openapi-v2" filename="src/main/etc/betterbeansbinding-swing-v1.2.2.sig" backward="true" output="target/sigtest-swing-report.txt">
-            <package name="org.jdesktop.swingbinding" />
-            <package name="org.jdesktop.swingbinding.adapters" />
-            <exclude package="org.jdesktop.swingbinding.impl" />
-            <classpath>
-                <pathelement location="${java.home}/lib/rt.jar"/>
-                <pathelement location="target/BetterBeansBinding-1.2.3-SNAPSHOT.jar"/>
-            </classpath>
-        </sigtest>
     </target>
 
 </project>
