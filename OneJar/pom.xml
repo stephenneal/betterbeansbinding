@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 50 2009-04-25 22:47:38Z fabriziogiudici $
+ * $Id: pom.xml 52 2009-04-25 22:59:38Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -40,10 +40,10 @@
         <version>1.2.3-SNAPSHOT</version>
     </parent>
     
-    <artifactId>BetterBeansBinding-jar</artifactId>
+    <artifactId>BetterBeansBinding-OneJar</artifactId>
     <packaging>jar</packaging>
     <version>1.2.3-SNAPSHOT</version>
-    <name>BetterBeansBinding Jar</name>
+    <name>BetterBeansBinding OneJar</name>
 
     <build>
         <plugins>
@@ -80,4 +80,5 @@
             <version>1.2.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
 </project>

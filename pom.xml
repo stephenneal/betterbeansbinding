@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 50 2009-04-25 22:47:38Z fabriziogiudici $
+ * $Id: pom.xml 52 2009-04-25 22:59:38Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -52,9 +52,9 @@
         <url>http://kenai.com/jira/browse/BETTERBEANSBINDING</url>
     </issueManagement>
     <scm>
-        <connection>scm:svn:http://kenai.com/svn/betterbeansbinding~svn/tags/BetterBeansBinding-1.2.2</connection>
-        <developerConnection>scm:svn:https://kenai.com/svn/betterbeansbinding~svn/tags/BetterBeansBinding-1.2.2</developerConnection>
-        <url>https://kenai.com/svn/betterbeansbinding~svn/tags/BetterBeansBinding-1.2.2</url>
+        <connection>scm:svn:http://kenai.com/svn/betterbeansbinding~svn/trunk/src</connection>
+        <developerConnection>scm:svn:https://kenai.com/svn/betterbeansbinding~svn/trunk/src</developerConnection>
+        <url>https://kenai.com/svn/betterbeansbinding~svn/trunk/src</url>
     </scm>
     <developers>
         <developer>
@@ -182,7 +182,7 @@
         <module>core</module>
         <module>EL</module>
         <module>SwingBinding</module>
-        <module>jar</module>
+        <module>OneJar</module>
     </modules>
 
 </project>
