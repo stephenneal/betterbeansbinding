@@ -25,16 +25,157 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 34 2009-04-25 17:27:10Z fabriziogiudici $
+ * $Id: pom.xml 47 2009-04-25 21:11:00Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.jdesktop.betterbeansbinding.parent</groupId>
-    <artifactId>BetterBeansBinding</artifactId>
+    
+    <groupId>org.jdesktop.betterbeansbinding</groupId>
+    <artifactId>BetterBeansBinding-root-pom</artifactId>
     <packaging>pom</packaging>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.2.3-SNAPSHOT</version>
     <name>BetterBeansBinding</name>
+
+    <url>http://betterbeansbinding.kenai.com</url>
+    <description>Keeping JavaBeans in sync.</description>
+    <organization>
+        <name>Tidalwave s.a.s.</name>
+        <url>http://www.tidalwave.it</url>
+    </organization>
+    <inceptionYear>2009</inceptionYear>
+    <issueManagement>
+        <system>Jira</system>
+        <url>http://kenai.com/jira/browse/BETTERBEANSBINDING</url>
+    </issueManagement>
+    <scm>
+        <connection>scm:svn:http://kenai.com/svn/betterbeansbinding~svn/tags/BetterBeansBinding-1.2.2</connection>
+        <developerConnection>scm:svn:https://kenai.com/svn/betterbeansbinding~svn/tags/BetterBeansBinding-1.2.2</developerConnection>
+        <url>https://kenai.com/svn/betterbeansbinding~svn/tags/BetterBeansBinding-1.2.2</url>
+    </scm>
+    <developers>
+        <developer>
+            <name>Fabrizio Giudici</name>
+            <email>fabrizio.giudici@tidalwave.it</email>
+            <url>http://www.tidalwave.it/people</url>
+            <organization>Tidalwave s.a.s.</organization>
+            <organizationUrl>http://www.tidalwave.it</organizationUrl>
+            <roles>
+                <role>manager</role>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+    <mailingLists>
+        <mailingList>
+            <name>Commits</name>
+            <post>commits@betterbeansbinding.kenai.com</post>
+            <archive>http://kenai.com/projects/betterbeansbinding/lists/commits/archive</archive>
+        </mailingList>
+        <mailingList>
+            <name>Dev</name>
+            <post>dev@betterbeansbinding.kenai.com</post>
+            <archive>http://kenai.com/projects/betterbeansbinding/lists/dev/archive</archive>
+        </mailingList>
+        <mailingList>
+            <name>Issues</name>
+            <post>issues@betterbeansbinding.kenai.com</post>
+            <archive>http://kenai.com/projects/betterbeansbinding/lists/issues/archive</archive>
+        </mailingList>
+        <mailingList>
+            <name>Users</name>
+            <post>users@betterbeansbinding.kenai.com</post>
+            <archive>http://kenai.com/projects/betterbeansbinding/lists/users/archive</archive>
+        </mailingList>
+    </mailingLists>
+    <licenses>
+        <license>
+            <name>LGPL 2.1 </name>
+            <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <debug>on</debug>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+<!--
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <formats>
+                        <format>html</format>
+                        <format>xml</format>
+                    </formats>
+                    <instrumentation>
+                    </instrumentation>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>cobertura</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+-->
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.5</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <reporting>
+        <plugins>
+<!--
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <formats>
+                        <format>html</format>
+                        <format>xml</format>
+                    </formats>
+                </configuration>
+            </plugin>
+-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>2.0</version>
+                <configuration>
+                    <xmlOutput>true</xmlOutput>
+                    <threshold>Low</threshold>
+                    <effort>Max</effort>
+                    <debug>false</debug>
+                    <relaxed>false</relaxed>
+                    <findbugsXmlOutput>true</findbugsXmlOutput>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 
     <modules>
         <module>core</module>
