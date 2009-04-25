@@ -25,16 +25,15 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 37 2009-04-25 19:36:02Z fabriziogiudici $
+ * $Id: pom.xml 38 2009-04-25 19:36:58Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jdesktop.betterbeansbinding</groupId>
     <artifactId>BetterBeansBinding</artifactId>
     <packaging>jar</packaging>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.2.2</version>
     <name>BetterBeansBinding Core</name>
     <url>http://betterbeansbinding.kenai.com</url>
     <description>Keeping JavaBeans in sync.</description>
@@ -48,10 +47,10 @@
         <url>http://kenai.com/jira/browse/BETTERBEANSBINDING</url>
     </issueManagement>
     <scm>
-        <connection>scm:svn:http://kenai.com/svn/betterbeansbinding~svn/trunk/src</connection>
-        <developerConnection>scm:svn:https://kenai.com/svn/betterbeansbinding~svn/trunk/src</developerConnection>
+        <connection>scm:svn:http://kenai.com/svn/betterbeansbinding~svn/tags/BetterBeansBinding-1.2.2</connection>
+        <developerConnection>scm:svn:https://kenai.com/svn/betterbeansbinding~svn/tags/BetterBeansBinding-1.2.2</developerConnection>
         <tag>HEAD</tag>
-        <url>https://kenai.com/svn/betterbeansbinding~svn/trunk/src</url>
+        <url>https://kenai.com/svn/betterbeansbinding~svn/tags/BetterBeansBinding-1.2.2</url>
     </scm>
     <contributors>
         <contributor>
