@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 52 2009-04-25 22:59:38Z fabriziogiudici $
+ * $Id: pom.xml 55 2009-04-26 11:59:38Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -143,6 +143,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.7</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
