@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 57 2009-04-26 14:08:23Z fabriziogiudici $
+ * $Id: pom.xml 58 2009-04-26 19:39:23Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -196,7 +196,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                     <!-- configLocation>checkstyle.xml</configLocation -->
+                     <configLocation>etc/checkstyle.xml</configLocation>
                 </configuration>
             </plugin>
 
