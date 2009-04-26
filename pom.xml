@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 55 2009-04-26 11:59:38Z fabriziogiudici $
+ * $Id: pom.xml 56 2009-04-26 13:17:03Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -181,6 +181,23 @@
                     <findbugsXmlOutput>true</findbugsXmlOutput>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                </configuration>
+            </plugin>
+
         </plugins>
     </reporting>
 
