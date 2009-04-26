@@ -1,35 +1,36 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: PropertyHelper.java 34 2009-04-25 17:27:10Z fabriziogiudici $
- * 
+ *
+ * $Id: PropertyHelper.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
 
 import java.util.*;
+
 
 /**
  * An abstract subclass of {@code Property} that helps with the management of
@@ -51,7 +52,6 @@ import java.util.*;
  * @author Shannon Hickey
  */
 public abstract class PropertyHelper<S, V> extends Property<S, V> {
-
     private final boolean ignoresSource;
     private Object listeners;
 
@@ -77,9 +77,9 @@ public abstract class PropertyHelper<S, V> extends Property<S, V> {
 
     private List<PropertyStateListener> getListeners(S source, boolean create) {
         if (ignoresSource) {
-            List<PropertyStateListener> list = (List<PropertyStateListener>)listeners;
+            List<PropertyStateListener> list = (List<PropertyStateListener>) listeners;
 
-            if (list == null && create) {
+            if ((list == null) && create) {
                 list = new ArrayList<PropertyStateListener>();
                 listeners = list;
             }
@@ -87,7 +87,7 @@ public abstract class PropertyHelper<S, V> extends Property<S, V> {
             return list;
         }
 
-        IdentityHashMap<S, List<PropertyStateListener>> map = (IdentityHashMap<S, List<PropertyStateListener>>)listeners;
+        IdentityHashMap<S, List<PropertyStateListener>> map = (IdentityHashMap<S, List<PropertyStateListener>>) listeners;
 
         if (map == null) {
             if (create) {
@@ -99,7 +99,8 @@ public abstract class PropertyHelper<S, V> extends Property<S, V> {
         }
 
         List<PropertyStateListener> list = map.get(source);
-        if (list == null && create) {
+
+        if ((list == null) && create) {
             list = new ArrayList<PropertyStateListener>();
             map.put(source, list);
         }
@@ -111,7 +112,7 @@ public abstract class PropertyHelper<S, V> extends Property<S, V> {
      * {@inheritDoc}
      * @throws UnsupportedOperationException {@inheritDoc}
      */
-    public abstract Class<? extends V> getWriteType(S source);
+    public abstract Class<?extends V> getWriteType(S source);
 
     /**
      * {@inheritDoc}
@@ -164,7 +165,8 @@ public abstract class PropertyHelper<S, V> extends Property<S, V> {
     /**
      * {@inheritDoc}
      */
-    public final void addPropertyStateListener(S source, PropertyStateListener listener) {
+    public final void addPropertyStateListener(S source,
+        PropertyStateListener listener) {
         if (listener == null) {
             return;
         }
@@ -181,7 +183,8 @@ public abstract class PropertyHelper<S, V> extends Property<S, V> {
     /**
      * {@inheritDoc}
      */
-    public final void removePropertyStateListener(S source, PropertyStateListener listener) {
+    public final void removePropertyStateListener(S source,
+        PropertyStateListener listener) {
         if (listener == null) {
             return;
         }
@@ -196,7 +199,7 @@ public abstract class PropertyHelper<S, V> extends Property<S, V> {
 
         listeners.remove(listener);
 
-        if (wasListening && listeners.size() == 0) {
+        if (wasListening && (listeners.size() == 0)) {
             listeningStopped(ignoresSource ? null : source);
         }
     }
@@ -205,7 +208,7 @@ public abstract class PropertyHelper<S, V> extends Property<S, V> {
      * {@inheritDoc}
      */
     public final PropertyStateListener[] getPropertyStateListeners(S source) {
-         List<PropertyStateListener> listeners = getListeners(source, false);
+        List<PropertyStateListener> listeners = getListeners(source, false);
 
         if (listeners == null) {
             return new PropertyStateListener[0];
@@ -213,6 +216,7 @@ public abstract class PropertyHelper<S, V> extends Property<S, V> {
 
         PropertyStateListener[] ret = new PropertyStateListener[listeners.size()];
         ret = listeners.toArray(ret);
+
         return ret;
     }
 
@@ -226,7 +230,8 @@ public abstract class PropertyHelper<S, V> extends Property<S, V> {
      * @param pse the {@code PropertyStateEvent} characterizing the state change
      */
     protected final void firePropertyStateChange(PropertyStateEvent pse) {
-        List<PropertyStateListener> listeners = getListeners((S)pse.getSourceObject(), false);
+        List<PropertyStateListener> listeners = getListeners((S) pse.getSourceObject(),
+                false);
 
         if (listeners == null) {
             return;
@@ -246,8 +251,8 @@ public abstract class PropertyHelper<S, V> extends Property<S, V> {
      *         installed for the given source object
      */
     public final boolean isListening(S source) {
-         List<PropertyStateListener> listeners = getListeners(source, false);
-         return listeners != null && listeners.size() != 0;
-    }
+        List<PropertyStateListener> listeners = getListeners(source, false);
 
+        return (listeners != null) && (listeners.size() != 0);
+    }
 }

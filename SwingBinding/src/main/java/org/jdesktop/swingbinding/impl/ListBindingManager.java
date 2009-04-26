@@ -1,40 +1,43 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: ListBindingManager.java 50 2009-04-25 22:47:38Z fabriziogiudici $
- * 
+ *
+ * $Id: ListBindingManager.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding.impl;
 
+import org.jdesktop.beansbinding.*;
+
 import org.jdesktop.observablecollections.ObservableList;
 import org.jdesktop.observablecollections.ObservableListListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.jdesktop.beansbinding.*;
+
 
 /**
  * @author sky
@@ -50,7 +53,8 @@ public abstract class ListBindingManager implements ObservableListListener {
         bindings = getColBindings();
     }
 
-    private List<ColumnDescriptionManager> createManagers(AbstractColumnBinding[] bindings) {
+    private List<ColumnDescriptionManager> createManagers(
+        AbstractColumnBinding[] bindings) {
         List<ColumnDescriptionManager> managers = new ArrayList<ColumnDescriptionManager>(bindings.length);
 
         for (AbstractColumnBinding binding : bindings) {
@@ -65,7 +69,7 @@ public abstract class ListBindingManager implements ObservableListListener {
     public void setElements(List<?> elements, boolean sendAllChanged) {
         if (this.elements != null) {
             if (this.elements instanceof ObservableList) {
-                ((ObservableList)this.elements).removeObservableListListener(this);
+                ((ObservableList) this.elements).removeObservableListListener(this);
             }
 
             if (managers != null) {
@@ -82,8 +86,8 @@ public abstract class ListBindingManager implements ObservableListListener {
         boolean addListeners = false;
 
         if (elements instanceof ObservableList) {
-            ((ObservableList)elements).addObservableListListener(this);
-            addListeners = !((ObservableList)elements).supportsElementPropertyChanged();
+            ((ObservableList) elements).addObservableListListener(this);
+            addListeners = !((ObservableList) elements).supportsElementPropertyChanged();
         } else if (elements != null) {
             addListeners = true;
         }
@@ -94,6 +98,7 @@ public abstract class ListBindingManager implements ObservableListListener {
 
         if (addListeners) {
             managers = createManagers(getColBindings());
+
             for (ColumnDescriptionManager manager : managers) {
                 manager.startListening();
             }
@@ -103,7 +108,7 @@ public abstract class ListBindingManager implements ObservableListListener {
             allChanged();
         }
     }
-    
+
     public final Object getElement(int index) {
         return elements.get(index);
     }
@@ -111,11 +116,11 @@ public abstract class ListBindingManager implements ObservableListListener {
     public final List<?> getElements() {
         return elements;
     }
-    
+
     public final int size() {
         return (elements == null) ? 0 : elements.size();
     }
-    
+
     public final Object valueAt(int row, int column) {
         if (managers != null) {
             // Make sure the necessary listeners have been registered
@@ -125,7 +130,9 @@ public abstract class ListBindingManager implements ObservableListListener {
         }
 
         reusableBinding.setBaseAndSource(bindings[column], elements.get(row));
+
         Binding.ValueResult result = reusableBinding.getSourceValueForTarget();
+
         return result.failed() ? null : result.getValue();
     }
 
@@ -133,7 +140,8 @@ public abstract class ListBindingManager implements ObservableListListener {
         return bindings.length;
     }
 
-    public final void listElementsAdded(ObservableList list, int index, int length) {
+    public final void listElementsAdded(ObservableList list, int index,
+        int length) {
         if (length == 0) {
             return;
         }
@@ -146,8 +154,9 @@ public abstract class ListBindingManager implements ObservableListListener {
 
         added(index, length);
     }
-    
-    public final void listElementsRemoved(ObservableList list, int index, List elements) {
+
+    public final void listElementsRemoved(ObservableList list, int index,
+        List elements) {
         if (elements.size() == 0) {
             return;
         }
@@ -160,8 +169,9 @@ public abstract class ListBindingManager implements ObservableListListener {
 
         removed(index, elements.size());
     }
-    
-    public final void listElementReplaced(ObservableList list, int index, Object oldElement) {
+
+    public final void listElementReplaced(ObservableList list, int index,
+        Object oldElement) {
         if (managers != null) {
             for (ColumnDescriptionManager manager : managers) {
                 manager.replaced(index);
@@ -170,11 +180,11 @@ public abstract class ListBindingManager implements ObservableListListener {
 
         changed(index);
     }
-    
+
     public final void listElementPropertyChanged(ObservableList list, int index) {
         changed(index);
     }
-    
+
     protected abstract void allChanged();
 
     protected abstract void valueChanged(int row, int column);
@@ -196,6 +206,7 @@ public abstract class ListBindingManager implements ObservableListListener {
         public void startListening() {
             int size = elements.size();
             wrappers = new ArrayList<EntryWrapper>(size);
+
             for (int i = 0; i < size; i++) {
                 wrappers.add(null);
             }
@@ -232,6 +243,7 @@ public abstract class ListBindingManager implements ObservableListListener {
         private void remove(int index, int length) {
             while (length-- > 0) {
                 EntryWrapper wrapper = wrappers.remove(index);
+
                 if (wrapper != null) {
                     wrapper.stopListening();
                 }
@@ -240,9 +252,11 @@ public abstract class ListBindingManager implements ObservableListListener {
 
         private void replaced(int index) {
             EntryWrapper wrapper = wrappers.get(index);
+
             if (wrapper != null) {
                 wrapper.stopListening();
             }
+
             wrappers.set(index, null);
         }
 
@@ -251,11 +265,13 @@ public abstract class ListBindingManager implements ObservableListListener {
 
             EntryWrapper(Object source) {
                 this.source = source;
-                columnBinding.getSourceProperty().addPropertyStateListener(source, this);
+                columnBinding.getSourceProperty()
+                             .addPropertyStateListener(source, this);
             }
-            
+
             public void stopListening() {
-                columnBinding.getSourceProperty().removePropertyStateListener(source, this);
+                columnBinding.getSourceProperty()
+                             .removePropertyStateListener(source, this);
                 source = null;
             }
 
@@ -269,7 +285,8 @@ public abstract class ListBindingManager implements ObservableListListener {
 
     private final class ReusableBinding extends Binding {
         public ReusableBinding(AbstractColumnBinding base) {
-            super(null, base.getSourceProperty(), null, base.getTargetProperty(), null);
+            super(null, base.getSourceProperty(), null,
+                base.getTargetProperty(), null);
         }
 
         public void setBaseAndSource(AbstractColumnBinding base, Object source) {
@@ -278,16 +295,18 @@ public abstract class ListBindingManager implements ObservableListListener {
             setSourceObject(source);
             setConverter(base.getConverter());
             setSourceNullValue(base.getSourceNullValue());
+
             if (base.isSourceUnreadableValueSet()) {
                 setSourceUnreadableValue(base.getSourceUnreadableValue());
             } else {
                 unsetSourceUnreadableValue();
             }
         }
-        
-        public final void bindImpl() {}
-        public final void unbindImpl() {}
 
+        public final void bindImpl() {
+        }
+
+        public final void unbindImpl() {
+        }
     }
-
 }

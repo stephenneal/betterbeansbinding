@@ -1,33 +1,34 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: Property.java 34 2009-04-25 17:27:10Z fabriziogiudici $
- * 
+ *
+ * $Id: Property.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
+
 
 /**
  * {@code Property} defines a uniform way to access the value of a property.
@@ -50,7 +51,6 @@ package org.jdesktop.beansbinding;
  * @author Shannon Hickey
  */
 public abstract class Property<S, V> {
-
     /**
      * Returns the type of object that is suitable for setting as the value
      * of this {@code Property} by calls to {@code setValue}.
@@ -62,7 +62,7 @@ public abstract class Property<S, V> {
      * @see #setValue
      * @see #isWriteable
      */
-    public abstract Class<? extends V> getWriteType(S source);
+    public abstract Class<?extends V> getWriteType(S source);
 
     /**
      * Returns the value of this {@code Property} for the given source.
@@ -115,7 +115,8 @@ public abstract class Property<S, V> {
      * @param source the source object on which to operate
      * @param listener the listener to be notified
      */
-    public abstract void addPropertyStateListener(S source, PropertyStateListener listener);
+    public abstract void addPropertyStateListener(S source,
+        PropertyStateListener listener);
 
     /**
      * Removes a {@code PropertyStateListener} for the given source. Does
@@ -128,7 +129,8 @@ public abstract class Property<S, V> {
      * @param listener the listener to be removed
      * @see #addPropertyStateListener
      */
-    public abstract void removePropertyStateListener(S source, PropertyStateListener listener);
+    public abstract void removePropertyStateListener(S source,
+        PropertyStateListener listener);
 
     /**
      * Returns an arry containing the listeners registered for the given source.
@@ -139,5 +141,4 @@ public abstract class Property<S, V> {
      * @see #addPropertyStateListener
      */
     public abstract PropertyStateListener[] getPropertyStateListeners(S source);
-
 }

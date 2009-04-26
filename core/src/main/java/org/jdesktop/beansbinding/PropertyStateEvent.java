@@ -1,35 +1,36 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: PropertyStateEvent.java 34 2009-04-25 17:27:10Z fabriziogiudici $
- * 
+ *
+ * $Id: PropertyStateEvent.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
 
 import java.util.EventObject;
+
 
 /**
  * An event characterizing a change in a {@code Property's} state for
@@ -41,12 +42,10 @@ import java.util.EventObject;
  * @author Shannon Hickey
  */
 public class PropertyStateEvent extends EventObject {
-
     /**
      * Used to indicate that a particular value is unreadable.
      */
     public static final Object UNREADABLE = new StringBuffer("UNREADABLE");
-
     private Object sourceObject;
     private final boolean valueChanged;
     private final Object oldValue;
@@ -75,22 +74,19 @@ public class PropertyStateEvent extends EventObject {
      * @throws IllegalArgumentException if {@code valueChanged} is {@code true} and both
      *         {@code oldValue} and {@code newValue} are {@code UNREADABLE}
      */
-    public PropertyStateEvent(Property sourceProperty,
-                              Object sourceObject,
-                              boolean valueChanged,
-                              Object oldValue,
-                              Object newValue,
-                              boolean writeableChanged,
-                              boolean isWriteable) {
-
+    public PropertyStateEvent(Property sourceProperty, Object sourceObject,
+        boolean valueChanged, Object oldValue, Object newValue,
+        boolean writeableChanged, boolean isWriteable) {
         super(sourceProperty);
 
         if (!writeableChanged && !valueChanged) {
             throw new IllegalArgumentException("Nothing has changed");
         }
 
-        if (valueChanged && oldValue == UNREADABLE && newValue == UNREADABLE) {
-            throw new IllegalArgumentException("Value can't change from UNREADABLE to UNREADABLE");
+        if (valueChanged && (oldValue == UNREADABLE) &&
+                (newValue == UNREADABLE)) {
+            throw new IllegalArgumentException(
+                "Value can't change from UNREADABLE to UNREADABLE");
         }
 
         this.sourceObject = sourceObject;
@@ -118,7 +114,7 @@ public class PropertyStateEvent extends EventObject {
      * @return the {@code Property} whose state has changed.
      */
     public final Property getSourceProperty() {
-        return (Property)getSource();
+        return (Property) getSource();
     }
 
     /**
@@ -189,7 +185,8 @@ public class PropertyStateEvent extends EventObject {
      * the source object.
      */
     public final boolean getReadableChanged() {
-        return valueChanged && oldValue != newValue && (oldValue == UNREADABLE || newValue == UNREADABLE);
+        return valueChanged && (oldValue != newValue) &&
+        ((oldValue == UNREADABLE) || (newValue == UNREADABLE));
     }
 
     /**
@@ -206,7 +203,8 @@ public class PropertyStateEvent extends EventObject {
      */
     public final boolean isReadable() {
         if (!getReadableChanged()) {
-            throw new UnsupportedOperationException("readability hasn't changed");
+            throw new UnsupportedOperationException(
+                "readability hasn't changed");
         }
 
         return newValue != UNREADABLE;
@@ -236,7 +234,8 @@ public class PropertyStateEvent extends EventObject {
      */
     public final boolean isWriteable() {
         if (!writeableChanged) {
-            throw new UnsupportedOperationException("writeability hasn't changed");
+            throw new UnsupportedOperationException(
+                "writeability hasn't changed");
         }
 
         return isWriteable;
@@ -254,23 +253,26 @@ public class PropertyStateEvent extends EventObject {
     public String toString() {
         StringBuffer buffer = new StringBuffer(getClass().getName());
 
-        buffer.append(": Property ").append(getSourceProperty()).append(" changed on ").append(getSourceObject()).append(":\n");
-        
+        buffer.append(": Property ").append(getSourceProperty())
+              .append(" changed on ").append(getSourceObject()).append(":\n");
+
         if (getValueChanged()) {
-            buffer.append("    value changed from ").append(getOldValue()).append(" to ").append(getNewValue()).append('\n');
+            buffer.append("    value changed from ").append(getOldValue())
+                  .append(" to ").append(getNewValue()).append('\n');
         }
-        
+
         if (getReadableChanged()) {
-            buffer.append("    readable changed from ").append(!isReadable()).append(" to ").append(isReadable()).append('\n');
+            buffer.append("    readable changed from ").append(!isReadable())
+                  .append(" to ").append(isReadable()).append('\n');
         }
 
         if (getWriteableChanged()) {
-            buffer.append("    writeable changed from ").append(!isWriteable()).append(" to ").append(isWriteable()).append('\n');
+            buffer.append("    writeable changed from ").append(!isWriteable())
+                  .append(" to ").append(isWriteable()).append('\n');
         }
 
         buffer.deleteCharAt(buffer.length() - 1);
 
         return buffer.toString();
     }
-
 }

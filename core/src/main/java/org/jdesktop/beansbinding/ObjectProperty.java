@@ -1,31 +1,31 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: ObjectProperty.java 34 2009-04-25 17:27:10Z fabriziogiudici $
- * 
+ *
+ * $Id: ObjectProperty.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
 
@@ -51,6 +51,8 @@ import static org.jdesktop.beansbinding.PropertyStateEvent.UNREADABLE;
  * @author Shannon Hickey
  */
 public final class ObjectProperty<S> extends Property<S, S> {
+    private ObjectProperty() {
+    }
 
     /**
      * Creates an instance of {@code ObjectProperty}.
@@ -58,8 +60,6 @@ public final class ObjectProperty<S> extends Property<S, S> {
     public static <S> ObjectProperty<S> create() {
         return new ObjectProperty<S>();
     }
-
-    private ObjectProperty() {}
 
     /**
      * Throws {@code UnsupportedOperationException}; {@code ObjectProperty} is never writeable.
@@ -69,7 +69,7 @@ public final class ObjectProperty<S> extends Property<S, S> {
      * @throws UnsupportedOperationException always; {@code ObjectProperty} is never writeable
      * @see #isWriteable
      */
-    public Class<? extends S> getWriteType(S source) {
+    public Class<?extends S> getWriteType(S source) {
         throw new UnsupportedOperationException("Unwriteable");
     }
 
@@ -132,7 +132,9 @@ public final class ObjectProperty<S> extends Property<S, S> {
      * Does nothing; the state of an {@code ObjectProperty} never changes so
      * listeners aren't useful.
      */
-    public void addPropertyStateListener(S source, PropertyStateListener listener) {}
+    public void addPropertyStateListener(S source,
+        PropertyStateListener listener) {
+    }
 
     /**
      * Does nothing; the state of an {@code ObjectProperty} never changes so
@@ -140,7 +142,9 @@ public final class ObjectProperty<S> extends Property<S, S> {
      *
      * @see #addPropertyStateListener
      */
-    public void removePropertyStateListener(S source, PropertyStateListener listener) {}
+    public void removePropertyStateListener(S source,
+        PropertyStateListener listener) {
+    }
 
     /**
      * Returns an empty array; the state of an {@code ObjectProperty} never changes
@@ -152,5 +156,4 @@ public final class ObjectProperty<S> extends Property<S, S> {
     public PropertyStateListener[] getPropertyStateListeners(S source) {
         return new PropertyStateListener[0];
     }
-
 }

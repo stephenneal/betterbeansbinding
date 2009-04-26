@@ -1,31 +1,31 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: ObservableCollections.java 34 2009-04-25 17:27:10Z fabriziogiudici $
- * 
+ *
+ * $Id: ObservableCollections.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.observablecollections;
 
@@ -40,11 +40,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+
 /**
  * {@code ObservableCollections} provides factory methods for creating
  * observable lists and maps.
- * 
- * 
+ *
+ *
  * @author sky
  */
 public final class ObservableCollections {
@@ -56,11 +57,12 @@ public final class ObservableCollections {
      * @return an {@code ObservableMap}
      * @throws IllegalArgumentException if {@code map} is {@code null}
      */
-    public static <K,V> ObservableMap<K,V> observableMap(Map<K,V> map) {
+    public static <K, V> ObservableMap<K, V> observableMap(Map<K, V> map) {
         if (map == null) {
             throw new IllegalArgumentException("Map must be non-null");
         }
-        return new ObservableMapImpl<K,V>(map);
+
+        return new ObservableMapImpl<K, V>(map);
     }
 
     /**
@@ -75,6 +77,7 @@ public final class ObservableCollections {
         if (list == null) {
             throw new IllegalArgumentException("List must be non-null");
         }
+
         return new ObservableListImpl<E>(list, false);
     }
 
@@ -91,9 +94,9 @@ public final class ObservableCollections {
      */
     public static <E> ObservableListHelper<E> observableListHelper(List<E> list) {
         ObservableListImpl<E> oList = new ObservableListImpl<E>(list, true);
+
         return new ObservableListHelper<E>(oList);
     }
-    
 
     /**
      * {@code ObservableListHelper} is created by {@code observableListHelper},
@@ -127,27 +130,29 @@ public final class ObservableCollections {
          *         range of the {@code List} ({@code < 0 || >= size})
          */
         public void fireElementChanged(int index) {
-            if (index < 0 || index >= list.size()) {
+            if ((index < 0) || (index >= list.size())) {
                 throw new ArrayIndexOutOfBoundsException("Illegal index");
             }
+
             list.fireElementChanged(index);
         }
     }
 
-    private static final class ObservableMapImpl<K,V> extends AbstractMap<K,V> 
-            implements ObservableMap<K,V> {
-        private Map<K,V> map;
+    private static final class ObservableMapImpl<K, V> extends AbstractMap<K, V>
+        implements ObservableMap<K, V> {
+        private Map<K, V> map;
         private List<ObservableMapListener> listeners;
-        private Set<Map.Entry<K,V>> entrySet;
-        
-        ObservableMapImpl(Map<K,V> map) {
+        private Set<Map.Entry<K, V>> entrySet;
+
+        ObservableMapImpl(Map<K, V> map) {
             this.map = map;
             listeners = new CopyOnWriteArrayList<ObservableMapListener>();
         }
-        
+
         public void clear() {
             // Remove all elements via iterator to trigger notification
             Iterator<K> iterator = keySet().iterator();
+
             while (iterator.hasNext()) {
                 iterator.next();
                 iterator.remove();
@@ -162,11 +167,12 @@ public final class ObservableCollections {
             return map.containsValue(value);
         }
 
-        public Set<Map.Entry<K,V>> entrySet() {
-            Set<Map.Entry<K,V>> es = entrySet;
-            return es != null ? es : (entrySet = new EntrySet());
+        public Set<Map.Entry<K, V>> entrySet() {
+            Set<Map.Entry<K, V>> es = entrySet;
+
+            return (es != null) ? es : (entrySet = new EntrySet());
         }
-        
+
         public V get(Object key) {
             return map.get(key);
         }
@@ -174,44 +180,51 @@ public final class ObservableCollections {
         public boolean isEmpty() {
             return map.isEmpty();
         }
-        
+
         public V put(K key, V value) {
             V lastValue;
+
             if (containsKey(key)) {
                 lastValue = map.put(key, value);
+
                 for (ObservableMapListener listener : listeners) {
                     listener.mapKeyValueChanged(this, key, lastValue);
                 }
             } else {
                 lastValue = map.put(key, value);
+
                 for (ObservableMapListener listener : listeners) {
                     listener.mapKeyAdded(this, key);
                 }
             }
+
             return lastValue;
         }
-        
-        public void putAll(Map<? extends K, ? extends V> m) {
+
+        public void putAll(Map<?extends K, ?extends V> m) {
             for (K key : m.keySet()) {
                 put(key, m.get(key));
             }
         }
-        
+
         public V remove(Object key) {
             if (containsKey(key)) {
                 V value = map.remove(key);
+
                 for (ObservableMapListener listener : listeners) {
                     listener.mapKeyRemoved(this, key, value);
                 }
+
                 return value;
             }
+
             return null;
         }
-        
+
         public int size() {
             return map.size();
         }
-        
+
         public void addObservableMapListener(ObservableMapListener listener) {
             listeners.add(listener);
         }
@@ -219,21 +232,22 @@ public final class ObservableCollections {
         public void removeObservableMapListener(ObservableMapListener listener) {
             listeners.remove(listener);
         }
-        
-        
-        private class EntryIterator implements Iterator<Map.Entry<K,V>> {
-            private Iterator<Map.Entry<K,V>> realIterator;
-            private Map.Entry<K,V> last;
-            
+
+        private class EntryIterator implements Iterator<Map.Entry<K, V>> {
+            private Iterator<Map.Entry<K, V>> realIterator;
+            private Map.Entry<K, V> last;
+
             EntryIterator() {
                 realIterator = map.entrySet().iterator();
             }
+
             public boolean hasNext() {
                 return realIterator.hasNext();
             }
 
-            public Map.Entry<K,V> next() {
+            public Map.Entry<K, V> next() {
                 last = realIterator.next();
+
                 return last;
             }
 
@@ -241,54 +255,60 @@ public final class ObservableCollections {
                 if (last == null) {
                     throw new IllegalStateException();
                 }
+
                 Object toRemove = last.getKey();
                 last = null;
                 ObservableMapImpl.this.remove(toRemove);
             }
         }
 
-        
-        private class EntrySet extends AbstractSet<Map.Entry<K,V>> {
-            public Iterator<Map.Entry<K,V>> iterator() {
+        private class EntrySet extends AbstractSet<Map.Entry<K, V>> {
+            public Iterator<Map.Entry<K, V>> iterator() {
                 return new EntryIterator();
             }
+
             @SuppressWarnings("unchecked")
             public boolean contains(Object o) {
                 if (!(o instanceof Map.Entry)) {
                     return false;
                 }
-                Map.Entry<K,V> e = (Map.Entry<K,V>)o;
+
+                Map.Entry<K, V> e = (Map.Entry<K, V>) o;
+
                 return containsKey(e.getKey());
             }
 
             @SuppressWarnings("unchecked")
             public boolean remove(Object o) {
                 if (o instanceof Map.Entry) {
-                    K key = ((Map.Entry<K,V>)o).getKey();
+                    K key = ((Map.Entry<K, V>) o).getKey();
+
                     if (containsKey(key)) {
                         remove(key);
+
                         return true;
                     }
                 }
+
                 return false;
             }
-            
+
             public int size() {
                 return ObservableMapImpl.this.size();
             }
+
             public void clear() {
                 ObservableMapImpl.this.clear();
             }
         }
     }
-    
 
     private static final class ObservableListImpl<E> extends AbstractList<E>
-            implements ObservableList<E> {
+        implements ObservableList<E> {
         private final boolean supportsElementPropertyChanged;
         private List<E> list;
         private List<ObservableListListener> listeners;
-        
+
         ObservableListImpl(List<E> list, boolean supportsElementPropertyChanged) {
             this.list = list;
             listeners = new CopyOnWriteArrayList<ObservableListListener>();
@@ -305,15 +325,18 @@ public final class ObservableCollections {
 
         public E set(int index, E element) {
             E oldValue = list.set(index, element);
+
             for (ObservableListListener listener : listeners) {
                 listener.listElementReplaced(this, index, oldValue);
             }
+
             return oldValue;
         }
 
         public void add(int index, E element) {
             list.add(index, element);
             modCount++;
+
             for (ObservableListListener listener : listeners) {
                 listener.listElementsAdded(this, index, 1);
             }
@@ -322,24 +345,28 @@ public final class ObservableCollections {
         public E remove(int index) {
             E oldValue = list.remove(index);
             modCount++;
+
             for (ObservableListListener listener : listeners) {
                 listener.listElementsRemoved(this, index,
-                        java.util.Collections.singletonList(oldValue));
+                    java.util.Collections.singletonList(oldValue));
             }
+
             return oldValue;
         }
 
-        public boolean addAll(Collection<? extends E> c) {
+        public boolean addAll(Collection<?extends E> c) {
             return addAll(size(), c);
         }
-        
-        public boolean addAll(int index, Collection<? extends E> c) {
+
+        public boolean addAll(int index, Collection<?extends E> c) {
             if (list.addAll(index, c)) {
                 modCount++;
+
                 for (ObservableListListener listener : listeners) {
                     listener.listElementsAdded(this, index, c.size());
                 }
             }
+
             return false;
         }
 
@@ -347,6 +374,7 @@ public final class ObservableCollections {
             List<E> dup = new ArrayList<E>(list);
             list.clear();
             modCount++;
+
             if (dup.size() != 0) {
                 for (ObservableListListener listener : listeners) {
                     listener.listElementsRemoved(this, 0, dup);
@@ -376,7 +404,8 @@ public final class ObservableCollections {
             listeners.add(listener);
         }
 
-        public void removeObservableListListener(ObservableListListener listener) {
+        public void removeObservableListListener(
+            ObservableListListener listener) {
             listeners.remove(listener);
         }
 

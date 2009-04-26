@@ -1,37 +1,39 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: Binding.java 34 2009-04-25 17:27:10Z fabriziogiudici $
- * 
+ *
+ * $Id: Binding.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.beans.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * {@code Binding} is an abstract class that represents the concept of a
@@ -60,13 +62,12 @@ import java.beans.*;
  * @author Shannon Hickey
  */
 public abstract class Binding<SS, SV, TS, TV> {
-
     private String name;
     private SS sourceObject;
     private TS targetObject;
     private Property<SS, SV> sourceProperty;
     private Property<TS, TV> targetProperty;
-    private Validator<? super SV> validator;
+    private Validator<?super SV> validator;
     private Converter<SV, TV> converter;
     private TV sourceNullValue;
     private SV targetNullValue;
@@ -80,232 +81,6 @@ public abstract class Binding<SS, SV, TS, TV> {
     private PropertyChangeSupport changeSupport;
 
     /**
-     * An enumeration representing the reasons a sync ({@code save} or {@code refresh})
-     * can fail on a {@code Binding}.
-     *
-     * @see Binding#refresh
-     * @see Binding#save
-     */
-    public enum SyncFailureType {
-        
-        /**
-         * A {@code refresh} failed because the {@code Binding's} target property is unwriteable
-         * for the {@code Binding's} target object.
-         */
-        TARGET_UNWRITEABLE,
-        
-        /**
-         * A {@code save} failed because the {@code Binding's} source property is unwriteable
-         * for the {@code Binding's} source object.
-         */
-        SOURCE_UNWRITEABLE,
-        
-        /**
-         * A {@code save} failed because the {@code Binding's} target property is unreadable
-         * for the {@code Binding's} target object.
-         */
-        TARGET_UNREADABLE,
-
-        /**
-         * A {@code refresh} failed because the {@code Binding's} source property is unreadable
-         * for the {@code Binding's} source object.
-         */
-        SOURCE_UNREADABLE,
-        
-        /**
-         * A {@code save} failed due to a conversion failure on the value
-         * returned by the {@code Binding's} target property for the {@code Binding's}
-         * target object.
-         */
-        CONVERSION_FAILED,
-        
-        /**
-         * A {@code save} failed due to a validation failure on the value
-         * returned by the {@code Binding's} target property for the {@code Binding's}
-         * target object.
-         */
-        VALIDATION_FAILED
-    }
-
-    /**
-     * {@code SyncFailure} represents a failure to sync ({@code save} or {@code refresh}) a
-     * {@code Binding}.
-     */
-    public static final class SyncFailure {
-        private SyncFailureType type;
-        private Object reason;
-
-        private static SyncFailure TARGET_UNWRITEABLE = new SyncFailure(SyncFailureType.TARGET_UNWRITEABLE);
-        private static SyncFailure SOURCE_UNWRITEABLE = new SyncFailure(SyncFailureType.SOURCE_UNWRITEABLE);
-        private static SyncFailure TARGET_UNREADABLE = new SyncFailure(SyncFailureType.TARGET_UNREADABLE);
-        private static SyncFailure SOURCE_UNREADABLE = new SyncFailure(SyncFailureType.SOURCE_UNREADABLE);
-
-        private static SyncFailure conversionFailure(RuntimeException rte) {
-            return new SyncFailure(rte);
-        }
-
-        private static SyncFailure validationFailure(Validator.Result result) {
-            return new SyncFailure(result);
-        }
-
-        private SyncFailure(SyncFailureType type) {
-            if (type == SyncFailureType.CONVERSION_FAILED || type == SyncFailureType.VALIDATION_FAILED) {
-                throw new IllegalArgumentException();
-            }
-
-            this.type = type;
-        }
-
-        private SyncFailure(RuntimeException exception) {
-            this.type = SyncFailureType.CONVERSION_FAILED;
-            this.reason = exception;
-        }
-
-        private SyncFailure(Validator.Result result) {
-            this.type = SyncFailureType.VALIDATION_FAILED;
-            this.reason = result;
-        }
-
-        /**
-         * Returns the type of failure.
-         *
-         * @return the type of failure
-         */
-        public SyncFailureType getType() {
-            return type;
-        }
-
-        /**
-         * Returns the exception that occurred during conversion if
-         * this failure represents a conversion failure. Throws
-         * {@code UnsupportedOperationException} otherwise.
-         *
-         * @return the exception that occurred during conversion
-         * @throws UnsupportedOperationException if the type of failure
-         *         is not {@code SyncFailureType.CONVERSION_FAILED}
-         */
-        public RuntimeException getConversionException() {
-            if (type != SyncFailureType.CONVERSION_FAILED) {
-                throw new UnsupportedOperationException();
-            }
-            
-            return (RuntimeException)reason;
-        }
-
-        /**
-         * Returns the result that was returned from the
-         * {@code Binding's} validator if this failure represents a
-         * validation failure. Throws {@code UnsupportedOperationException} otherwise.
-         *
-         * @return the result that was returned from the {@code Binding's} validator
-         * @throws UnsupportedOperationException if the type of failure
-         *         is not {@code SyncFailureType.VALIDATION_FAILED}
-         */
-        public Validator.Result getValidationResult() {
-            if (type != SyncFailureType.VALIDATION_FAILED) {
-                throw new UnsupportedOperationException();
-            }
-            
-            return (Validator.Result)reason;
-        }
-
-        /**
-         * Returns a string representation of the {@code SyncFailure}. This
-         * method is intended to be used for debugging purposes only, and
-         * the content and format of the returned string may vary between
-         * implementations. The returned string may be empty but may not
-         * be {@code null}.
-         *
-         * @return a string representation of this {@code SyncFailure}
-         */
-        public String toString() {
-            return type + (reason == null ? "" : ": " + reason.toString());
-        }
-    }
-
-    /**
-     * Encapsulates the result from calling
-     * {@link org.jdesktop.beansbinding.Binding#getSourceValueForTarget} or
-     * {@link org.jdesktop.beansbinding.Binding#getTargetValueForSource}, which
-     * can either be a successful value or a failure.
-     */
-    public static final class ValueResult<V> {
-        private V value;
-        private SyncFailure failure;
-
-        private ValueResult(V value) {
-            this.value = value;
-        }
-
-        private ValueResult(SyncFailure failure) {
-            if (failure == null) {
-                throw new AssertionError();
-            }
-
-            this.failure = failure;
-        }
-
-        /**
-         * Returns {@code true} if this {@code ValueResult} represents
-         * a failure and {@code false} otherwise.
-         *
-         * @return {@code true} if this {@code ValueResult} represents
-         *         a failure and {@code false} otherwise
-         * @see #getFailure
-         */
-        public boolean failed() {
-            return failure != null;
-        }
-
-        /**
-         * Returns the resulting value if this {@code ValueResult} does
-         * not represent a failure and throws {@code UnsupportedOperationException}
-         * otherwise.
-         *
-         * @return the resulting value
-         * @throws UnsupportedOperationException if this {@code ValueResult} represents a failure
-         * @see #failed
-         */
-        public V getValue() {
-            if (failed()) {
-                throw new UnsupportedOperationException();
-            }
-
-            return value;
-        }
-
-        /**
-         * Returns the failure if this {@code ValueResult} represents
-         * a failure and throws {@code UnsupportedOperationException}
-         * otherwise.
-         *
-         * @return the failure
-         * @throws UnsupportedOperationException if this {@code ValueResult} does not represent a failure
-         * @see #failed
-         */
-        public SyncFailure getFailure() {
-            if (!failed()) {
-                throw new UnsupportedOperationException();
-            }
-            
-            return failure;
-        }
-
-        /**
-         * Returns a string representation of the {@code ValueResult}. This
-         * method is intended to be used for debugging purposes only, and
-         * the content and format of the returned string may vary between
-         * implementations. The returned string may be empty but may not
-         * be {@code null}.
-         *
-         * @return a string representation of this {@code ValueResult}
-         */
-        public String toString() {
-            return value == null ? "failure: " + failure : "value: " + value;
-        }
-    }
-
-    /**
      * Create an instance of {@code Binding} between two properties of two objects.
      *
      * @param sourceObject the source object
@@ -315,7 +90,8 @@ public abstract class Binding<SS, SV, TS, TV> {
      * @param name a name for the {@code Binding}
      * @throws IllegalArgumentException if the source property or target property is {@code null}
      */
-    protected Binding(SS sourceObject, Property<SS, SV> sourceProperty, TS targetObject, Property<TS, TV> targetProperty, String name) {
+    protected Binding(SS sourceObject, Property<SS, SV> sourceProperty,
+        TS targetObject, Property<TS, TV> targetProperty, String name) {
         setSourceProperty(sourceProperty);
         setTargetProperty(targetProperty);
 
@@ -342,14 +118,16 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     protected final void setSourceProperty(Property<SS, SV> sourceProperty) {
         throwIfBound();
+
         if (sourceProperty == null) {
             throw new IllegalArgumentException("source property can't be null");
         }
+
         Property<SS, SV> old = this.sourceProperty;
         this.sourceProperty = sourceProperty;
         firePropertyChange("sourceProperty", old, sourceProperty);
     }
-    
+
     /**
      * Sets the {@code Binding's} target property.
      * <p>
@@ -366,14 +144,16 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     protected final void setTargetProperty(Property<TS, TV> targetProperty) {
         throwIfBound();
+
         if (targetProperty == null) {
             throw new IllegalArgumentException("target property can't be null");
         }
+
         Property<TS, TV> old = this.targetProperty;
         this.targetProperty = targetProperty;
         firePropertyChange("targetProperty", old, targetProperty);
     }
-    
+
     /**
      * Returns the {@code Binding's} name, which may be {@code null}.
      *
@@ -455,6 +235,7 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     protected final void setSourceObjectUnmanaged(SS sourceObject) {
         throwIfBound();
+
         SS old = this.sourceObject;
         this.sourceObject = sourceObject;
         firePropertyChange("sourceObject", old, sourceObject);
@@ -492,6 +273,7 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     protected final void setTargetObjectUnmanaged(TS targetObject) {
         throwIfBound();
+
         TS old = this.targetObject;
         this.targetObject = targetObject;
         firePropertyChange("targetObject", old, targetObject);
@@ -513,9 +295,10 @@ public abstract class Binding<SS, SV, TS, TV> {
      * @throws IllegalStateException if the {@code Binding} is bound
      * @see #isBound()
      */
-    public final void setValidator(Validator<? super SV> validator) {
+    public final void setValidator(Validator<?super SV> validator) {
         throwIfBound();
-        Validator<? super SV> old = this.validator;
+
+        Validator<?super SV> old = this.validator;
         this.validator = validator;
         firePropertyChange("validator", old, validator);
     }
@@ -526,7 +309,7 @@ public abstract class Binding<SS, SV, TS, TV> {
      * @return the {@code Binding's Validator}, or {@code null}
      * @see #setValidator
      */
-    public final Validator<? super SV> getValidator() {
+    public final Validator<?super SV> getValidator() {
         return validator;
     }
 
@@ -549,6 +332,7 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     public final void setConverter(Converter<SV, TV> converter) {
         throwIfBound();
+
         Converter<SV, TV> old = this.converter;
         this.converter = converter;
         firePropertyChange("converter", old, converter);
@@ -580,6 +364,7 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     public final void setSourceNullValue(TV sourceNullValue) {
         throwIfBound();
+
         TV old = this.sourceNullValue;
         this.sourceNullValue = sourceNullValue;
         firePropertyChange("sourceNullValue", old, sourceNullValue);
@@ -614,6 +399,7 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     public final void setTargetNullValue(SV targetNullValue) {
         throwIfBound();
+
         SV old = this.targetNullValue;
         this.targetNullValue = targetNullValue;
         firePropertyChange("targetNullValue", old, targetNullValue);
@@ -699,14 +485,13 @@ public abstract class Binding<SS, SV, TS, TV> {
 
         if (isSourceUnreadableValueSet()) {
             TV old = this.sourceUnreadableValue;
-            
+
             this.sourceUnreadableValue = null;
             this.sourceUnreadableValueSet = false;
 
             firePropertyChange("sourceUnreadableValueSet", true, false);
             firePropertyChange("sourceUnreadableValue", old, null);
         }
-
     }
 
     /**
@@ -804,6 +589,7 @@ public abstract class Binding<SS, SV, TS, TV> {
 
         BindingListener[] ret = new BindingListener[listeners.size()];
         ret = listeners.toArray(ret);
+
         return ret;
     }
 
@@ -939,13 +725,14 @@ public abstract class Binding<SS, SV, TS, TV> {
 
             if (validator != null) {
                 Validator.Result vr = validator.validate(value);
+
                 if (vr != null) {
                     return new ValueResult<SV>(SyncFailure.validationFailure(vr));
                 }
             }
         }
 
-        return new ValueResult<SV>((SV)value);
+        return new ValueResult<SV>((SV) value);
     }
 
     /**
@@ -993,7 +780,7 @@ public abstract class Binding<SS, SV, TS, TV> {
                 listener.bindingBecameBound(this);
             }
         }
-        
+
         firePropertyChange("bound", false, true);
     }
 
@@ -1051,7 +838,7 @@ public abstract class Binding<SS, SV, TS, TV> {
                 listener.bindingBecameUnbound(this);
             }
         }
-        
+
         firePropertyChange("bound", true, false);
     }
 
@@ -1180,7 +967,7 @@ public abstract class Binding<SS, SV, TS, TV> {
     protected final SyncFailure refreshAndNotifyUnmanaged() {
         return notifyAndReturn(refreshUnmanaged());
     }
-    
+
     /**
      * The same as {@link #save} with the additional
      * behavior of notifying all registered {@code BindingListeners}
@@ -1228,6 +1015,7 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     public final SyncFailure refresh() {
         throwIfManaged();
+
         return refreshUnmanaged();
     }
 
@@ -1244,6 +1032,7 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     protected final SyncFailure refreshUnmanaged() {
         ValueResult<TV> vr = getSourceValueForTarget();
+
         if (vr.failed()) {
             return vr.getFailure();
         }
@@ -1275,6 +1064,7 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     public final SyncFailure save() {
         throwIfManaged();
+
         return saveUnmanaged();
     }
 
@@ -1290,6 +1080,7 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     protected final SyncFailure saveUnmanaged() {
         ValueResult<SV> vr = getTargetValueForSource();
+
         if (vr.failed()) {
             return vr.getFailure();
         }
@@ -1332,8 +1123,11 @@ public abstract class Binding<SS, SV, TS, TV> {
 
     private final TV convertForward(SV value) {
         if (converter == null) {
-            Class<?> targetType = noPrimitiveType(targetProperty.getWriteType(targetObject));
-            return (TV)targetType.cast(Converter.defaultConvert(value, targetType));
+            Class<?> targetType = noPrimitiveType(targetProperty.getWriteType(
+                        targetObject));
+
+            return (TV) targetType.cast(Converter.defaultConvert(value,
+                    targetType));
         }
 
         return converter.convertForward(value);
@@ -1341,8 +1135,11 @@ public abstract class Binding<SS, SV, TS, TV> {
 
     private final SV convertReverse(TV value) {
         if (converter == null) {
-            Class<?> sourceType = noPrimitiveType(sourceProperty.getWriteType(sourceObject));
-            return (SV)sourceType.cast(Converter.defaultConvert(value, sourceType));
+            Class<?> sourceType = noPrimitiveType(sourceProperty.getWriteType(
+                        sourceObject));
+
+            return (SV) sourceType.cast(Converter.defaultConvert(value,
+                    sourceType));
         }
 
         return converter.convertReverse(value);
@@ -1358,10 +1155,11 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     protected final void throwIfManaged() {
         if (isManaged()) {
-            throw new UnsupportedOperationException("Can not call this method on a managed binding");
+            throw new UnsupportedOperationException(
+                "Can not call this method on a managed binding");
         }
     }
-    
+
     /**
      * Throws an IllegalStateException if the {@code Binding} is bound.
      * Useful for calling at the beginning of method implementations that
@@ -1371,7 +1169,8 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     protected final void throwIfBound() {
         if (isBound()) {
-            throw new IllegalStateException("Can not call this method on a bound binding");
+            throw new IllegalStateException(
+                "Can not call this method on a bound binding");
         }
     }
 
@@ -1384,7 +1183,8 @@ public abstract class Binding<SS, SV, TS, TV> {
      */
     protected final void throwIfUnbound() {
         if (!isBound()) {
-            throw new IllegalStateException("Can not call this method on an unbound binding");
+            throw new IllegalStateException(
+                "Can not call this method on an unbound binding");
         }
     }
 
@@ -1411,20 +1211,16 @@ public abstract class Binding<SS, SV, TS, TV> {
      * @return a string representing the state of the {@code Binding}.
      */
     protected String paramString() {
-        return "name=" + getName() +
-               ", sourceObject=" + sourceObject +
-               ", sourceProperty=" + sourceProperty +
-               ", targetObject=" + targetObject +
-               ", targetProperty=" + targetProperty +
-               ", validator=" + validator +
-               ", converter=" + converter +
-               ", sourceNullValue=" + sourceNullValue +
-               ", targetNullValue=" + targetNullValue +
-               ", sourceUnreadableValueSet=" + sourceUnreadableValueSet +
-               ", sourceUnreadableValue=" + sourceUnreadableValue +
-               ", bound=" + isBound;
+        return "name=" + getName() + ", sourceObject=" + sourceObject +
+        ", sourceProperty=" + sourceProperty + ", targetObject=" +
+        targetObject + ", targetProperty=" + targetProperty + ", validator=" +
+        validator + ", converter=" + converter + ", sourceNullValue=" +
+        sourceNullValue + ", targetNullValue=" + targetNullValue +
+        ", sourceUnreadableValueSet=" + sourceUnreadableValueSet +
+        ", sourceUnreadableValue=" + sourceUnreadableValue + ", bound=" +
+        isBound;
     }
-    
+
     private void sourceChanged(PropertyStateEvent pse) {
         if (listeners != null) {
             for (BindingListener listener : listeners) {
@@ -1538,7 +1334,8 @@ public abstract class Binding<SS, SV, TS, TV> {
      * @param propertyName the name of the property to listen for changes on
      * @param listener the listener to add
      */
-    public final void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+    public final void addPropertyChangeListener(String propertyName,
+        PropertyChangeListener listener) {
         if (changeSupport == null) {
             changeSupport = new PropertyChangeSupport(this);
         }
@@ -1556,7 +1353,8 @@ public abstract class Binding<SS, SV, TS, TV> {
      * @param listener the listener to remove
      * @see #addPropertyChangeListener
      */
-    public final void removePropertyChangeListener(PropertyChangeListener listener) {
+    public final void removePropertyChangeListener(
+        PropertyChangeListener listener) {
         if (changeSupport == null) {
             return;
         }
@@ -1571,12 +1369,13 @@ public abstract class Binding<SS, SV, TS, TV> {
      * If the listener being removed was registered more than once, only one
      * occurrence of the listener is removed from the list of listeners.
      * The ordering of listener notification is unspecified.
-     * 
+     *
      * @param propertyName the name of the property to remove the listener for
      * @param listener the listener to remove
      * @see #addPropertyChangeListener(String, PropertyChangeListener)
      */
-    public final void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+    public final void removePropertyChangeListener(String propertyName,
+        PropertyChangeListener listener) {
         if (changeSupport == null) {
             return;
         }
@@ -1596,7 +1395,7 @@ public abstract class Binding<SS, SV, TS, TV> {
         if (changeSupport == null) {
             return new PropertyChangeListener[0];
         }
-        
+
         return changeSupport.getPropertyChangeListeners();
     }
 
@@ -1610,11 +1409,12 @@ public abstract class Binding<SS, SV, TS, TV> {
      *         for the given property name
      * @see #addPropertyChangeListener(String, PropertyChangeListener)
      */
-    public final PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
+    public final PropertyChangeListener[] getPropertyChangeListeners(
+        String propertyName) {
         if (changeSupport == null) {
             return new PropertyChangeListener[0];
         }
-        
+
         return changeSupport.getPropertyChangeListeners(propertyName);
     }
 
@@ -1626,9 +1426,189 @@ public abstract class Binding<SS, SV, TS, TV> {
      * @param oldValue the old value of the property
      * @param newValue the new value of the property
      */
-    protected final void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+    protected final void firePropertyChange(String propertyName,
+        Object oldValue, Object newValue) {
         if (changeSupport != null) {
             changeSupport.firePropertyChange(propertyName, oldValue, newValue);
+        }
+    }
+
+    /**
+     * {@code SyncFailure} represents a failure to sync ({@code save} or {@code refresh}) a
+     * {@code Binding}.
+     */
+    public static final class SyncFailure {
+        private static SyncFailure TARGET_UNWRITEABLE = new SyncFailure(SyncFailureType.TARGET_UNWRITEABLE);
+        private static SyncFailure SOURCE_UNWRITEABLE = new SyncFailure(SyncFailureType.SOURCE_UNWRITEABLE);
+        private static SyncFailure TARGET_UNREADABLE = new SyncFailure(SyncFailureType.TARGET_UNREADABLE);
+        private static SyncFailure SOURCE_UNREADABLE = new SyncFailure(SyncFailureType.SOURCE_UNREADABLE);
+        private SyncFailureType type;
+        private Object reason;
+
+        private SyncFailure(SyncFailureType type) {
+            if ((type == SyncFailureType.CONVERSION_FAILED) ||
+                    (type == SyncFailureType.VALIDATION_FAILED)) {
+                throw new IllegalArgumentException();
+            }
+
+            this.type = type;
+        }
+
+        private SyncFailure(RuntimeException exception) {
+            this.type = SyncFailureType.CONVERSION_FAILED;
+            this.reason = exception;
+        }
+
+        private SyncFailure(Validator.Result result) {
+            this.type = SyncFailureType.VALIDATION_FAILED;
+            this.reason = result;
+        }
+
+        private static SyncFailure conversionFailure(RuntimeException rte) {
+            return new SyncFailure(rte);
+        }
+
+        private static SyncFailure validationFailure(Validator.Result result) {
+            return new SyncFailure(result);
+        }
+
+        /**
+         * Returns the type of failure.
+         *
+         * @return the type of failure
+         */
+        public SyncFailureType getType() {
+            return type;
+        }
+
+        /**
+         * Returns the exception that occurred during conversion if
+         * this failure represents a conversion failure. Throws
+         * {@code UnsupportedOperationException} otherwise.
+         *
+         * @return the exception that occurred during conversion
+         * @throws UnsupportedOperationException if the type of failure
+         *         is not {@code SyncFailureType.CONVERSION_FAILED}
+         */
+        public RuntimeException getConversionException() {
+            if (type != SyncFailureType.CONVERSION_FAILED) {
+                throw new UnsupportedOperationException();
+            }
+
+            return (RuntimeException) reason;
+        }
+
+        /**
+         * Returns the result that was returned from the
+         * {@code Binding's} validator if this failure represents a
+         * validation failure. Throws {@code UnsupportedOperationException} otherwise.
+         *
+         * @return the result that was returned from the {@code Binding's} validator
+         * @throws UnsupportedOperationException if the type of failure
+         *         is not {@code SyncFailureType.VALIDATION_FAILED}
+         */
+        public Validator.Result getValidationResult() {
+            if (type != SyncFailureType.VALIDATION_FAILED) {
+                throw new UnsupportedOperationException();
+            }
+
+            return (Validator.Result) reason;
+        }
+
+        /**
+         * Returns a string representation of the {@code SyncFailure}. This
+         * method is intended to be used for debugging purposes only, and
+         * the content and format of the returned string may vary between
+         * implementations. The returned string may be empty but may not
+         * be {@code null}.
+         *
+         * @return a string representation of this {@code SyncFailure}
+         */
+        public String toString() {
+            return type + ((reason == null) ? "" : (": " + reason.toString()));
+        }
+    }
+
+    /**
+     * Encapsulates the result from calling
+     * {@link org.jdesktop.beansbinding.Binding#getSourceValueForTarget} or
+     * {@link org.jdesktop.beansbinding.Binding#getTargetValueForSource}, which
+     * can either be a successful value or a failure.
+     */
+    public static final class ValueResult<V> {
+        private V value;
+        private SyncFailure failure;
+
+        private ValueResult(V value) {
+            this.value = value;
+        }
+
+        private ValueResult(SyncFailure failure) {
+            if (failure == null) {
+                throw new AssertionError();
+            }
+
+            this.failure = failure;
+        }
+
+        /**
+         * Returns {@code true} if this {@code ValueResult} represents
+         * a failure and {@code false} otherwise.
+         *
+         * @return {@code true} if this {@code ValueResult} represents
+         *         a failure and {@code false} otherwise
+         * @see #getFailure
+         */
+        public boolean failed() {
+            return failure != null;
+        }
+
+        /**
+         * Returns the resulting value if this {@code ValueResult} does
+         * not represent a failure and throws {@code UnsupportedOperationException}
+         * otherwise.
+         *
+         * @return the resulting value
+         * @throws UnsupportedOperationException if this {@code ValueResult} represents a failure
+         * @see #failed
+         */
+        public V getValue() {
+            if (failed()) {
+                throw new UnsupportedOperationException();
+            }
+
+            return value;
+        }
+
+        /**
+         * Returns the failure if this {@code ValueResult} represents
+         * a failure and throws {@code UnsupportedOperationException}
+         * otherwise.
+         *
+         * @return the failure
+         * @throws UnsupportedOperationException if this {@code ValueResult} does not represent a failure
+         * @see #failed
+         */
+        public SyncFailure getFailure() {
+            if (!failed()) {
+                throw new UnsupportedOperationException();
+            }
+
+            return failure;
+        }
+
+        /**
+         * Returns a string representation of the {@code ValueResult}. This
+         * method is intended to be used for debugging purposes only, and
+         * the content and format of the returned string may vary between
+         * implementations. The returned string may be empty but may not
+         * be {@code null}.
+         *
+         * @return a string representation of this {@code ValueResult}
+         */
+        public String toString() {
+            return (value == null) ? ("failure: " + failure) : ("value: " +
+            value);
         }
     }
 
@@ -1638,7 +1618,8 @@ public abstract class Binding<SS, SV, TS, TV> {
                 return;
             }
 
-            if (pse.getSourceProperty() == sourceProperty && pse.getSourceObject() == sourceObject) {
+            if ((pse.getSourceProperty() == sourceProperty) &&
+                    (pse.getSourceObject() == sourceObject)) {
                 sourceChanged(pse);
             } else {
                 targetChanged(pse);
@@ -1646,4 +1627,45 @@ public abstract class Binding<SS, SV, TS, TV> {
         }
     }
 
+    /**
+     * An enumeration representing the reasons a sync ({@code save} or {@code refresh})
+     * can fail on a {@code Binding}.
+     *
+     * @see Binding#refresh
+     * @see Binding#save
+     */
+    public enum SyncFailureType {
+        /**
+         * A {@code refresh} failed because the {@code Binding's} target property is unwriteable
+         * for the {@code Binding's} target object.
+         */
+        TARGET_UNWRITEABLE,
+        /**
+         * A {@code save} failed because the {@code Binding's} source property is unwriteable
+         * for the {@code Binding's} source object.
+         */
+        SOURCE_UNWRITEABLE,
+        /**
+         * A {@code save} failed because the {@code Binding's} target property is unreadable
+         * for the {@code Binding's} target object.
+         */
+        TARGET_UNREADABLE,
+        /**
+         * A {@code refresh} failed because the {@code Binding's} source property is unreadable
+         * for the {@code Binding's} source object.
+         */
+        SOURCE_UNREADABLE,
+        /**
+         * A {@code save} failed due to a conversion failure on the value
+         * returned by the {@code Binding's} target property for the {@code Binding's}
+         * target object.
+         */
+        CONVERSION_FAILED,
+        /**
+         * A {@code save} failed due to a validation failure on the value
+         * returned by the {@code Binding's} target property for the {@code Binding's}
+         * target object.
+         */
+        VALIDATION_FAILED;
+    }
 }

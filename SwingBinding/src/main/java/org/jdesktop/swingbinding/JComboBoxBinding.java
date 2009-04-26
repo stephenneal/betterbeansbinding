@@ -1,45 +1,49 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: JComboBoxBinding.java 50 2009-04-25 22:47:38Z fabriziogiudici $
- * 
+ *
+ * $Id: JComboBoxBinding.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 import org.jdesktop.beansbinding.AutoBinding;
+import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.*;
 import org.jdesktop.beansbinding.Property;
 import org.jdesktop.beansbinding.PropertyStateEvent;
 import org.jdesktop.beansbinding.PropertyStateListener;
+
 import org.jdesktop.swingbinding.impl.AbstractColumnBinding;
 import org.jdesktop.swingbinding.impl.ListBindingManager;
-import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.*;
+
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.swing.*;
+import javax.swing.event.*;
+
 
 /**
  * Binds a {@code List} of objects to act as the items of a {@code JComboBox}.
@@ -187,8 +191,7 @@ import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.*;
  * @author Shannon Hickey
  */
 public final class JComboBoxBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, List> {
-
-    private Property<TS, ? extends JComboBox> comboP;
+    private Property<TS, ?extends JComboBox> comboP;
     private ElementsProperty<TS> elementsP;
     private Handler handler = new Handler();
     private JComboBox combo;
@@ -205,16 +208,19 @@ public final class JComboBoxBinding<E, SS, TS> extends AutoBinding<SS, List<E>, 
      * @param name a name for the {@code JComboBoxBinding}
      * @throws IllegalArgumentException if the source property or target property is {@code null}
      */
-    protected JComboBoxBinding(UpdateStrategy strategy, SS sourceObject, Property<SS, List<E>> sourceListProperty, TS targetObject, Property<TS, ? extends JComboBox> targetJComboBoxProperty, String name) {
-        super(strategy == READ_WRITE ? READ : strategy,
-              sourceObject, sourceListProperty, targetObject, new ElementsProperty<TS>(), name);
+    protected JComboBoxBinding(UpdateStrategy strategy, SS sourceObject,
+        Property<SS, List<E>> sourceListProperty, TS targetObject,
+        Property<TS, ?extends JComboBox> targetJComboBoxProperty, String name) {
+        super((strategy == READ_WRITE) ? READ : strategy, sourceObject,
+            sourceListProperty, targetObject, new ElementsProperty<TS>(), name);
 
         if (targetJComboBoxProperty == null) {
-            throw new IllegalArgumentException("target JComboBox property can't be null");
+            throw new IllegalArgumentException(
+                "target JComboBox property can't be null");
         }
 
         comboP = targetJComboBoxProperty;
-        elementsP = (ElementsProperty<TS>)getTargetProperty();
+        elementsP = (ElementsProperty<TS>) getTargetProperty();
     }
 
     protected void bindImpl() {
@@ -233,11 +239,12 @@ public final class JComboBoxBinding<E, SS, TS> extends AutoBinding<SS, List<E>, 
     }
 
     private boolean isComboAccessible() {
-        return comboP.isReadable(getTargetObject()) && comboP.getValue(getTargetObject()) != null;
+        return comboP.isReadable(getTargetObject()) &&
+        (comboP.getValue(getTargetObject()) != null);
     }
 
     private boolean isComboAccessible(Object value) {
-        return value != null && value != PropertyStateEvent.UNREADABLE;
+        return (value != null) && (value != PropertyStateEvent.UNREADABLE);
     }
 
     private void cleanupForLast() {
@@ -260,7 +267,7 @@ public final class JComboBoxBinding<E, SS, TS> extends AutoBinding<SS, List<E>, 
 
             if (pse.getSourceProperty() == comboP) {
                 cleanupForLast();
-                
+
                 boolean wasAccessible = isComboAccessible(pse.getOldValue());
                 boolean isAccessible = isComboAccessible(pse.getNewValue());
 
@@ -270,7 +277,7 @@ public final class JComboBoxBinding<E, SS, TS> extends AutoBinding<SS, List<E>, 
                     elementsP.setValueAndIgnore(null, null);
                 }
             } else {
-                if (((ElementsProperty.ElementsPropertyStateEvent)pse).shouldIgnore()) {
+                if (((ElementsProperty.ElementsPropertyStateEvent) pse).shouldIgnore()) {
                     return;
                 }
 
@@ -281,12 +288,14 @@ public final class JComboBoxBinding<E, SS, TS> extends AutoBinding<SS, List<E>, 
                     combo.setModel(model);
                 }
 
-                model.updateElements((List)pse.getNewValue(), combo.isEditable());
+                model.updateElements((List) pse.getNewValue(),
+                    combo.isEditable());
             }
         }
     }
 
-    private final class BindingComboBoxModel extends ListBindingManager implements ComboBoxModel  {
+    private final class BindingComboBoxModel extends ListBindingManager
+        implements ComboBoxModel {
         private final List<ListDataListener> listeners;
         private Object selectedItem = null;
         private int selectedModelIndex = -1;
@@ -298,11 +307,11 @@ public final class JComboBoxBinding<E, SS, TS> extends AutoBinding<SS, List<E>, 
         public void updateElements(List<?> elements, boolean isEditable) {
             setElements(elements, false);
 
-            if (!isEditable || selectedModelIndex != -1) {
+            if (!isEditable || (selectedModelIndex != -1)) {
                 selectedItem = null;
                 selectedModelIndex = -1;
             }
-            
+
             if (size() <= 0) {
                 if (selectedModelIndex != -1) {
                     selectedModelIndex = -1;
@@ -328,15 +337,19 @@ public final class JComboBoxBinding<E, SS, TS> extends AutoBinding<SS, List<E>, 
 
         public void setSelectedItem(Object item) {
             // This is what DefaultComboBoxModel does (yes, yuck!)
-            if ((selectedItem != null && !selectedItem.equals(item)) || selectedItem == null && item != null) {
+            if (((selectedItem != null) && !selectedItem.equals(item)) ||
+                    ((selectedItem == null) && (item != null))) {
                 selectedItem = item;
                 contentsChanged(-1, -1);
                 selectedModelIndex = -1;
+
                 if (item != null) {
                     int size = size();
+
                     for (int i = 0; i < size; i++) {
                         if (item.equals(getElementAt(i))) {
                             selectedModelIndex = i;
+
                             break;
                         }
                     }
@@ -356,13 +369,15 @@ public final class JComboBoxBinding<E, SS, TS> extends AutoBinding<SS, List<E>, 
         protected void added(int index, int length) {
             assert length > 0; // enforced by ListBindingManager
 
-            ListDataEvent e = new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, index, index + length - 1);
+            ListDataEvent e = new ListDataEvent(this,
+                    ListDataEvent.INTERVAL_ADDED, index, (index + length) - 1);
             int size = listeners.size();
+
             for (int i = size - 1; i >= 0; i--) {
                 listeners.get(i).intervalAdded(e);
             }
 
-            if (size() == length && selectedItem == null) {
+            if ((size() == length) && (selectedItem == null)) {
                 setSelectedItem(getElementAt(0));
             }
         }
@@ -370,13 +385,17 @@ public final class JComboBoxBinding<E, SS, TS> extends AutoBinding<SS, List<E>, 
         protected void removed(int index, int length) {
             assert length > 0; // enforced by ListBindingManager
 
-            ListDataEvent e = new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, index, index + length - 1);
+            ListDataEvent e = new ListDataEvent(this,
+                    ListDataEvent.INTERVAL_REMOVED, index, (index + length) -
+                    1);
             int size = listeners.size();
+
             for (int i = size - 1; i >= 0; i--) {
                 listeners.get(i).intervalRemoved(e);
             }
-            
-            if (selectedModelIndex >= index && selectedModelIndex < index + length) {
+
+            if ((selectedModelIndex >= index) &&
+                    (selectedModelIndex < (index + length))) {
                 if (size() == 0) {
                     setSelectedItem(null);
                 } else {
@@ -390,28 +409,29 @@ public final class JComboBoxBinding<E, SS, TS> extends AutoBinding<SS, List<E>, 
         }
 
         private void contentsChanged(int row0, int row1) {
-            ListDataEvent e = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, row0, row1);
+            ListDataEvent e = new ListDataEvent(this,
+                    ListDataEvent.CONTENTS_CHANGED, row0, row1);
             int size = listeners.size();
+
             for (int i = size - 1; i >= 0; i--) {
                 listeners.get(i).contentsChanged(e);
             }
         }
-        
+
         public Object getElementAt(int index) {
             return getElement(index);
         }
-        
+
         public void addListDataListener(ListDataListener l) {
             listeners.add(l);
         }
-        
+
         public void removeListDataListener(ListDataListener l) {
             listeners.remove(l);
         }
-        
+
         public int getSize() {
             return size();
         }
     }
-
 }

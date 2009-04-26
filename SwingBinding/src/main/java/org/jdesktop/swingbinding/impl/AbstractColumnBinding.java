@@ -1,44 +1,45 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: AbstractColumnBinding.java 50 2009-04-25 22:47:38Z fabriziogiudici $
- * 
+ *
+ * $Id: AbstractColumnBinding.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding.impl;
 
 import org.jdesktop.beansbinding.*;
 
+
 /**
  * @author Shannon Hickey
  */
 public abstract class AbstractColumnBinding extends Binding {
-
     private int column;
 
-    public AbstractColumnBinding(int column, Property columnSource, Property columnTarget, String name) {
+    public AbstractColumnBinding(int column, Property columnSource,
+        Property columnTarget, String name) {
         super(null, columnSource, null, columnTarget, name);
         this.column = column;
         setManaged(true);
@@ -52,8 +53,9 @@ public abstract class AbstractColumnBinding extends Binding {
         this.column = column;
     }
 
-    public void bindImpl() {}
+    public void bindImpl() {
+    }
 
-    public void unbindImpl() {}
-
+    public void unbindImpl() {
+    }
 }

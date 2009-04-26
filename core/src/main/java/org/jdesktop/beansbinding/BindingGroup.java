@@ -1,35 +1,36 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: BindingGroup.java 34 2009-04-25 17:27:10Z fabriziogiudici $
- * 
+ *
+ * $Id: BindingGroup.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
 
 import java.util.*;
+
 
 /**
  * {@code BindingGroup} allows you to create a group of {@code Bindings}
@@ -48,7 +49,8 @@ public class BindingGroup {
     /**
      * Creates an empty {@code BindingGroup}.
      */
-    public BindingGroup() {}
+    public BindingGroup() {
+    }
 
     /**
      * Adds a {@code Binding} to this group.
@@ -64,17 +66,22 @@ public class BindingGroup {
         }
 
         if (binding.isManaged()) {
-            throw new IllegalArgumentException("Managed bindings can't be in a group");
+            throw new IllegalArgumentException(
+                "Managed bindings can't be in a group");
         }
 
         if (bound.contains(binding) || unbound.contains(binding)) {
-            throw new IllegalArgumentException("Group already contains this binding");
+            throw new IllegalArgumentException(
+                "Group already contains this binding");
         }
 
         String name = binding.getName();
+
         if (name != null) {
             if (getBinding(name) != null) {
-                throw new IllegalArgumentException("Context already contains a binding with name \"" + name + "\"");
+                throw new IllegalArgumentException(
+                    "Context already contains a binding with name \"" + name +
+                    "\"");
             } else {
                 putNamed(name, binding);
             }
@@ -112,6 +119,7 @@ public class BindingGroup {
         }
 
         String name = binding.getName();
+
         if (name != null) {
             assert namedBindings != null;
             namedBindings.remove(name);
@@ -143,7 +151,7 @@ public class BindingGroup {
             throw new IllegalArgumentException("cannot fetch unnamed bindings");
         }
 
-        return namedBindings == null ? null : namedBindings.get(name);
+        return (namedBindings == null) ? null : namedBindings.get(name);
     }
 
     /**
@@ -155,6 +163,7 @@ public class BindingGroup {
     public final List<Binding> getBindings() {
         ArrayList list = new ArrayList(bound);
         list.addAll(unbound);
+
         return Collections.unmodifiableList(list);
     }
 
@@ -163,6 +172,7 @@ public class BindingGroup {
      */
     public void bind() {
         List<Binding> toBind = new ArrayList<Binding>(unbound);
+
         for (Binding binding : toBind) {
             binding.bind();
         }
@@ -173,6 +183,7 @@ public class BindingGroup {
      */
     public void unbind() {
         List<Binding> toUnbind = new ArrayList<Binding>(bound);
+
         for (Binding binding : toUnbind) {
             binding.unbind();
         }
@@ -234,6 +245,7 @@ public class BindingGroup {
 
         BindingListener[] ret = new BindingListener[listeners.size()];
         ret = listeners.toArray(ret);
+
         return ret;
     }
 
@@ -270,7 +282,7 @@ public class BindingGroup {
             if (listeners == null) {
                 return;
             }
-            
+
             for (BindingListener listener : listeners) {
                 listener.sourceChanged(binding, event);
             }
@@ -293,7 +305,7 @@ public class BindingGroup {
             if (listeners == null) {
                 return;
             }
-            
+
             for (BindingListener listener : listeners) {
                 listener.bindingBecameBound(binding);
             }
@@ -306,11 +318,10 @@ public class BindingGroup {
             if (listeners == null) {
                 return;
             }
-            
+
             for (BindingListener listener : listeners) {
                 listener.bindingBecameUnbound(binding);
             }
         }
     }
-
 }

@@ -1,46 +1,50 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: JListBinding.java 50 2009-04-25 22:47:38Z fabriziogiudici $
- * 
+ *
+ * $Id: JListBinding.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 import org.jdesktop.beansbinding.AutoBinding;
+import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.*;
 import org.jdesktop.beansbinding.ObjectProperty;
 import org.jdesktop.beansbinding.Property;
 import org.jdesktop.beansbinding.PropertyStateEvent;
 import org.jdesktop.beansbinding.PropertyStateListener;
+
 import org.jdesktop.swingbinding.impl.AbstractColumnBinding;
 import org.jdesktop.swingbinding.impl.ListBindingManager;
-import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.*;
+
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.swing.*;
+import javax.swing.event.*;
+
 
 /**
  * Binds a {@code List} of objects to act as the elements of a {@code JList}.
@@ -210,13 +214,48 @@ import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.*;
  * @author Shannon Hickey
  */
 public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, List> {
-
-    private Property<TS, ? extends JList> listP;
+    private Property<TS, ?extends JList> listP;
     private ElementsProperty<TS> elementsP;
     private Handler handler = new Handler();
     private JList list;
     private BindingListModel model;
     private DetailBinding detailBinding;
+    private final Property DETAIL_PROPERTY = new Property() {
+            public Class<Object> getWriteType(Object source) {
+                return Object.class;
+            }
+
+            public Object getValue(Object source) {
+                throw new UnsupportedOperationException();
+            }
+
+            public void setValue(Object source, Object value) {
+                throw new UnsupportedOperationException();
+            }
+
+            public boolean isReadable(Object source) {
+                throw new UnsupportedOperationException();
+            }
+
+            public boolean isWriteable(Object source) {
+                return true;
+            }
+
+            public void addPropertyStateListener(Object source,
+                PropertyStateListener listener) {
+                throw new UnsupportedOperationException();
+            }
+
+            public void removePropertyStateListener(Object source,
+                PropertyStateListener listener) {
+                throw new UnsupportedOperationException();
+            }
+
+            public PropertyStateListener[] getPropertyStateListeners(
+                Object source) {
+                throw new UnsupportedOperationException();
+            }
+        };
 
     /**
      * Constructs an instance of {@code JListBinding}.
@@ -229,16 +268,19 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
      * @param name a name for the {@code JListBinding}
      * @throws IllegalArgumentException if the source property or target property is {@code null}
      */
-    protected JListBinding(UpdateStrategy strategy, SS sourceObject, Property<SS, List<E>> sourceListProperty, TS targetObject, Property<TS, ? extends JList> targetJListProperty, String name) {
-        super(strategy == READ_WRITE ? READ : strategy,
-              sourceObject, sourceListProperty, targetObject, new ElementsProperty<TS>(), name);
+    protected JListBinding(UpdateStrategy strategy, SS sourceObject,
+        Property<SS, List<E>> sourceListProperty, TS targetObject,
+        Property<TS, ?extends JList> targetJListProperty, String name) {
+        super((strategy == READ_WRITE) ? READ : strategy, sourceObject,
+            sourceListProperty, targetObject, new ElementsProperty<TS>(), name);
 
         if (targetJListProperty == null) {
-            throw new IllegalArgumentException("target JList property can't be null");
+            throw new IllegalArgumentException(
+                "target JList property can't be null");
         }
 
         listP = targetJListProperty;
-        elementsP = (ElementsProperty<TS>)getTargetProperty();
+        elementsP = (ElementsProperty<TS>) getTargetProperty();
         setDetailBinding(null);
     }
 
@@ -258,11 +300,12 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
     }
 
     private boolean isListAccessible() {
-        return listP.isReadable(getTargetObject()) && listP.getValue(getTargetObject()) != null;
+        return listP.isReadable(getTargetObject()) &&
+        (listP.getValue(getTargetObject()) != null);
     }
 
     private boolean isListAccessible(Object value) {
-        return value != null && value != PropertyStateEvent.UNREADABLE;
+        return (value != null) && (value != PropertyStateEvent.UNREADABLE);
     }
 
     private void cleanupForLast() {
@@ -276,7 +319,7 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
         model.setElements(null, true);
         model = null;
     }
-    
+
     /**
      * Creates a {@code DetailBinding} and sets it as the {@code DetailBinding}
      * for this {@code JListBinding}. A {@code DetailBinding} specifies the property
@@ -303,16 +346,18 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
      *        from its corresponding object in the source {@code List}
      * @return the {@code DetailBinding}
      */
-    public DetailBinding setDetailBinding(Property<E, ?> detailProperty, String name) {
+    public DetailBinding setDetailBinding(Property<E, ?> detailProperty,
+        String name) {
         throwIfBound();
 
-        if (name == null && JListBinding.this.getName() != null) {
+        if ((name == null) && (JListBinding.this.getName() != null)) {
             name = JListBinding.this.getName() + ".DETAIL_BINDING";
         }
 
-        detailBinding = detailProperty == null ?
-                        new DetailBinding(ObjectProperty.<E>create(), name) :
-                        new DetailBinding(detailProperty, name);
+        detailBinding = (detailProperty == null)
+            ? new DetailBinding(ObjectProperty.<E>create(), name)
+            : new DetailBinding(detailProperty, name);
+
         return detailBinding;
     }
 
@@ -328,39 +373,14 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
         return detailBinding;
     }
 
-    private final Property DETAIL_PROPERTY = new Property() {
-        public Class<Object> getWriteType(Object source) {
-            return Object.class;
-        }
-
-        public Object getValue(Object source) {
-            throw new UnsupportedOperationException();
-        }
-
-        public void setValue(Object source, Object value) {
-            throw new UnsupportedOperationException();
-        }
-
-        public boolean isReadable(Object source) {
-            throw new UnsupportedOperationException();
-        }
-
-        public boolean isWriteable(Object source) {
-            return true;
-        }
-
-        public void addPropertyStateListener(Object source, PropertyStateListener listener) {
-            throw new UnsupportedOperationException();
-        }
-
-        public void removePropertyStateListener(Object source, PropertyStateListener listener) {
-            throw new UnsupportedOperationException();
-        }
-
-        public PropertyStateListener[] getPropertyStateListeners(Object source) {
-            throw new UnsupportedOperationException();
-        }
-    };
+    private void resetListSelection() {
+        ListSelectionModel selectionModel = list.getSelectionModel();
+        selectionModel.setValueIsAdjusting(true);
+        selectionModel.clearSelection();
+        selectionModel.setAnchorSelectionIndex(-1);
+        selectionModel.setLeadSelectionIndex(-1);
+        selectionModel.setValueIsAdjusting(false);
+    }
 
     /**
      * {@code DetailBinding} represents a binding between a property of the elements
@@ -380,11 +400,9 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
      * @see org.jdesktop.swingbinding.JListBinding#setDetailBinding(Property, String)
      */
     public final class DetailBinding extends AbstractColumnBinding {
-
         private DetailBinding(Property<E, ?> detailProperty, String name) {
             super(0, detailProperty, DETAIL_PROPERTY, name);
         }
-
     }
 
     private class Handler implements PropertyStateListener {
@@ -395,7 +413,7 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
 
             if (pse.getSourceProperty() == listP) {
                 cleanupForLast();
-                
+
                 boolean wasAccessible = isListAccessible(pse.getOldValue());
                 boolean isAccessible = isListAccessible(pse.getNewValue());
 
@@ -405,7 +423,7 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
                     elementsP.setValueAndIgnore(null, null);
                 }
             } else {
-                if (((ElementsProperty.ElementsPropertyStateEvent)pse).shouldIgnore()) {
+                if (((ElementsProperty.ElementsPropertyStateEvent) pse).shouldIgnore()) {
                     return;
                 }
 
@@ -418,21 +436,13 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
                     resetListSelection();
                 }
 
-                model.setElements((List)pse.getNewValue(), true);
+                model.setElements((List) pse.getNewValue(), true);
             }
         }
     }
 
-    private void resetListSelection() {
-        ListSelectionModel selectionModel = list.getSelectionModel();
-        selectionModel.setValueIsAdjusting(true);
-        selectionModel.clearSelection();
-        selectionModel.setAnchorSelectionIndex(-1);
-        selectionModel.setLeadSelectionIndex(-1);
-        selectionModel.setValueIsAdjusting(false);
-    }
-    
-    private final class BindingListModel extends ListBindingManager implements ListModel  {
+    private final class BindingListModel extends ListBindingManager
+        implements ListModel {
         private final List<ListDataListener> listeners;
 
         public BindingListModel() {
@@ -440,7 +450,7 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
         }
 
         protected AbstractColumnBinding[] getColBindings() {
-            return new AbstractColumnBinding[] {getDetailBinding()};
+            return new AbstractColumnBinding[] { getDetailBinding() };
         }
 
         protected void allChanged() {
@@ -454,7 +464,9 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
         protected void added(int index, int length) {
             assert length > 0; // enforced by ListBindingManager
 
-            ListDataEvent e = new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, index, index + length - 1);
+            ListDataEvent e = new ListDataEvent(this,
+                    ListDataEvent.INTERVAL_ADDED, index, (index + length) - 1);
+
             for (ListDataListener listener : listeners) {
                 listener.intervalAdded(e);
             }
@@ -463,7 +475,10 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
         protected void removed(int index, int length) {
             assert length > 0; // enforced by ListBindingManager
 
-            ListDataEvent e = new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, index, index + length - 1);
+            ListDataEvent e = new ListDataEvent(this,
+                    ListDataEvent.INTERVAL_REMOVED, index, (index + length) -
+                    1);
+
             for (ListDataListener listener : listeners) {
                 listener.intervalRemoved(e);
             }
@@ -474,7 +489,9 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
         }
 
         private void contentsChanged(int row0, int row1) {
-            ListDataEvent e = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, row0, row1);
+            ListDataEvent e = new ListDataEvent(this,
+                    ListDataEvent.CONTENTS_CHANGED, row0, row1);
+
             for (ListDataListener listener : listeners) {
                 listener.contentsChanged(e);
             }

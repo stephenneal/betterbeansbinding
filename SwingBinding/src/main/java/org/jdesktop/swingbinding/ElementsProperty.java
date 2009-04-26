@@ -1,88 +1,45 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: ElementsProperty.java 50 2009-04-25 22:47:38Z fabriziogiudici $
- * 
+ *
+ * $Id: ElementsProperty.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding;
 
-import java.util.*;
 import org.jdesktop.beansbinding.Property;
 import org.jdesktop.beansbinding.PropertyHelper;
 import org.jdesktop.beansbinding.PropertyStateEvent;
+
+import java.util.*;
+
 
 /**
  * @author Shannon Hickey
  */
 class ElementsProperty<TS> extends PropertyHelper<TS, List> {
-
-    class ElementsPropertyStateEvent extends PropertyStateEvent {
-        private boolean ignore;
-
-        public ElementsPropertyStateEvent(Property sourceProperty,
-                                          Object sourceObject,
-                                          boolean valueChanged,
-                                          Object oldValue,
-                                          Object newValue,
-                                          boolean writeableChanged,
-                                          boolean isWriteable) {
-            this(sourceProperty,
-                 sourceObject,
-                 valueChanged,
-                 oldValue,
-                 newValue,
-                 writeableChanged,
-                 isWriteable,
-                 false);
-        }
-
-        public ElementsPropertyStateEvent(Property sourceProperty,
-                                          Object sourceObject,
-                                          boolean valueChanged,
-                                          Object oldValue,
-                                          Object newValue,
-                                          boolean writeableChanged,
-                                          boolean isWriteable,
-                                          boolean ignore) {
-            super(sourceProperty,
-                 sourceObject,
-                 valueChanged,
-                 oldValue,
-                 newValue,
-                 writeableChanged,
-                 isWriteable);
-            
-            this.ignore = ignore;
-        }
-        
-        boolean shouldIgnore() {
-            return ignore;
-        }
-    }
-
     private boolean accessible;
     private List list;
 
@@ -95,7 +52,7 @@ class ElementsProperty<TS> extends PropertyHelper<TS, List> {
             throw new UnsupportedOperationException("Unwriteable");
         }
 
-        return (Class<List>)List.class;
+        return (Class<List>) List.class;
     }
 
     public List getValue(TS source) {
@@ -118,11 +75,11 @@ class ElementsProperty<TS> extends PropertyHelper<TS, List> {
         List old = this.list;
         this.list = list;
 
-        PropertyStateEvent pse = new ElementsPropertyStateEvent(this, null, true, old, list, false, true, ignore);
+        PropertyStateEvent pse = new ElementsPropertyStateEvent(this, null,
+                true, old, list, false, true, ignore);
         firePropertyStateChange(pse);
     }
 
-    
     public void setValue(TS source, List list) {
         setValue0(source, list, false);
     }
@@ -153,11 +110,13 @@ class ElementsProperty<TS> extends PropertyHelper<TS, List> {
         PropertyStateEvent pse;
 
         if (accessible) {
-            pse = new ElementsPropertyStateEvent(this, null, true, PropertyStateEvent.UNREADABLE, null, true, true, true);
+            pse = new ElementsPropertyStateEvent(this, null, true,
+                    PropertyStateEvent.UNREADABLE, null, true, true, true);
         } else {
             Object old = list;
             list = null;
-            pse = new ElementsPropertyStateEvent(this, null, true, old, PropertyStateEvent.UNREADABLE, true, false, true);
+            pse = new ElementsPropertyStateEvent(this, null, true, old,
+                    PropertyStateEvent.UNREADABLE, true, false, true);
         }
 
         firePropertyStateChange(pse);
@@ -167,4 +126,28 @@ class ElementsProperty<TS> extends PropertyHelper<TS, List> {
         return accessible;
     }
 
+    class ElementsPropertyStateEvent extends PropertyStateEvent {
+        private boolean ignore;
+
+        public ElementsPropertyStateEvent(Property sourceProperty,
+            Object sourceObject, boolean valueChanged, Object oldValue,
+            Object newValue, boolean writeableChanged, boolean isWriteable) {
+            this(sourceProperty, sourceObject, valueChanged, oldValue,
+                newValue, writeableChanged, isWriteable, false);
+        }
+
+        public ElementsPropertyStateEvent(Property sourceProperty,
+            Object sourceObject, boolean valueChanged, Object oldValue,
+            Object newValue, boolean writeableChanged, boolean isWriteable,
+            boolean ignore) {
+            super(sourceProperty, sourceObject, valueChanged, oldValue,
+                newValue, writeableChanged, isWriteable);
+
+            this.ignore = ignore;
+        }
+
+        boolean shouldIgnore() {
+            return ignore;
+        }
+    }
 }

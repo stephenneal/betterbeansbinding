@@ -1,33 +1,34 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: AbstractBindingListener.java 34 2009-04-25 17:27:10Z fabriziogiudici $
- * 
+ *
+ * $Id: AbstractBindingListener.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
+
 
 /**
  * An abstract subclass of {@code BindingListener} that simplifies writing
@@ -37,26 +38,29 @@ package org.jdesktop.beansbinding;
  * @author Shannon Hickey
  */
 public abstract class AbstractBindingListener implements BindingListener {
+    /**
+     * {@inheritDoc}
+     */
+    public void bindingBecameBound(Binding binding) {
+    }
 
     /**
      * {@inheritDoc}
      */
-    public void bindingBecameBound(Binding binding) {}
+    public void bindingBecameUnbound(Binding binding) {
+    }
 
     /**
      * {@inheritDoc}
      */
-    public void bindingBecameUnbound(Binding binding) {}
+    public void syncFailed(Binding binding, Binding.SyncFailure failure) {
+    }
 
     /**
      * {@inheritDoc}
      */
-    public void syncFailed(Binding binding, Binding.SyncFailure failure) {}
-
-    /**
-     * {@inheritDoc}
-     */
-    public void synced(Binding binding) {}
+    public void synced(Binding binding) {
+    }
 
     /**
      * {@inheritDoc}
@@ -81,7 +85,7 @@ public abstract class AbstractBindingListener implements BindingListener {
             targetEdited(binding);
         }
     }
-    
+
     /**
      * Notification that the source property of a {@code Binding} has fired
      * a {@code PropertyStateEvent} indicating that its <b>value or readability</b>
@@ -94,7 +98,8 @@ public abstract class AbstractBindingListener implements BindingListener {
      *             to assist in migration.
      */
     @Deprecated
-    public void sourceEdited(Binding binding) {}
+    public void sourceEdited(Binding binding) {
+    }
 
     /**
      * Notification that the target property of a {@code Binding} has fired
@@ -108,6 +113,6 @@ public abstract class AbstractBindingListener implements BindingListener {
      *             to assist in migration.
      */
     @Deprecated
-    public void targetEdited(Binding binding) {}
-
+    public void targetEdited(Binding binding) {
+    }
 }

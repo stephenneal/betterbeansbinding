@@ -1,33 +1,34 @@
 /***********************************************************************************************************************
- * 
+ *
  * BetterBeansBinding - keeping JavaBeans in sync
  * ==============================================
- * 
+ *
  * Copyright (C) 2009 by Tidalwave s.a.s. (http://www.tidalwave.it)
  * http://betterbeansbinding.kenai.com
- * 
+ *
  * This is derived work from BeansBinding: http://beansbinding.dev.java.net
  * BeansBinding is copyrighted (C) by Sun Microsystems, Inc.
- * 
+ *
  ***********************************************************************************************************************
- * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General 
- * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) 
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General
+ * Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
- * 
- * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to 
+ *
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  ***********************************************************************************************************************
- * 
- * $Id: AutoBinding.java 34 2009-04-25 17:27:10Z fabriziogiudici $
- * 
+ *
+ * $Id: AutoBinding.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
+
 
 /**
  * An implementation of {@code Binding} that automatically syncs the source
@@ -121,35 +122,7 @@ package org.jdesktop.beansbinding;
  * @author Shannon Hickey
  */
 public class AutoBinding<SS, SV, TS, TV> extends Binding<SS, SV, TS, TV> {
-
     private UpdateStrategy strategy;
-
-    /**
-     * An enumeration representing the possible update strategies of an
-     * {@code AutoBinding}. See {@code AutoBinding's} class level
-     * <a href="AutoBinding.html#STRATEGY_BEHAVIOR">documentation</a> for complete
-     * details on the sync behavior for each possible update strategy.
-     */
-    public enum UpdateStrategy {
-
-        /**
-         * An update strategy where the {@code AutoBinding} tries to sync the
-         * target from the source only once, at bind time.
-         */
-        READ_ONCE,
-
-        /**
-         * An update strategy where the {@code AutoBinding} tries to keep the target
-         * in sync with the source.
-         */
-        READ,
-
-        /**
-         * An update strategy where the {@code AutoBinding} tries to keep both the
-         * source and target in sync with each other.
-         */
-        READ_WRITE
-    }
 
     /**
      * Create an instance of {@code AutoBinding} between two properties of two objects,
@@ -163,7 +136,9 @@ public class AutoBinding<SS, SV, TS, TV> extends Binding<SS, SV, TS, TV> {
      * @param name a name for the {@code Binding}
      * @throws IllegalArgumentException if the source property or target property is {@code null}
      */
-    protected AutoBinding(UpdateStrategy strategy, SS sourceObject, Property<SS, SV> sourceProperty, TS targetObject, Property<TS, TV> targetProperty, String name) {
+    protected AutoBinding(UpdateStrategy strategy, SS sourceObject,
+        Property<SS, SV> sourceProperty, TS targetObject,
+        Property<TS, TV> targetProperty, String name) {
         super(sourceObject, sourceProperty, targetObject, targetProperty, name);
 
         if (strategy == null) {
@@ -184,10 +159,12 @@ public class AutoBinding<SS, SV, TS, TV> extends Binding<SS, SV, TS, TV> {
 
     private final void tryRefreshThenSave() {
         SyncFailure refreshFailure = refresh();
+
         if (refreshFailure == null) {
             notifySynced();
         } else {
             SyncFailure saveFailure = save();
+
             if (saveFailure == null) {
                 notifySynced();
             } else {
@@ -198,12 +175,15 @@ public class AutoBinding<SS, SV, TS, TV> extends Binding<SS, SV, TS, TV> {
 
     private final void trySaveThenRefresh() {
         SyncFailure saveFailure = save();
+
         if (saveFailure == null) {
             notifySynced();
-        } else if (saveFailure.getType() == SyncFailureType.CONVERSION_FAILED || saveFailure.getType() == SyncFailureType.VALIDATION_FAILED) {
+        } else if ((saveFailure.getType() == SyncFailureType.CONVERSION_FAILED) ||
+                (saveFailure.getType() == SyncFailureType.VALIDATION_FAILED)) {
             notifySyncFailed(saveFailure);
         } else {
             SyncFailure refreshFailure = refresh();
+
             if (refreshFailure == null) {
                 notifySynced();
             } else {
@@ -224,7 +204,8 @@ public class AutoBinding<SS, SV, TS, TV> extends Binding<SS, SV, TS, TV> {
         }
     }
 
-    protected void unbindImpl() {}
+    protected void unbindImpl() {
+    }
 
     /**
      * Returns a string representing the internal state of the {@code Binding}.
@@ -275,4 +256,27 @@ public class AutoBinding<SS, SV, TS, TV> extends Binding<SS, SV, TS, TV> {
         }
     }
 
+    /**
+     * An enumeration representing the possible update strategies of an
+     * {@code AutoBinding}. See {@code AutoBinding's} class level
+     * <a href="AutoBinding.html#STRATEGY_BEHAVIOR">documentation</a> for complete
+     * details on the sync behavior for each possible update strategy.
+     */
+    public enum UpdateStrategy {
+        /**
+         * An update strategy where the {@code AutoBinding} tries to sync the
+         * target from the source only once, at bind time.
+         */
+        READ_ONCE,
+        /**
+         * An update strategy where the {@code AutoBinding} tries to keep the target
+         * in sync with the source.
+         */
+        READ,
+        /**
+         * An update strategy where the {@code AutoBinding} tries to keep both the
+         * source and target in sync with each other.
+         */
+        READ_WRITE;
+    }
 }
