@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 58 2009-04-26 19:39:23Z fabriziogiudici $
+ * $Id: pom.xml 61 2009-06-11 18:09:20Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -47,15 +47,18 @@
         <url>http://www.tidalwave.it</url>
     </organization>
     <inceptionYear>2009</inceptionYear>
+    
     <issueManagement>
         <system>Jira</system>
         <url>http://kenai.com/jira/browse/BETTERBEANSBINDING</url>
     </issueManagement>
+
     <scm>
         <connection>scm:svn:http://kenai.com/svn/betterbeansbinding~svn/trunk/src</connection>
         <developerConnection>scm:svn:https://kenai.com/svn/betterbeansbinding~svn/trunk/src</developerConnection>
         <url>https://kenai.com/svn/betterbeansbinding~svn/trunk/src</url>
     </scm>
+
     <developers>
         <developer>
             <name>Fabrizio Giudici</name>
@@ -70,6 +73,11 @@
             <timezone>+1</timezone>
         </developer>
     </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <mailingLists>
         <mailingList>
             <name>Commits</name>
@@ -92,6 +100,7 @@
             <archive>http://kenai.com/projects/betterbeansbinding/lists/users/archive</archive>
         </mailingList>
     </mailingLists>
+
     <licenses>
         <license>
             <name>LGPL 2.1 </name>
@@ -99,6 +108,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <build>
         <plugins>
             <plugin>
@@ -187,7 +197,7 @@
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>
-                    <targetJdk>1.5</targetJdk>  
+                    <targetJdk>1.5</targetJdk>
                 </configuration>
             </plugin>
 
@@ -196,7 +206,7 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                     <configLocation>etc/checkstyle.xml</configLocation>
+                    <configLocation>etc/checkstyle.xml</configLocation>
                 </configuration>
             </plugin>
 
