@@ -24,7 +24,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: BeanProperty.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ * $Id: BeanProperty.java 62 2009-06-11 19:40:58Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 
@@ -57,6 +57,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 import java.util.*;
+import org.jdesktop.beansbinding.util.logging.Logger;
 
 
 /**
@@ -165,8 +166,9 @@ import java.util.*;
  * @author Scott Violet
  */
 public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
+    private static final String CLASS = ELProperty.class.getName();
+    private static final Logger logger = Logger.getLogger(CLASS);
     private static final Object NOREAD = new Object();
-    private static final boolean LOG = false;
     private Property<S, ?> baseProperty;
     private final PropertyPath path;
     private IdentityHashMap<S, SourceEntry> map = new IdentityHashMap<S, SourceEntry>();
@@ -217,13 +219,13 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
             src = getProperty(src, path.get(i));
 
             if (src == null) {
-                log("getLastSource()", "missing source");
+                logger.warning("getLastSource(): missing source");
 
                 return null;
             }
 
             if (src == NOREAD) {
-                log("getLastSource()", "missing read method");
+                logger.warning("getLastSource(): missing read method");
 
                 return NOREAD;
             }
@@ -290,7 +292,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
         src = getProperty(src, path.getLast());
 
         if (src == NOREAD) {
-            log("getValue()", "missing read method");
+            logger.severe("getValue(): missing read method");
             throw new UnsupportedOperationException("Unreadable");
         }
 
@@ -360,7 +362,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
         Object reader = getReader(src, path.getLast());
 
         if (reader == null) {
-            log("isReadable()", "missing read method");
+            logger.warning("isReadable(): missing read method");
 
             return false;
         }
@@ -395,7 +397,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
         Object writer = getWriter(src, path.getLast());
 
         if (writer == null) {
-            log("isWritable()", "missing write method");
+            logger.warning("isWritable(): missing write method");
 
             return false;
         }
@@ -406,14 +408,14 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
     private Object getBeanFromSource(S source) {
         if (baseProperty == null) {
             if (source == null) {
-                log("getBeanFromSource()", "source is null");
+                logger.warning("getBeanFromSource(): source is null");
             }
 
             return source;
         }
 
         if (!baseProperty.isReadable(source)) {
-            log("getBeanFromSource()", "unreadable source property");
+            logger.warning("getBeanFromSource(): unreadable source property");
 
             return NOREAD;
         }
@@ -421,7 +423,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
         Object bean = baseProperty.getValue(source);
 
         if (bean == null) {
-            log("getBeanFromSource()", "source property returned null");
+            logger.warning("getBeanFromSource(): source property returned null");
 
             return null;
         }
@@ -685,7 +687,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
 
         if ((pd == null) ||
                 (getPublicForm(object.getClass(), pd.getWriteMethod()) == null)) {
-            log("getType()", "missing write method");
+            logger.severe("getType(): missing write method");
             throw new UnsupportedOperationException("Unwritable");
         }
 
@@ -738,7 +740,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
         Object writer = getWriter(object, string);
 
         if (writer == null) {
-            log("setProperty()", "missing write method");
+            logger.severe("setProperty(): missing write method");
             throw new UnsupportedOperationException("Unwritable");
         }
 
@@ -786,11 +788,8 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
         EventSetDescriptor ed = getEventSetDescriptor(object);
         Method addPCMethod = null;
 
-        if ((ed == null) ||
-                ((addPCMethod = getPublicForm(object.getClass(),
-                        ed.getAddListenerMethod())) == null)) {
-            log("addPropertyChangeListener()", "can't add listener");
-
+        if ((ed == null) || ((addPCMethod = getPublicForm(object.getClass(), ed.getAddListenerMethod())) == null)) {
+            logger.warning("addPropertyChangeListener(): can't add listener");
             return;
         }
 
@@ -805,12 +804,8 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
         EventSetDescriptor ed = getEventSetDescriptor(object);
         Method removePCMethod = null;
 
-        if ((ed == null) ||
-                ((removePCMethod = getPublicForm(object.getClass(),
-                        ed.getRemoveListenerMethod())) == null)) {
-            log("removePropertyChangeListener()",
-                "can't remove listener from source");
-
+        if ((ed == null) || ((removePCMethod = getPublicForm(object.getClass(), ed.getRemoveListenerMethod())) == null)) {
+            logger.warning("removePropertyChangeListener()", "can't remove listener from source");
             return;
         }
 
@@ -850,12 +845,6 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
         adapter = BeanAdapterFactory.getAdapter(o, property);
 
         return (adapter == null) ? o : adapter;
-    }
-
-    private static void log(String method, String message) {
-        if (LOG) {
-            System.err.println("LOG: " + method + ": " + message);
-        }
     }
 
     private final class SourceEntry implements PropertyChangeListener,
@@ -948,7 +937,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
 
                     if (src == null) {
                         loggedYet = true;
-                        log("updateCachedSources()", "source is null");
+                        logger.warning("updateCachedSources(): source is null");
                     } else {
                         registerListener(src, path.get(0), this);
                     }
@@ -969,12 +958,12 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
                     if (src == null) {
                         if (!loggedYet) {
                             loggedYet = true;
-                            log("updateCachedSources()", "missing source");
+                            logger.warning("updateCachedSources(): missing source");
                         }
                     } else if (src == NOREAD) {
                         if (!loggedYet) {
                             loggedYet = true;
-                            log("updateCachedSources()", "missing read method");
+                            logger.warning("updateCachedSources(): missing read method");
                         }
                     } else {
                         registerListener(src, path.get(i), this);
@@ -1037,7 +1026,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
                 cachedWriter = getWriter(src, path.getLast());
 
                 if (cachedWriter == null) {
-                    log("updateCachedWriter()", "missing write method");
+                    logger.warning("updateCachedWriter(): missing write method");
                 }
             }
         }
@@ -1052,7 +1041,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
                         path.getLast());
 
                 if (cachedValue == NOREAD) {
-                    log("updateCachedValue()", "missing read method");
+                    logger.warning("updateCachedValue(): missing read method");
                 }
             }
         }

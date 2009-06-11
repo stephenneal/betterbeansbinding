@@ -24,7 +24,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: ELProperty.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ * $Id: ELProperty.java 62 2009-06-11 19:40:58Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
@@ -48,6 +48,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import java.util.*;
+import org.jdesktop.beansbinding.util.logging.Logger;
 
 
 /**
@@ -183,8 +184,9 @@ import java.util.*;
  * @author Scott Violet
  */
 public final class ELProperty<S, V> extends PropertyHelper<S, V> {
+    private static final String CLASS = ELProperty.class.getName();
+    private static final Logger logger = Logger.getLogger(CLASS);
     private static final Object NOREAD = new Object();
-    private static final boolean LOG = false;
     private Property<S, ?> baseProperty;
     private final ValueExpression expression;
     private final ELContext context = new TempELContext();
@@ -266,12 +268,12 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
             Expression.Result result = expression.getResult(context, false);
 
             if (result.getType() == Expression.Result.Type.UNRESOLVABLE) {
-                log("getWriteType()", "expression is unresolvable");
+                logger.warning("getWriteType(): expression is unresolvable");
                 throw new UnsupportedOperationException("Unwriteable");
             }
 
             if (expression.isReadOnly(context)) {
-                log("getWriteType()", "property is unwriteable");
+                logger.warning("getWriteType(): property is unwriteable");
                 throw new UnsupportedOperationException("Unwriteable");
             }
 
@@ -313,7 +315,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
             Expression.Result result = expression.getResult(context, false);
 
             if (result.getType() == Expression.Result.Type.UNRESOLVABLE) {
-                log("getValue()", "expression is unresolvable");
+                logger.warning("getValue(): expression is unresolvable");
                 throw new UnsupportedOperationException("Unreadable");
             }
 
@@ -374,12 +376,12 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
             Expression.Result result = expression.getResult(context, false);
 
             if (result.getType() == Expression.Result.Type.UNRESOLVABLE) {
-                log("setValue()", "expression is unresolvable");
+                logger.warning("setValue(): expression is unresolvable");
                 throw new UnsupportedOperationException("Unwriteable");
             }
 
             if (expression.isReadOnly(context)) {
-                log("setValue()", "property is unwriteable");
+                logger.warning("setValue(): property is unwriteable");
                 throw new UnsupportedOperationException("Unwriteable");
             }
 
@@ -417,7 +419,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
             Expression.Result result = expression.getResult(context, false);
 
             if (result.getType() == Expression.Result.Type.UNRESOLVABLE) {
-                log("isReadable()", "expression is unresolvable");
+                logger.warning("isReadable(): expression is unresolvable");
 
                 return false;
             }
@@ -456,13 +458,13 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
             Expression.Result result = expression.getResult(context, false);
 
             if (result.getType() == Expression.Result.Type.UNRESOLVABLE) {
-                log("isWriteable()", "expression is unresolvable");
+                logger.warning("isWriteable(): expression is unresolvable");
 
                 return false;
             }
 
             if (expression.isReadOnly(context)) {
-                log("isWriteable()", "property is unwriteable");
+                logger.warning("isWriteable(): property is unwriteable");
 
                 return false;
             }
@@ -479,10 +481,8 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
 
     private Object getBeanFromSource(S source, boolean logErrors) {
         if (baseProperty == null) {
-            if (source == null) {
-                if (logErrors) {
-                    log("getBeanFromSource()", "source is null");
-                }
+            if ((source == null) && logErrors) {
+                logger.severe("getBeanFromSource(): source is null");
             }
 
             return source;
@@ -490,7 +490,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
 
         if (!baseProperty.isReadable(source)) {
             if (logErrors) {
-                log("getBeanFromSource()", "unreadable source property");
+                logger.severe("getBeanFromSource(): unreadable source property");
             }
 
             return NOREAD;
@@ -500,9 +500,9 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
 
         if (bean == null) {
             if (logErrors) {
-                log("getBeanFromSource()", "source property returned null");
-            }
-
+                logger.severe("getBeanFromSource(): source property returned null");
+                }
+            
             return null;
         }
 
@@ -674,9 +674,8 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
         EventSetDescriptor ed = getEventSetDescriptor(object);
         Method addPCMethod = null;
 
-        if ((ed == null) ||
-                ((addPCMethod = ed.getAddListenerMethod()) == null)) {
-            log("addPropertyChangeListener()", "can't add listener");
+        if ((ed == null) || ((addPCMethod = ed.getAddListenerMethod()) == null)) {
+            logger.warning("addPropertyChangeListener(): can't add listener");
 
             return;
         }
@@ -692,10 +691,8 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
         EventSetDescriptor ed = getEventSetDescriptor(object);
         Method removePCMethod = null;
 
-        if ((ed == null) ||
-                ((removePCMethod = ed.getRemoveListenerMethod()) == null)) {
-            log("removePropertyChangeListener()",
-                "can't remove listener from source");
+        if ((ed == null) || ((removePCMethod = ed.getRemoveListenerMethod()) == null)) {
+            logger.warning("removePropertyChangeListener(): can't remove listener from source");
 
             return;
         }
@@ -736,12 +733,6 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
         adapter = BeanAdapterFactory.getAdapter(o, property);
 
         return (adapter == null) ? o : adapter;
-    }
-
-    private static void log(String method, String message) {
-        if (LOG) {
-            System.err.println("LOG: " + method + ": " + message);
-        }
     }
 
     private final class SourceEntry implements PropertyChangeListener,
@@ -801,7 +792,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
                 Expression.Result result = expression.getResult(context, true);
 
                 if (result.getType() == Expression.Result.Type.UNRESOLVABLE) {
-                    log("updateCache()", "expression is unresolvable");
+                    logger.warning("updateCache(): expression is unresolvable");
                     cachedValue = NOREAD;
                     cachedIsWriteable = false;
                     cachedWriteType = null;
