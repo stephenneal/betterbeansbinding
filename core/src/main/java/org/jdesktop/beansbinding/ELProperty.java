@@ -24,30 +24,34 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: ELProperty.java 62 2009-06-11 19:40:58Z fabriziogiudici $
+ * $Id: ELProperty.java 63 2009-06-11 19:48:05Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.beans.BeanInfo;
+import java.beans.EventSetDescriptor;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import static org.jdesktop.beansbinding.PropertyStateEvent.UNREADABLE;
 import org.jdesktop.beansbinding.ext.BeanAdapterFactory;
-
 import org.jdesktop.el.ELContext;
 import org.jdesktop.el.ELException;
 import org.jdesktop.el.Expression;
 import org.jdesktop.el.Expression.ResolvedProperty;
 import org.jdesktop.el.ValueExpression;
 import org.jdesktop.el.impl.ExpressionFactoryImpl;
-
 import org.jdesktop.observablecollections.ObservableMap;
 import org.jdesktop.observablecollections.ObservableMapListener;
-
-import java.beans.*;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import java.util.*;
 import org.jdesktop.beansbinding.util.logging.Logger;
 
 
@@ -182,6 +186,7 @@ import org.jdesktop.beansbinding.util.logging.Logger;
  *
  * @author Shannon Hickey
  * @author Scott Violet
+ * @author Fabrizio Giudici
  */
 public final class ELProperty<S, V> extends PropertyHelper<S, V> {
     private static final String CLASS = ELProperty.class.getName();
@@ -509,6 +514,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
         return bean;
     }
 
+    @Override
     protected final void listeningStarted(S source) {
         SourceEntry entry = map.get(source);
 
@@ -518,6 +524,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
         }
     }
 
+    @Override
     protected final void listeningStopped(S source) {
         SourceEntry entry = map.remove(source);
 
@@ -565,6 +572,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
      *
      * @return a string representation of this {@code ELProperty}
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[" + expression + "]";
     }
@@ -700,33 +708,33 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
         invokeMethod(removePCMethod, object, listener);
     }
 
-    private static boolean wrapsLiteral(Object o) {
-        assert o != null;
-
-        return o instanceof String || o instanceof Byte ||
-        o instanceof Character || o instanceof Boolean || o instanceof Short ||
-        o instanceof Integer || o instanceof Long || o instanceof Float ||
-        o instanceof Double;
-    }
+//    private static boolean wrapsLiteral(Object o) {
+//        assert o != null;
+//
+//        return o instanceof String || o instanceof Byte ||
+//        o instanceof Character || o instanceof Boolean || o instanceof Short ||
+//        o instanceof Integer || o instanceof Long || o instanceof Float ||
+//        o instanceof Double;
+//    }
 
     // need special match method because when using reflection
     // to get a primitive value, the value is always wrapped in
     // a new object
-    private static boolean match(Object a, Object b) {
-        if (a == b) {
-            return true;
-        }
-
-        if (a == null) {
-            return false;
-        }
-
-        if (wrapsLiteral(a)) {
-            return a.equals(b);
-        }
-
-        return false;
-    }
+//    private static boolean match(Object a, Object b) {
+//        if (a == b) {
+//            return true;
+//        }
+//
+//        if (a == null) {
+//            return false;
+//        }
+//
+//        if (wrapsLiteral(a)) {
+//            return a.equals(b);
+//        }
+//
+//        return false;
+//    }
 
     private Object getAdapter(Object o, String property) {
         Object adapter = null;
@@ -959,6 +967,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
             return property;
         }
 
+        @Override
         public boolean equals(Object obj) {
             if (obj == this) {
                 return true;
@@ -973,6 +982,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
             return false;
         }
 
+        @Override
         public int hashCode() {
             int result = 17;
             result = (37 * result) + source.hashCode();
@@ -984,6 +994,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V> {
             return result;
         }
 
+        @Override
         public String toString() {
             return "RegisteredListener [" + " source=" + source + " property=" +
             property + "]";

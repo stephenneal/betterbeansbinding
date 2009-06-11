@@ -24,7 +24,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: BeanProperty.java 62 2009-06-11 19:40:58Z fabriziogiudici $
+ * $Id: BeanProperty.java 63 2009-06-11 19:48:05Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 
@@ -44,20 +44,24 @@
  */
 package org.jdesktop.beansbinding;
 
-import static org.jdesktop.beansbinding.PropertyStateEvent.UNREADABLE;
-import org.jdesktop.beansbinding.ext.BeanAdapterFactory;
-
-import org.jdesktop.observablecollections.ObservableMap;
-import org.jdesktop.observablecollections.ObservableMapListener;
-
-import java.beans.*;
-
+import java.util.IdentityHashMap;
+import java.util.Map;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-
-import java.util.*;
+import java.beans.BeanInfo;
+import java.beans.EventSetDescriptor;
+import java.beans.IndexedPropertyDescriptor;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyDescriptor;
+import static org.jdesktop.beansbinding.PropertyStateEvent.UNREADABLE;
 import org.jdesktop.beansbinding.util.logging.Logger;
+import org.jdesktop.beansbinding.ext.BeanAdapterFactory;
+import org.jdesktop.observablecollections.ObservableMap;
+import org.jdesktop.observablecollections.ObservableMapListener;
 
 
 /**
@@ -164,6 +168,7 @@ import org.jdesktop.beansbinding.util.logging.Logger;
  *
  * @author Shannon Hickey
  * @author Scott Violet
+ * @author Fabrizio Giudici
  */
 public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
     private static final String CLASS = ELProperty.class.getName();
@@ -431,6 +436,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
         return bean;
     }
 
+    @Override
     protected final void listeningStarted(S source) {
         SourceEntry entry = map.get(source);
 
@@ -440,6 +446,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
         }
     }
 
+    @Override
     protected final void listeningStopped(S source) {
         SourceEntry entry = map.remove(source);
 
@@ -487,6 +494,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V> {
      *
      * @return a string representation of this {@code BeanProperty}
      */
+    @Override
     public String toString() {
         return getClass().getName() + "[" + path + "]";
     }

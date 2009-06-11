@@ -24,13 +24,14 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: PropertyHelper.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ * $Id: PropertyHelper.java 63 2009-06-11 19:48:05Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
 
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
+import java.util.List;
 
 /**
  * An abstract subclass of {@code Property} that helps with the management of
