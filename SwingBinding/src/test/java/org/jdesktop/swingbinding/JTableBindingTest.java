@@ -24,7 +24,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: JTableBindingTest.java 79 2009-06-12 20:55:18Z fabriziogiudici $
+ * $Id: JTableBindingTest.java 80 2009-06-12 21:29:12Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding;
@@ -66,7 +66,7 @@ public class JTableBindingTest {
     }
 
     @Test
-    public void hello() throws InterruptedException {
+    public void testSetRendererSetEditor() throws InterruptedException {
         final List<MockBean> beans = new ArrayList<MockBean>();
         beans.add(new MockBean(1, 11.1, "First row"));
         beans.add(new MockBean(2, 22.2, "Second row"));
@@ -107,14 +107,14 @@ public class JTableBindingTest {
         assertNull(columnModel.getColumn(1).getCellEditor());
         assertNull(columnModel.getColumn(2).getCellEditor());
 
-        final JFrame frame = new JFrame("Test");
-        final Container contentPane = frame.getContentPane();
-        contentPane.setLayout(new BorderLayout());
-        contentPane.add(new JScrollPane(table), BorderLayout.CENTER);
-        contentPane.add(new JLabel("Test"), BorderLayout.NORTH);
-        frame.setSize(680, 480);
-        frame.setVisible(true);
-
-        Thread.sleep(60000);
+//        final JFrame frame = new JFrame("Test");
+//        final Container contentPane = frame.getContentPane();
+//        contentPane.setLayout(new BorderLayout());
+//        contentPane.add(new JScrollPane(table), BorderLayout.CENTER);
+//        contentPane.add(new JLabel("Test"), BorderLayout.NORTH);
+//        frame.setSize(680, 480);
+//        frame.setVisible(true);
+//
+//        Thread.sleep(60000);
     }
 }
