@@ -24,11 +24,14 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: AutoBinding.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ * $Id: AutoBinding.java 75 2009-06-12 19:53:46Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import org.jdesktop.beansbinding.util.Parameters;
 
 /**
  * An implementation of {@code Binding} that automatically syncs the source
@@ -120,6 +123,7 @@ package org.jdesktop.beansbinding;
  * @param <TV> the type of value that the target property represents
  *
  * @author Shannon Hickey
+ * @author Fabrizio Giudici
  */
 public class AutoBinding<SS, SV, TS, TV> extends Binding<SS, SV, TS, TV> {
     private UpdateStrategy strategy;
@@ -136,15 +140,15 @@ public class AutoBinding<SS, SV, TS, TV> extends Binding<SS, SV, TS, TV> {
      * @param name a name for the {@code Binding}
      * @throws IllegalArgumentException if the source property or target property is {@code null}
      */
-    protected AutoBinding(UpdateStrategy strategy, SS sourceObject,
-        Property<SS, SV> sourceProperty, TS targetObject,
-        Property<TS, TV> targetProperty, String name) {
+    protected AutoBinding (final @Nonnull UpdateStrategy strategy,
+                           final @Nonnull SS sourceObject,
+                           final @Nonnull Property<SS, SV> sourceProperty,
+                           final @Nonnull TS targetObject,
+                           final @Nonnull Property<TS, TV> targetProperty,
+                           final @CheckForNull String name) {
         super(sourceObject, sourceProperty, targetObject, targetProperty, name);
 
-        if (strategy == null) {
-            throw new IllegalArgumentException("must provide update strategy");
-        }
-
+        Parameters.checkNotNull(strategy, "strategy");
         this.strategy = strategy;
     }
 
