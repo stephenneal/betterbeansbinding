@@ -24,29 +24,31 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: JTableBinding.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ * $Id: JTableBinding.java 67 2009-06-12 14:43:40Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import org.jdesktop.beansbinding.AutoBinding;
-import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.*;
-import org.jdesktop.beansbinding.Binding.*;
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ;
+import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE;
+import org.jdesktop.beansbinding.Binding.SyncFailure;
 import org.jdesktop.beansbinding.BindingListener;
 import org.jdesktop.beansbinding.Property;
 import org.jdesktop.beansbinding.PropertyStateEvent;
 import org.jdesktop.beansbinding.PropertyStateListener;
-
 import org.jdesktop.swingbinding.impl.AbstractColumnBinding;
 import org.jdesktop.swingbinding.impl.ListBindingManager;
-
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
-
 
 /**
  * Binds a {@code List} of objects to act as the rows of a {@code JTable}.
@@ -232,7 +234,8 @@ import javax.swing.table.*;
  * @author Shannon Hickey
  */
 public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, List> {
-    private Property<TS, ?extends JTable> tableP;
+
+    private Property<TS, ? extends JTable> tableP;
     private ElementsProperty<TS> elementsP;
     private Handler handler = new Handler();
     private JTable table;
@@ -252,20 +255,21 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
      * @throws IllegalArgumentException if the source property or target property is {@code null}
      */
     protected JTableBinding(UpdateStrategy strategy, SS sourceObject,
-        Property<SS, List<E>> sourceListProperty, TS targetObject,
-        Property<TS, ?extends JTable> targetJTableProperty, String name) {
+            Property<SS, List<E>> sourceListProperty, TS targetObject,
+            Property<TS, ? extends JTable> targetJTableProperty, String name) {
         super((strategy == READ_WRITE) ? READ : strategy, sourceObject,
-            sourceListProperty, targetObject, new ElementsProperty<TS>(), name);
+                sourceListProperty, targetObject, new ElementsProperty<TS>(), name);
 
         if (targetJTableProperty == null) {
             throw new IllegalArgumentException(
-                "target JTable property can't be null");
+                    "target JTable property can't be null");
         }
 
         tableP = targetJTableProperty;
         elementsP = (ElementsProperty<TS>) getTargetProperty();
     }
 
+    @Override
     protected void bindImpl() {
         elementsP.setAccessible(isTableAccessible());
         tableP.addPropertyStateListener(getTargetObject(), handler);
@@ -273,6 +277,7 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
         super.bindImpl();
     }
 
+    @Override
     protected void unbindImpl() {
         elementsP.removePropertyStateListener(null, handler);
         tableP.removePropertyStateListener(getTargetObject(), handler);
@@ -283,7 +288,7 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
 
     private boolean isTableAccessible() {
         return tableP.isReadable(getTargetObject()) &&
-        (tableP.getValue(getTargetObject()) != null);
+                (tableP.getValue(getTargetObject()) != null);
     }
 
     private boolean isTableAccessible(Object value) {
@@ -359,12 +364,12 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
      * @see org.jdesktop.swingbinding.JTableBinding.ColumnBinding
      */
     public ColumnBinding addColumnBinding(Property<E, ?> columnProperty,
-        String name) {
+            String name) {
         throwIfBound();
 
         if (columnProperty == null) {
             throw new IllegalArgumentException(
-                "can't have null column property");
+                    "can't have null column property");
         }
 
         if ((name == null) && (JTableBinding.this.getName() != null)) {
@@ -394,7 +399,7 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
      * @see org.jdesktop.swingbinding.JTableBinding.ColumnBinding
      */
     public ColumnBinding addColumnBinding(int index,
-        Property<E, ?> columnProperty) {
+            Property<E, ?> columnProperty) {
         return addColumnBinding(index, columnProperty, null);
     }
 
@@ -415,12 +420,12 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
      * @see org.jdesktop.swingbinding.JTableBinding.ColumnBinding
      */
     public ColumnBinding addColumnBinding(int index,
-        Property<E, ?> columnProperty, String name) {
+            Property<E, ?> columnProperty, String name) {
         throwIfBound();
 
         if (columnProperty == null) {
             throw new IllegalArgumentException(
-                "can't have null column property");
+                    "can't have null column property");
         }
 
         if ((name == null) && (JTableBinding.this.getName() != null)) {
@@ -521,11 +526,12 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
     }
 
     private final class ColumnProperty extends Property {
+
         private ColumnBinding binding;
 
-        public Class<?extends Object> getWriteType(Object source) {
+        public Class<? extends Object> getWriteType(Object source) {
             return (binding.columnClass == null) ? Object.class
-                                                 : binding.columnClass;
+                    : binding.columnClass;
         }
 
         public Object getValue(Object source) {
@@ -549,11 +555,11 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
         }
 
         public void addPropertyStateListener(Object source,
-            PropertyStateListener listener) {
+                PropertyStateListener listener) {
         }
 
         public void removePropertyStateListener(Object source,
-            PropertyStateListener listener) {
+                PropertyStateListener listener) {
         }
 
         public PropertyStateListener[] getPropertyStateListeners(Object source) {
@@ -585,6 +591,7 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
      * @see org.jdesktop.swingbinding.JTableBinding#addColumnBinding(Property, String)
      */
     public final class ColumnBinding extends AbstractColumnBinding {
+
         private Class<?> columnClass;
         private boolean editable = true;
         private boolean editableSet;
@@ -592,7 +599,7 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
         private Object editingObject;
 
         private ColumnBinding(int column, Property<E, ?> columnProperty,
-            String name) {
+                String name) {
             super(column, columnProperty, new ColumnProperty(), name);
             ((ColumnProperty) getTargetProperty()).binding = this;
         }
@@ -662,7 +669,7 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
          */
         public String getColumnName() {
             return (columnName == null) ? getSourceProperty().toString()
-                                        : columnName;
+                    : columnName;
         }
 
         /**
@@ -710,6 +717,7 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
     }
 
     private class Handler implements PropertyStateListener {
+
         public void propertyStateChanged(PropertyStateEvent pse) {
             if (!pse.getValueChanged()) {
                 return;
@@ -743,7 +751,8 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
     }
 
     private final class BindingTableModel extends ListBindingManager
-        implements TableModel {
+            implements TableModel {
+
         private final List<TableModelListener> listeners;
 
         public BindingTableModel() {
@@ -751,8 +760,7 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
         }
 
         protected AbstractColumnBinding[] getColBindings() {
-            AbstractColumnBinding[] bindings = new AbstractColumnBinding[getColumnBindings()
-                                                                             .size()];
+            AbstractColumnBinding[] bindings = new AbstractColumnBinding[getColumnBindings().size()];
             bindings = getColumnBindings().toArray(bindings);
 
             return bindings;
@@ -823,8 +831,7 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
         }
 
         public Class<?> getColumnClass(int columnIndex) {
-            Class<?> klass = JTableBinding.this.getColumnBinding(columnIndex)
-                                               .getColumnClass();
+            Class<?> klass = JTableBinding.this.getColumnBinding(columnIndex).getColumnClass();
 
             return (klass == null) ? Object.class : klass;
         }
@@ -862,7 +869,7 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
             ColumnBinding binding = JTableBinding.this.getColumnBinding(columnIndex);
 
             return (binding.getColumnName() == null)
-            ? binding.getSourceProperty().toString() : binding.getColumnName();
+                    ? binding.getSourceProperty().toString() : binding.getColumnName();
         }
 
         public boolean isCellEditable(int rowIndex, int columnIndex) {
