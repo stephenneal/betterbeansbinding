@@ -24,25 +24,21 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: Logger.java 62 2009-06-11 19:40:58Z fabriziogiudici $
+ * $Id: Logger.java 65 2009-06-12 06:45:27Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding.util.logging;
 
-//import javax.annotation.Nonnull; FIXME
+import javax.annotation.Nonnull; 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 
-@interface Nonnull // FIXME
-{
-}
-
 /***********************************************************************************************************************
  *
  * @author  Fabrizio Giudici
- * @version $Id: Logger.java 62 2009-06-11 19:40:58Z fabriziogiudici $
+ * @version $Id: Logger.java 65 2009-06-12 06:45:27Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 public class Logger
