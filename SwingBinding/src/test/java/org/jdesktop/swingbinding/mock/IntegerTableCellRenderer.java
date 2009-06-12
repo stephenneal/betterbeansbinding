@@ -24,7 +24,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: IntegerTableCellRenderer.java 76 2009-06-12 20:04:37Z fabriziogiudici $
+ * $Id: IntegerTableCellRenderer.java 77 2009-06-12 20:05:21Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding.mock;
@@ -44,8 +44,7 @@ public class IntegerTableCellRenderer extends DefaultTableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         final JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        label.setText("CULO");
-//        label.setText(String.format("%04d", (Integer) value));
+        label.setText(String.format("%04d", (Integer) value));
         return label;
     }
 }
