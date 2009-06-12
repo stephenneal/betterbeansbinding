@@ -24,11 +24,13 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: JTableBinding.java 68 2009-06-12 14:55:37Z fabriziogiudici $
+ * $Id: JTableBinding.java 79 2009-06-12 20:55:18Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +39,10 @@ import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -47,6 +53,7 @@ import org.jdesktop.beansbinding.BindingListener;
 import org.jdesktop.beansbinding.Property;
 import org.jdesktop.beansbinding.PropertyStateEvent;
 import org.jdesktop.beansbinding.PropertyStateListener;
+import org.jdesktop.beansbinding.util.Parameters;
 import org.jdesktop.swingbinding.impl.AbstractColumnBinding;
 import org.jdesktop.swingbinding.impl.ListBindingManager;
 
@@ -233,6 +240,7 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  * @param <TS> the type of target object (on which the target property resolves to {@code JTable})
  *
  * @author Shannon Hickey
+ * @author Fabrizio Giudici
  *
  **********************************************************************************************************************/
 public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, List> {
@@ -256,17 +264,17 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
      * @param name a name for the {@code JTableBinding}
      * @throws IllegalArgumentException if the source property or target property is {@code null}
      */
-    protected JTableBinding(UpdateStrategy strategy, SS sourceObject,
-            Property<SS, List<E>> sourceListProperty, TS targetObject,
-            Property<TS, ? extends JTable> targetJTableProperty, String name) {
+    protected JTableBinding (final @Nonnull UpdateStrategy strategy,
+                             final @Nonnull SS sourceObject,
+                             final @Nonnull Property<SS, List<E>> sourceListProperty,
+                             final @Nonnull TS targetObject,
+                             final @Nonnull Property<TS, ? extends JTable> targetJTableProperty,
+                             final @CheckForNull String name) {
         super((strategy == READ_WRITE) ? READ : strategy, sourceObject,
                 sourceListProperty, targetObject, new ElementsProperty<TS>(), name);
 
-        if (targetJTableProperty == null) {
-            throw new IllegalArgumentException(
-                    "target JTable property can't be null");
-        }
-
+        Parameters.checkNotNull(targetJTableProperty, "targetJTableProperty");
+        
         tableP = targetJTableProperty;
         elementsP = (ElementsProperty<TS>) getTargetProperty();
     }
@@ -606,6 +614,10 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
         private String columnName;
         private Object editingObject;
 
+        // These attributes are just stored here, and applied later when the table is created
+        private @CheckForNull TableCellRenderer renderer;
+        private @CheckForNull TableCellEditor editor;
+
         private ColumnBinding(int column, Property<E, ?> columnProperty,
                 String name) {
             super(column, columnProperty, new ColumnProperty(), name);
@@ -707,6 +719,54 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
             return editable;
         }
 
+        /***************************************************************************************************************
+         *
+         * Sets the {@link TableCellRenderer} for this column.
+         *
+         * @param   cellRenderer   the rendered
+         * @return               this object (for fluent interface programming)
+         *
+         **************************************************************************************************************/
+        public @Nonnull ColumnBinding setRenderer (@CheckForNull TableCellRenderer renderer) {
+            this.renderer = renderer;
+            return this;
+        }
+
+        /***************************************************************************************************************
+         *
+         * Returns the {@link TableCellRenderer} of this column
+         *
+         * @return  the renderer
+         *
+         **************************************************************************************************************/
+        public @CheckForNull TableCellRenderer getRenderer() {
+            return renderer;
+        }
+
+        /***************************************************************************************************************
+         *
+         * Sets the {@link TableCellEditor} for this column.
+         *
+         * @param   cellEditor   the editor
+         * @return               this object (for fluent interface programming)
+         *
+         **************************************************************************************************************/
+        public @Nonnull ColumnBinding setEditor (@CheckForNull TableCellEditor editor) {
+            this.editor = editor;
+            return this;
+        }
+
+        /***************************************************************************************************************
+         *
+         * Returns the {@link TableCellEditor} of this column
+         *
+         * @return  the editor
+         *
+         **************************************************************************************************************/
+        public @CheckForNull TableCellEditor getEditor() {
+            return editor;
+        }
+
         private void bindUnmanaged0() {
             bindUnmanaged();
         }
@@ -755,6 +815,15 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
                     table = tableP.getValue(getTargetObject());
                     model = new BindingTableModel();
                     table.setModel(model);
+                    
+                    final TableColumnModel columnModel = table.getColumnModel();
+
+                    for (int i = 0; i < columnModel.getColumnCount(); i++) {
+                        final TableColumn column = columnModel.getColumn(i);
+                        final ColumnBinding columnBinding = JTableBinding.this.getColumnBinding(i);
+                        column.setCellRenderer(columnBinding.getRenderer());
+                        column.setCellEditor(columnBinding.getEditor());
+                    }
                 }
 
                 model.setElements((List) pse.getNewValue(), true);
