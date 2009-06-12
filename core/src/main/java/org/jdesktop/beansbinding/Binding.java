@@ -24,16 +24,18 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: Binding.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ * $Id: Binding.java 74 2009-06-12 19:52:10Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
 
-import java.beans.*;
-
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.jdesktop.beansbinding.util.Parameters;
 
 /**
  * {@code Binding} is an abstract class that represents the concept of a
@@ -90,8 +92,16 @@ public abstract class Binding<SS, SV, TS, TV> {
      * @param name a name for the {@code Binding}
      * @throws IllegalArgumentException if the source property or target property is {@code null}
      */
-    protected Binding(SS sourceObject, Property<SS, SV> sourceProperty,
-        TS targetObject, Property<TS, TV> targetProperty, String name) {
+    protected Binding (final @Nonnull SS sourceObject,
+                       final @Nonnull Property<SS, SV> sourceProperty,
+                       final @Nonnull TS targetObject,
+                       final @Nonnull Property<TS, TV> targetProperty,
+                       final @CheckForNull String name) {
+//        Parameters.checkNotNull(sourceObject, "sourceObject"); FIXME: Can be null?
+        Parameters.checkNotNull(sourceProperty, "sourceProperty");
+//        Parameters.checkNotNull(targetObject, "targetObject"); FIXME: Can be null?
+        Parameters.checkNotNull(targetProperty, "targetProperty");
+
         setSourceProperty(sourceProperty);
         setTargetProperty(targetProperty);
 
