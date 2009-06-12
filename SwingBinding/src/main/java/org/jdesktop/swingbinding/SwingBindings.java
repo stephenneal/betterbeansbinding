@@ -24,19 +24,19 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: SwingBindings.java 60 2009-04-26 20:47:20Z fabriziogiudici $
+ * $Id: SwingBindings.java 73 2009-06-12 19:50:33Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+import javax.swing.JComboBox;
+import javax.swing.JList;
+import javax.swing.JTable;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.ObjectProperty;
 import org.jdesktop.beansbinding.Property;
-
-import java.util.*;
-
-import javax.swing.*;
-
 
 /**
  * A factory class for creating instances of the custom Swing {@code Binding}
@@ -45,8 +45,10 @@ import javax.swing.*;
  * binding to Swing components.
  *
  * @author Shannon Hickey
+ * @author Fabrizio Giudici
  */
 public class SwingBindings {
+
     private SwingBindings() {
     }
 
@@ -59,11 +61,11 @@ public class SwingBindings {
      * @return the {@code JTableBinding}
      */
     public static <E> JListBinding<E, List<E>, JList> createJListBinding(
-        AutoBinding.UpdateStrategy strategy, List<E> sourceList,
-        JList targetJList) {
+            AutoBinding.UpdateStrategy strategy, List<E> sourceList,
+            JList targetJList) {
         return new JListBinding<E, List<E>, JList>(strategy, sourceList,
-            ObjectProperty.<List<E>>create(), targetJList,
-            ObjectProperty.<JList>create(), null);
+                ObjectProperty.<List<E>>create(), targetJList,
+                ObjectProperty.<JList>create(), null);
     }
 
     /**
@@ -75,11 +77,11 @@ public class SwingBindings {
      * @return the {@code JListBinding}
      */
     public static <E> JListBinding<E, List<E>, JList> createJListBinding(
-        AutoBinding.UpdateStrategy strategy, List<E> sourceList,
-        JList targetJList, String name) {
+            AutoBinding.UpdateStrategy strategy, List<E> sourceList,
+            JList targetJList, String name) {
         return new JListBinding<E, List<E>, JList>(strategy, sourceList,
-            ObjectProperty.<List<E>>create(), targetJList,
-            ObjectProperty.<JList>create(), name);
+                ObjectProperty.<List<E>>create(), targetJList,
+                ObjectProperty.<JList>create(), name);
     }
 
     /**
@@ -93,11 +95,11 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code sourceListProperty} is {@code null}
      */
     public static <E, SS> JListBinding<E, SS, JList> createJListBinding(
-        AutoBinding.UpdateStrategy strategy, SS sourceObject,
-        Property<SS, List<E>> sourceListProperty, JList targetJList) {
+            AutoBinding.UpdateStrategy strategy, SS sourceObject,
+            Property<SS, List<E>> sourceListProperty, JList targetJList) {
         return new JListBinding<E, SS, JList>(strategy, sourceObject,
-            sourceListProperty, targetJList, ObjectProperty.<JList>create(),
-            null);
+                sourceListProperty, targetJList, ObjectProperty.<JList>create(),
+                null);
     }
 
     /**
@@ -111,11 +113,11 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code sourceListProperty} is {@code null}
      */
     public static <E, SS> JListBinding<E, SS, JList> createJListBinding(
-        AutoBinding.UpdateStrategy strategy, SS sourceObject,
-        Property<SS, List<E>> sourceListProperty, JList targetJList, String name) {
+            AutoBinding.UpdateStrategy strategy, SS sourceObject,
+            Property<SS, List<E>> sourceListProperty, JList targetJList, String name) {
         return new JListBinding<E, SS, JList>(strategy, sourceObject,
-            sourceListProperty, targetJList, ObjectProperty.<JList>create(),
-            name);
+                sourceListProperty, targetJList, ObjectProperty.<JList>create(),
+                name);
     }
 
     /**
@@ -129,11 +131,11 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code targetJListProperty} is {@code null}
      */
     public static <E, TS> JListBinding<E, List<E>, TS> createJListBinding(
-        AutoBinding.UpdateStrategy strategy, List<E> sourceList,
-        TS targetObject, Property<TS, ?extends JList> targetJListProperty) {
+            AutoBinding.UpdateStrategy strategy, List<E> sourceList,
+            TS targetObject, Property<TS, ? extends JList> targetJListProperty) {
         return new JListBinding<E, List<E>, TS>(strategy, sourceList,
-            ObjectProperty.<List<E>>create(), targetObject,
-            targetJListProperty, null);
+                ObjectProperty.<List<E>>create(), targetObject,
+                targetJListProperty, null);
     }
 
     /**
@@ -147,12 +149,12 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code targetJListProperty} is {@code null}
      */
     public static <E, TS> JListBinding<E, List<E>, TS> createJListBinding(
-        AutoBinding.UpdateStrategy strategy, List<E> sourceList,
-        TS targetObject, Property<TS, ?extends JList> targetJListProperty,
-        String name) {
+            AutoBinding.UpdateStrategy strategy, List<E> sourceList,
+            TS targetObject, Property<TS, ? extends JList> targetJListProperty,
+            String name) {
         return new JListBinding<E, List<E>, TS>(strategy, sourceList,
-            ObjectProperty.<List<E>>create(), targetObject,
-            targetJListProperty, name);
+                ObjectProperty.<List<E>>create(), targetObject,
+                targetJListProperty, name);
     }
 
     /**
@@ -167,11 +169,11 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code sourceListProperty} or {@code targetJListProperty} is {@code null}
      */
     public static <E, SS, TS> JListBinding<E, SS, TS> createJListBinding(
-        AutoBinding.UpdateStrategy strategy, SS sourceObject,
-        Property<SS, List<E>> sourceListProperty, TS targetObject,
-        Property<TS, ?extends JList> targetJListProperty) {
+            AutoBinding.UpdateStrategy strategy, SS sourceObject,
+            Property<SS, List<E>> sourceListProperty, TS targetObject,
+            Property<TS, ? extends JList> targetJListProperty) {
         return new JListBinding<E, SS, TS>(strategy, sourceObject,
-            sourceListProperty, targetObject, targetJListProperty, null);
+                sourceListProperty, targetObject, targetJListProperty, null);
     }
 
     /**
@@ -186,11 +188,11 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code sourceListProperty} or {@code targetJListProperty} is {@code null}
      */
     public static <E, SS, TS> JListBinding<E, SS, TS> createJListBinding(
-        AutoBinding.UpdateStrategy strategy, SS sourceObject,
-        Property<SS, List<E>> sourceListProperty, TS targetObject,
-        Property<TS, ?extends JList> targetJListProperty, String name) {
+            AutoBinding.UpdateStrategy strategy, SS sourceObject,
+            Property<SS, List<E>> sourceListProperty, TS targetObject,
+            Property<TS, ? extends JList> targetJListProperty, String name) {
         return new JListBinding<E, SS, TS>(strategy, sourceObject,
-            sourceListProperty, targetObject, targetJListProperty, name);
+                sourceListProperty, targetObject, targetJListProperty, name);
     }
 
     /**
@@ -202,11 +204,12 @@ public class SwingBindings {
      * @return the {@code JTableBinding}
      */
     public static <E> JTableBinding<E, List<E>, JTable> createJTableBinding(
-        AutoBinding.UpdateStrategy strategy, List<E> sourceList,
-        JTable targetJTable) {
+            @Nonnull AutoBinding.UpdateStrategy strategy,
+            @Nonnull List<E> sourceList,
+            @Nonnull JTable targetJTable) {
         return new JTableBinding<E, List<E>, JTable>(strategy, sourceList,
-            ObjectProperty.<List<E>>create(), targetJTable,
-            ObjectProperty.<JTable>create(), null);
+                ObjectProperty.<List<E>>create(), targetJTable,
+                ObjectProperty.<JTable>create(), null);
     }
 
     /**
@@ -218,11 +221,11 @@ public class SwingBindings {
      * @return the {@code JTableBinding}
      */
     public static <E> JTableBinding<E, List<E>, JTable> createJTableBinding(
-        AutoBinding.UpdateStrategy strategy, List<E> sourceList,
-        JTable targetJTable, String name) {
+            AutoBinding.UpdateStrategy strategy, List<E> sourceList,
+            JTable targetJTable, String name) {
         return new JTableBinding<E, List<E>, JTable>(strategy, sourceList,
-            ObjectProperty.<List<E>>create(), targetJTable,
-            ObjectProperty.<JTable>create(), name);
+                ObjectProperty.<List<E>>create(), targetJTable,
+                ObjectProperty.<JTable>create(), name);
     }
 
     /**
@@ -236,11 +239,11 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code sourceListProperty} is {@code null}
      */
     public static <E, SS> JTableBinding<E, SS, JTable> createJTableBinding(
-        AutoBinding.UpdateStrategy strategy, SS sourceObject,
-        Property<SS, List<E>> sourceListProperty, JTable targetJTable) {
+            AutoBinding.UpdateStrategy strategy, SS sourceObject,
+            Property<SS, List<E>> sourceListProperty, JTable targetJTable) {
         return new JTableBinding<E, SS, JTable>(strategy, sourceObject,
-            sourceListProperty, targetJTable, ObjectProperty.<JTable>create(),
-            null);
+                sourceListProperty, targetJTable, ObjectProperty.<JTable>create(),
+                null);
     }
 
     /**
@@ -254,12 +257,12 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code sourceListProperty} is {@code null}
      */
     public static <E, SS> JTableBinding<E, SS, JTable> createJTableBinding(
-        AutoBinding.UpdateStrategy strategy, SS sourceObject,
-        Property<SS, List<E>> sourceListProperty, JTable targetJTable,
-        String name) {
+            AutoBinding.UpdateStrategy strategy, SS sourceObject,
+            Property<SS, List<E>> sourceListProperty, JTable targetJTable,
+            String name) {
         return new JTableBinding<E, SS, JTable>(strategy, sourceObject,
-            sourceListProperty, targetJTable, ObjectProperty.<JTable>create(),
-            name);
+                sourceListProperty, targetJTable, ObjectProperty.<JTable>create(),
+                name);
     }
 
     /**
@@ -273,11 +276,11 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code targetJTableProperty} is {@code null}
      */
     public static <E, TS> JTableBinding<E, List<E>, TS> createJTableBinding(
-        AutoBinding.UpdateStrategy strategy, List<E> sourceList,
-        TS targetObject, Property<TS, ?extends JTable> targetJTableProperty) {
+            AutoBinding.UpdateStrategy strategy, List<E> sourceList,
+            TS targetObject, Property<TS, ? extends JTable> targetJTableProperty) {
         return new JTableBinding<E, List<E>, TS>(strategy, sourceList,
-            ObjectProperty.<List<E>>create(), targetObject,
-            targetJTableProperty, null);
+                ObjectProperty.<List<E>>create(), targetObject,
+                targetJTableProperty, null);
     }
 
     /**
@@ -291,12 +294,12 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code targetJTableProperty} is {@code null}
      */
     public static <E, TS> JTableBinding<E, List<E>, TS> createJTableBinding(
-        AutoBinding.UpdateStrategy strategy, List<E> sourceList,
-        TS targetObject, Property<TS, ?extends JTable> targetJTableProperty,
-        String name) {
+            AutoBinding.UpdateStrategy strategy, List<E> sourceList,
+            TS targetObject, Property<TS, ? extends JTable> targetJTableProperty,
+            String name) {
         return new JTableBinding<E, List<E>, TS>(strategy, sourceList,
-            ObjectProperty.<List<E>>create(), targetObject,
-            targetJTableProperty, name);
+                ObjectProperty.<List<E>>create(), targetObject,
+                targetJTableProperty, name);
     }
 
     /**
@@ -311,11 +314,11 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code sourceListProperty} or {@code targetJTableProperty} is {@code null}
      */
     public static <E, SS, TS> JTableBinding<E, SS, TS> createJTableBinding(
-        AutoBinding.UpdateStrategy strategy, SS sourceObject,
-        Property<SS, List<E>> sourceListProperty, TS targetObject,
-        Property<TS, ?extends JTable> targetJTableProperty) {
+            AutoBinding.UpdateStrategy strategy, SS sourceObject,
+            Property<SS, List<E>> sourceListProperty, TS targetObject,
+            Property<TS, ? extends JTable> targetJTableProperty) {
         return new JTableBinding<E, SS, TS>(strategy, sourceObject,
-            sourceListProperty, targetObject, targetJTableProperty, null);
+                sourceListProperty, targetObject, targetJTableProperty, null);
     }
 
     /**
@@ -330,11 +333,11 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code sourceListProperty} or {@code targetJTableProperty} is {@code null}
      */
     public static <E, SS, TS> JTableBinding<E, SS, TS> createJTableBinding(
-        AutoBinding.UpdateStrategy strategy, SS sourceObject,
-        Property<SS, List<E>> sourceListProperty, TS targetObject,
-        Property<TS, ?extends JTable> targetJTableProperty, String name) {
+            AutoBinding.UpdateStrategy strategy, SS sourceObject,
+            Property<SS, List<E>> sourceListProperty, TS targetObject,
+            Property<TS, ? extends JTable> targetJTableProperty, String name) {
         return new JTableBinding<E, SS, TS>(strategy, sourceObject,
-            sourceListProperty, targetObject, targetJTableProperty, name);
+                sourceListProperty, targetObject, targetJTableProperty, name);
     }
 
     /**
@@ -346,11 +349,11 @@ public class SwingBindings {
      * @return the {@code JComboBoxBinding}
      */
     public static <E> JComboBoxBinding<E, List<E>, JComboBox> createJComboBoxBinding(
-        AutoBinding.UpdateStrategy strategy, List<E> sourceList,
-        JComboBox targetJComboBox) {
+            AutoBinding.UpdateStrategy strategy, List<E> sourceList,
+            JComboBox targetJComboBox) {
         return new JComboBoxBinding<E, List<E>, JComboBox>(strategy,
-            sourceList, ObjectProperty.<List<E>>create(), targetJComboBox,
-            ObjectProperty.<JComboBox>create(), null);
+                sourceList, ObjectProperty.<List<E>>create(), targetJComboBox,
+                ObjectProperty.<JComboBox>create(), null);
     }
 
     /**
@@ -362,11 +365,11 @@ public class SwingBindings {
      * @return the {@code JComboBoxBinding}
      */
     public static <E> JComboBoxBinding<E, List<E>, JComboBox> createJComboBoxBinding(
-        AutoBinding.UpdateStrategy strategy, List<E> sourceList,
-        JComboBox targetJComboBox, String name) {
+            AutoBinding.UpdateStrategy strategy, List<E> sourceList,
+            JComboBox targetJComboBox, String name) {
         return new JComboBoxBinding<E, List<E>, JComboBox>(strategy,
-            sourceList, ObjectProperty.<List<E>>create(), targetJComboBox,
-            ObjectProperty.<JComboBox>create(), name);
+                sourceList, ObjectProperty.<List<E>>create(), targetJComboBox,
+                ObjectProperty.<JComboBox>create(), name);
     }
 
     /**
@@ -380,11 +383,11 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code sourceListProperty} is {@code null}
      */
     public static <E, SS> JComboBoxBinding<E, SS, JComboBox> createJComboBoxBinding(
-        AutoBinding.UpdateStrategy strategy, SS sourceObject,
-        Property<SS, List<E>> sourceListProperty, JComboBox targetJComboBox) {
+            AutoBinding.UpdateStrategy strategy, SS sourceObject,
+            Property<SS, List<E>> sourceListProperty, JComboBox targetJComboBox) {
         return new JComboBoxBinding<E, SS, JComboBox>(strategy, sourceObject,
-            sourceListProperty, targetJComboBox,
-            ObjectProperty.<JComboBox>create(), null);
+                sourceListProperty, targetJComboBox,
+                ObjectProperty.<JComboBox>create(), null);
     }
 
     /**
@@ -398,12 +401,12 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code sourceListProperty} is {@code null}
      */
     public static <E, SS> JComboBoxBinding<E, SS, JComboBox> createJComboBoxBinding(
-        AutoBinding.UpdateStrategy strategy, SS sourceObject,
-        Property<SS, List<E>> sourceListProperty, JComboBox targetJComboBox,
-        String name) {
+            AutoBinding.UpdateStrategy strategy, SS sourceObject,
+            Property<SS, List<E>> sourceListProperty, JComboBox targetJComboBox,
+            String name) {
         return new JComboBoxBinding<E, SS, JComboBox>(strategy, sourceObject,
-            sourceListProperty, targetJComboBox,
-            ObjectProperty.<JComboBox>create(), name);
+                sourceListProperty, targetJComboBox,
+                ObjectProperty.<JComboBox>create(), name);
     }
 
     /**
@@ -417,12 +420,12 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code targetJComboBoxProperty} is {@code null}
      */
     public static <E, TS> JComboBoxBinding<E, List<E>, TS> createJComboBoxBinding(
-        AutoBinding.UpdateStrategy strategy, List<E> sourceList,
-        TS targetObject,
-        Property<TS, ?extends JComboBox> targetJComboBoxProperty) {
+            AutoBinding.UpdateStrategy strategy, List<E> sourceList,
+            TS targetObject,
+            Property<TS, ? extends JComboBox> targetJComboBoxProperty) {
         return new JComboBoxBinding<E, List<E>, TS>(strategy, sourceList,
-            ObjectProperty.<List<E>>create(), targetObject,
-            targetJComboBoxProperty, null);
+                ObjectProperty.<List<E>>create(), targetObject,
+                targetJComboBoxProperty, null);
     }
 
     /**
@@ -436,12 +439,12 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code targetJComboBoxProperty} is {@code null}
      */
     public static <E, TS> JComboBoxBinding<E, List<E>, TS> createJComboBoxBinding(
-        AutoBinding.UpdateStrategy strategy, List<E> sourceList,
-        TS targetObject,
-        Property<TS, ?extends JComboBox> targetJComboBoxProperty, String name) {
+            AutoBinding.UpdateStrategy strategy, List<E> sourceList,
+            TS targetObject,
+            Property<TS, ? extends JComboBox> targetJComboBoxProperty, String name) {
         return new JComboBoxBinding<E, List<E>, TS>(strategy, sourceList,
-            ObjectProperty.<List<E>>create(), targetObject,
-            targetJComboBoxProperty, name);
+                ObjectProperty.<List<E>>create(), targetObject,
+                targetJComboBoxProperty, name);
     }
 
     /**
@@ -456,11 +459,11 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code sourceListProperty} or {@code targetJComboBoxProperty} is {@code null}
      */
     public static <E, SS, TS> JComboBoxBinding<E, SS, TS> createJComboBoxBinding(
-        AutoBinding.UpdateStrategy strategy, SS sourceObject,
-        Property<SS, List<E>> sourceListProperty, TS targetObject,
-        Property<TS, ?extends JComboBox> targetJComboBoxProperty) {
+            AutoBinding.UpdateStrategy strategy, SS sourceObject,
+            Property<SS, List<E>> sourceListProperty, TS targetObject,
+            Property<TS, ? extends JComboBox> targetJComboBoxProperty) {
         return new JComboBoxBinding<E, SS, TS>(strategy, sourceObject,
-            sourceListProperty, targetObject, targetJComboBoxProperty, null);
+                sourceListProperty, targetObject, targetJComboBoxProperty, null);
     }
 
     /**
@@ -475,10 +478,10 @@ public class SwingBindings {
      * @throws IllegalArgumentException if {@code sourceListProperty} or {@code targetJComboBoxProperty} is {@code null}
      */
     public static <E, SS, TS> JComboBoxBinding<E, SS, TS> createJComboBoxBinding(
-        AutoBinding.UpdateStrategy strategy, SS sourceObject,
-        Property<SS, List<E>> sourceListProperty, TS targetObject,
-        Property<TS, ?extends JComboBox> targetJComboBoxProperty, String name) {
+            AutoBinding.UpdateStrategy strategy, SS sourceObject,
+            Property<SS, List<E>> sourceListProperty, TS targetObject,
+            Property<TS, ? extends JComboBox> targetJComboBoxProperty, String name) {
         return new JComboBoxBinding<E, SS, TS>(strategy, sourceObject,
-            sourceListProperty, targetObject, targetJComboBoxProperty, name);
+                sourceListProperty, targetObject, targetJComboBoxProperty, name);
     }
 }
