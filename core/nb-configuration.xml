@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: nb-configuration.xml 35 2009-04-25 17:31:58Z fabriziogiudici $
+ * $Id: nb-configuration.xml 70 2009-06-12 17:37:59Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project-shared-configuration>
@@ -42,9 +42,6 @@ You can copy and paste the single properties, into the pom.xml file and the IDE 
 That way multiple projects can share the same settings (useful for formatting rules for example).
 Any value defined here will override the pom.xml file value but is only applicable to the current project.
 -->
-        <org-netbeans-modules-editor-indent.CodeStyle.usedProfile>default</org-netbeans-modules-editor-indent.CodeStyle.usedProfile>
-        <org-netbeans-modules-editor-indent.CodeStyle.project.tab-size>8</org-netbeans-modules-editor-indent.CodeStyle.project.tab-size>
-        <org-netbeans-modules-editor-indent.CodeStyle.project.text-limit-width>120</org-netbeans-modules-editor-indent.CodeStyle.project.text-limit-width>
         <netbeans.compile.on.save>all</netbeans.compile.on.save>
     </properties>
 </project-shared-configuration>
