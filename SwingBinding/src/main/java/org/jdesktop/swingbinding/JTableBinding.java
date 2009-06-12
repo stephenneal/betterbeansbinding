@@ -24,7 +24,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: JTableBinding.java 67 2009-06-12 14:43:40Z fabriziogiudici $
+ * $Id: JTableBinding.java 68 2009-06-12 14:55:37Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding;
@@ -50,7 +50,8 @@ import org.jdesktop.beansbinding.PropertyStateListener;
 import org.jdesktop.swingbinding.impl.AbstractColumnBinding;
 import org.jdesktop.swingbinding.impl.ListBindingManager;
 
-/**
+/***********************************************************************************************************************
+ *
  * Binds a {@code List} of objects to act as the rows of a {@code JTable}.
  * Each object in the source {@code List} represents one row in the {@code JTable}.
  * Mappings from properties of the source objects to columns are created by
@@ -232,7 +233,8 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  * @param <TS> the type of target object (on which the target property resolves to {@code JTable})
  *
  * @author Shannon Hickey
- */
+ *
+ **********************************************************************************************************************/
 public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, List> {
 
     private Property<TS, ? extends JTable> tableP;
@@ -525,6 +527,10 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
         }
     }
 
+    /*******************************************************************************************************************
+     *
+     *
+     ******************************************************************************************************************/
     private final class ColumnProperty extends Property {
 
         private ColumnBinding binding;
@@ -567,7 +573,8 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
         }
     }
 
-    /**
+    /*******************************************************************************************************************
+     *
      * {@code ColumnBinding} represents a binding between a property of the elements
      * in the {@code JTableBinding's} source {@code List}, and a column in the table. Each
      * {@code ColumnBinding} added to a {@code JTableBinding} represents a column
@@ -589,7 +596,8 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
      * in a way that is not allowed for a managed binding.
      *
      * @see org.jdesktop.swingbinding.JTableBinding#addColumnBinding(Property, String)
-     */
+     * 
+     ******************************************************************************************************************/
     public final class ColumnBinding extends AbstractColumnBinding {
 
         private Class<?> columnClass;
@@ -716,6 +724,10 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
         }
     }
 
+    /*******************************************************************************************************************
+     *
+     *
+     ******************************************************************************************************************/
     private class Handler implements PropertyStateListener {
 
         public void propertyStateChanged(PropertyStateEvent pse) {
@@ -750,6 +762,10 @@ public final class JTableBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS,
         }
     }
 
+    /*******************************************************************************************************************
+     *
+     *
+     ******************************************************************************************************************/
     private final class BindingTableModel extends ListBindingManager
             implements TableModel {
 
