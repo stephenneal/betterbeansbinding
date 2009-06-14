@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 69 2009-06-12 17:36:45Z fabriziogiudici $
+ * $Id: pom.xml 86 2009-06-14 08:06:04Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -198,7 +198,7 @@
     </reporting>
 
     <modules>
-        <module>core</module>
+        <module>Core</module>
         <module>EL</module>
         <module>SwingBinding</module>
         <module>OneJar</module>
