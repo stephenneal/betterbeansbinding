@@ -1,0 +1,15 @@
+    <assembly>
+        <id>project</id>
+        <formats>
+            <format>tar.gz</format>
+        </formats>
+        <fileSets>
+            <fileSet>
+                <directory>/</directory>
+                <useDefaultExcludes>true</useDefaultExcludes>
+                <excludes>
+                    <exclude>${project.build.directory}/**</exclude>
+                </excludes>
+            </fileSet>
+        </fileSets>
+    </assembly>
