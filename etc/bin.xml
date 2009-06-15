@@ -18,6 +18,7 @@
                 <outputDirectory>/</outputDirectory>
                 <includes>
                     <include>BetterBeansBinding*.jar</include>
+                    <include>BetterBeansBinding*.nbm</include>
                 </includes>
             </fileSet>
             <fileSet>
@@ -25,6 +26,7 @@
                 <outputDirectory>/</outputDirectory>
                 <includes>
                     <include>BetterBeansBinding*.jar</include>
+                    <include>BetterBeansBinding*.nbm</include>
                 </includes>
             </fileSet>
             <fileSet>
@@ -32,6 +34,7 @@
                 <outputDirectory>/</outputDirectory>
                 <includes>
                     <include>BetterBeansBinding*.jar</include>
+                    <include>BetterBeansBinding*.nbm</include>
                 </includes>
             </fileSet>
             <fileSet>
