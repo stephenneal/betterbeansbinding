@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 94 2009-06-19 13:06:04Z fabriziogiudici $
+ * $Id: pom.xml 96 2009-06-19 15:12:22Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -171,6 +171,8 @@
                         <configuration>
                             <tasks>
                                 <property name="plugin_classpath" refid="maven.plugin.classpath"/>
+                                <!-- property name="plugin_classpath" refid="maven.dependency.org.codehaus.mojo:cobertura-maven-plugin:classifier:jar.path"/ -->
+                                <available file="etc/cobertura-merge-reports.xml" property="cmrexists"/>
                                 <ant antfile="etc/cobertura-merge-reports.xml" target="merge-reports" inheritAll="true"/>
                             </tasks>
                         </configuration>
