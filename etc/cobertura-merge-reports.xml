@@ -6,7 +6,7 @@
     <target name="-cobertura-init">
         <taskdef classpath="${plugin_classpath}" resource="tasks.properties"/>
 
-        <property name="cobertura.report.dir" value="${basedir}/target/cobertura-report"/>
+        <property name="cobertura.report.dir" value="${basedir}/target/site/cobertura"/>
         <property name="cobertura.datafile" value="${cobertura.report.dir}/global-cobertura.ser"/>
 
         <delete file="${cobertura.datafile}" failonerror="false"/>
