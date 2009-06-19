@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 98 2009-06-19 21:46:22Z fabriziogiudici $
+ * $Id: pom.xml 99 2009-06-19 21:48:08Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -70,7 +70,7 @@
                             <tasks>
                                 <property name="plugin_classpath" refid="maven.plugin.classpath"/>
                                 <!-- property name="plugin_classpath" refid="maven.dependency.org.codehaus.mojo:cobertura-maven-plugin:classifier:jar.path"/ -->
-                                <ant antfile="../etc/cobertura-merge-reports.xml" target="merge-reports" inheritAll="true"/>
+                                <ant antfile="cobertura-merge-reports.xml" target="merge-reports" inheritAll="true"/>
                             </tasks>
                         </configuration>
                         <goals>
