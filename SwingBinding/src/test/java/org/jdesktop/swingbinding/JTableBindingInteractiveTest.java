@@ -24,7 +24,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: JTableBindingInteractiveTest.java 110 2009-06-20 19:27:30Z fabriziogiudici $
+ * $Id: JTableBindingInteractiveTest.java 111 2009-06-20 19:47:32Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding;
@@ -48,6 +48,7 @@ import org.jdesktop.observablecollections.ObservableList;
 import org.jdesktop.swingbinding.JTableBinding.ColumnBinding;
 import org.jdesktop.swingbinding.mock.Person;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /***********************************************************************************************************************
  *
@@ -76,6 +77,7 @@ public class JTableBindingInteractiveTest {
     }
 
     private JFrame createFrame1() {
+        assertTrue(EventQueue.isDispatchThread());
         BindingGroup bindingGroup = new BindingGroup();
 
         JFrame frame = new JFrame();
