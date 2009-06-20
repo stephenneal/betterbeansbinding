@@ -1,0 +1,22 @@
+    <assembly>
+        <id>all</id>
+        <formats>
+            <format>jar</format>
+        </formats>
+        <includeBaseDirectory>false</includeBaseDirectory>
+        <fileSets>
+            <fileSet>
+                <directory>Core/target/classes</directory>
+                <outputDirectory>/</outputDirectory>
+            </fileSet>
+            <fileSet>
+                <directory>EL/target/classes</directory>
+                <outputDirectory>/</outputDirectory>
+            </fileSet>
+            <fileSet>
+                <directory>SwingBinding/target/classes</directory>
+                <outputDirectory>/</outputDirectory>
+            </fileSet>
+        </fileSets>
+    </assembly>
+

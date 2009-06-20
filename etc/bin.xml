@@ -38,10 +38,10 @@
                 </includes>
             </fileSet>
             <fileSet>
-                <directory>OneJar/target</directory>
+                <directory>target</directory>
                 <outputDirectory>/</outputDirectory>
                 <includes>
-                    <include>BetterBeansBinding*.jar</include>
+                    <include>*all.jar</include>
                 </includes>
             </fileSet>
             <fileSet>

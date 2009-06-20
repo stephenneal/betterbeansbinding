@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 100 2009-06-20 10:19:48Z fabriziogiudici $
+ * $Id: pom.xml 101 2009-06-20 14:06:48Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -264,6 +264,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptors>
+                        <descriptor>etc/jar.xml</descriptor>
                         <descriptor>etc/bin.xml</descriptor>
                         <descriptor>etc/project.xml</descriptor>
                     </descriptors>
@@ -410,7 +411,7 @@
         <module>Core</module>
         <module>EL</module>
         <module>SwingBinding</module>
-        <module>OneJar</module>
+        <!-- module>OneJar</module -->
         <module>CoberturaMerge</module>
     </modules>
 
