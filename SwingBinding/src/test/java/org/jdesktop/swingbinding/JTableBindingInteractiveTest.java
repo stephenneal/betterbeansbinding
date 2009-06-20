@@ -24,7 +24,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: JTableBindingInteractiveTest.java 104 2009-06-20 17:53:55Z fabriziogiudici $
+ * $Id: JTableBindingInteractiveTest.java 105 2009-06-20 18:33:06Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding;
@@ -82,22 +82,19 @@ public class JTableBindingInteractiveTest {
         frame.setSize(400, 400);
         frame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        ObservableList<Person> list = ObservableCollections.observableListHelper(new ArrayList<Person>()).
-                getObservableList();
+        ObservableList<Person> list =
+                ObservableCollections.observableListHelper(new ArrayList<Person>()).getObservableList();
 
         JScrollPane tableScroll = new JScrollPane();
         JTable table = new JTable();
-        JTableBinding tableBinding = SwingBindings.createJTableBinding(
-                AutoBinding.UpdateStrategy.READ_WRITE, list, table);
+        JTableBinding tableBinding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ_WRITE, list, table);
 
         ColumnBinding columnBinding;
-        columnBinding = tableBinding.addColumnBinding(
-                ELProperty.create("${name}"));
+        columnBinding = tableBinding.addColumnBinding(ELProperty.create("${name}"));
         columnBinding.setColumnName("Name");
         columnBinding.setColumnClass(String.class);
 
-        columnBinding = tableBinding.addColumnBinding(
-                ELProperty.create("${zip}"));
+        columnBinding = tableBinding.addColumnBinding(ELProperty.create("${zip}"));
         columnBinding.setColumnName("Zip");
         columnBinding.setColumnClass(String.class);
 
@@ -110,12 +107,9 @@ public class JTableBindingInteractiveTest {
 
         JPanel formPanel = new JPanel();
 
-        JTextField textField;
-        Binding textFieldBinding;
-
-        textField = new JTextField();
+        JTextField textField = new JTextField();
         textField.setColumns(20);
-        textFieldBinding = Bindings.createAutoBinding(
+        Binding textFieldBinding = Bindings.createAutoBinding(
                 AutoBinding.UpdateStrategy.READ_WRITE,
                 table, ELProperty.create("${selectedElement.name}"),
                 textField, BeanProperty.create("text"));
