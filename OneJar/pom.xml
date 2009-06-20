@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 69 2009-06-12 17:36:45Z fabriziogiudici $
+ * $Id: pom.xml 100 2009-06-20 10:19:48Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -50,7 +50,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>1.2.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
