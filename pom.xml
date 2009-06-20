@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 102 2009-06-20 17:31:37Z fabriziogiudici $
+ * $Id: pom.xml 103 2009-06-20 17:52:48Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -293,6 +293,9 @@
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
+                    <excludes>
+                        <exclude>**/*InteractiveTest.java</exclude>
+                    </excludes>
                     <systemProperties>
                         <property>
                             <name>testset.folder</name>
