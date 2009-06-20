@@ -24,7 +24,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: JTableBindingInteractiveTest.java 105 2009-06-20 18:33:06Z fabriziogiudici $
+ * $Id: JTableBindingInteractiveTest.java 110 2009-06-20 19:27:30Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding;
@@ -60,7 +60,8 @@ public class JTableBindingInteractiveTest {
     private JFrame frame;
 
     @Test
-    public void testFrame1() throws Exception {
+    // http://kenai.com/jira/browse/BETTERBEANSBINDING-42
+    public void testCaseBBB42() throws Exception {
         EventQueue.invokeAndWait(new Runnable() {
 
             public void run() {
