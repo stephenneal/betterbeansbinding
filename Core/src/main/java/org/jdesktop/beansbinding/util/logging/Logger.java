@@ -24,125 +24,96 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: Logger.java 65 2009-06-12 06:45:27Z fabriziogiudici $
+ * $Id: Logger.java 115 2009-07-05 15:15:35Z indrit $
  *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding.util.logging;
 
-import javax.annotation.Nonnull; 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 
 /***********************************************************************************************************************
- *
- * @author  Fabrizio Giudici
- * @version $Id: Logger.java 65 2009-06-12 06:45:27Z fabriziogiudici $
- *
+ * 
+ * @author Fabrizio Giudici
+ * @version $Id: Logger.java 115 2009-07-05 15:15:35Z indrit $
+ * 
  **********************************************************************************************************************/
-public class Logger
-  {
-    @Nonnull
-    private final java.util.logging.Logger logger;
+public class Logger {
+	private final static Map<String, Logger> loggerMapByName = new HashMap<String, Logger>();
+	
+	@Nonnull
+	private final java.util.logging.Logger logger;
 
-    private final static Map<String, Logger> loggerMapByName = new HashMap<String, Logger>();
+	Logger(@Nonnull final java.util.logging.Logger logger) {
+		this.logger = logger;
+	}
 
-    Logger (@Nonnull final java.util.logging.Logger logger)
-      {
-        this.logger = logger;
-      }
+	@Nonnull
+	public static synchronized Logger getLogger(@Nonnull final String name) {
+		Logger logger = loggerMapByName.get(name);
+		if (logger == null) {
+			logger = new Logger(java.util.logging.Logger.getLogger(name));
+			loggerMapByName.put(name, logger);
+		}
 
-    @Nonnull
-    public static synchronized Logger getLogger (@Nonnull final String name)
-      {
-        Logger logger = loggerMapByName.get(name);
+		return logger;
+	}
 
-        if (logger == null)
-          {
-            logger = new Logger(java.util.logging.Logger.getLogger(name));
-            loggerMapByName.put(name, logger);
-          }
+	public void throwing(String sourceClass, String sourceMethod, Throwable thrown) {
+		logger.throwing(sourceClass, sourceMethod, thrown);
+	}
 
-        return logger;
-      }
+	public void severe(@Nonnull final String string, @Nonnull final Object... args) {
+		log(Level.SEVERE, string, args);
+	}
 
-    public void warning (@Nonnull final String string, @Nonnull final Object ... args)
-      {
-        if (logger.isLoggable(Level.WARNING))
-          {
-            logger.warning(String.format(string, args));
-          }
-      }
+	public void warning(@Nonnull final String string, @Nonnull final Object... args) {
+		log(Level.WARNING, string, args);
+	}
 
-    public void throwing (String arg0, String arg1, Throwable arg2)
-      {
-        logger.throwing(arg0, arg1, arg2);
-      }
+	public void info(@Nonnull final String string, @Nonnull final Object... args) {
+		log(Level.INFO, string, args);
+	}
 
-    public void severe (@Nonnull final String string, @Nonnull final Object ... args)
-      {
-        if (logger.isLoggable(Level.SEVERE))
-          {
-            logger.severe(String.format(string, args));
-          }
-      }
+	public void fine(@Nonnull final String string, @Nonnull final Object... args) {
+		log(Level.FINE, string, args);
+	}
 
-    public void info (@Nonnull final String string, @Nonnull final Object ... args)
-      {
-        if (logger.isLoggable(Level.INFO))
-          {
-            logger.info(String.format(string, args));
-          }
-      }
+	public void finer(@Nonnull final String string, @Nonnull final Object... args) {
+		log(Level.FINER, string, args);
+	}
 
-    public void finest (@Nonnull final String string, @Nonnull final Object ... args)
-      {
-        if (logger.isLoggable(Level.FINEST))
-          {
-            logger.finest(String.format(string, args));
-          }
-      }
+	public void finest(@Nonnull final String string, @Nonnull final Object... args) {
+		log(Level.FINEST, string, args);
+	}
 
-    public void finer (@Nonnull final String string, @Nonnull final Object ... args)
-      {
-        if (logger.isLoggable(Level.FINER))
-          {
-            logger.finer(String.format(string, args));
-          }
-      }
+	private void log(@Nonnull Level level, @Nonnull final String string,
+			@Nonnull final Object... args) {
+		if (logger.isLoggable(level)) {
+			logger.log(level, String.format(string, args));
+		}
+	}
 
-    public void fine (@Nonnull final String string, @Nonnull final Object ... args)
-      {
-        if (logger.isLoggable(Level.FINE))
-          {
-            logger.fine(String.format(string, args));
-          }
-      }
+	public void setLevel(final Level level) throws SecurityException {
+		logger.setLevel(level);
+	}
 
-    public void setLevel (final Level arg0)
-      throws SecurityException
-      {
-        logger.setLevel(arg0);
-      }
+	public boolean isLoggable(final Level level) {
+		return logger.isLoggable(level);
+	}
 
-    public boolean isLoggable (final Level arg0)
-      {
-        return logger.isLoggable(arg0);
-      }
+	public String getName() {
+		return logger.getName();
+	}
 
-    public String getName()
-      {
-        return logger.getName();
-      }
+	public Level getLevel() {
+		return logger.getLevel();
+	}
 
-    public Level getLevel()
-      {
-        return logger.getLevel();
-      }
-
-    public synchronized Handler[] getHandlers()
-      {
-        return logger.getHandlers();
-      }
-  }
+	public synchronized Handler[] getHandlers() {
+		return logger.getHandlers();
+	}
+}
