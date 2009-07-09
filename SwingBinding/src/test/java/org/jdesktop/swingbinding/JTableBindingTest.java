@@ -24,7 +24,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: JTableBindingTest.java 80 2009-06-12 21:29:12Z fabriziogiudici $
+ * $Id: JTableBindingTest.java 124 2009-07-09 12:11:43Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.swingbinding;
@@ -32,13 +32,8 @@ package org.jdesktop.swingbinding;
 import javax.swing.table.TableColumnModel;
 import org.jdesktop.swingbinding.mock.MockBean;
 import org.jdesktop.swingbinding.mock.IntegerTableCellRenderer;
-import java.awt.BorderLayout;
-import java.awt.Container;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -49,12 +44,10 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-
 /**
  *
  * @author fritz
  */
-
 public class JTableBindingTest {
 
     @Before
