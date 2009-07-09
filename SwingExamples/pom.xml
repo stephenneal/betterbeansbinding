@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 123 2009-07-09 12:10:42Z fabriziogiudici $
+ * $Id: pom.xml 125 2009-07-09 12:28:16Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -43,7 +43,7 @@
     <artifactId>BetterBeansBinding-examples</artifactId>
     <version>1.3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>BetterBeansBinding Examples</name>
+    <name>BetterBeansBinding Swing Examples</name>
 
     <dependencies>
         <dependency>
@@ -78,5 +78,6 @@
         </dependency>
     </dependencies>
 </project>
+
 
 
