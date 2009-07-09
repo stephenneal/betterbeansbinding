@@ -25,12 +25,9 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 103 2009-06-20 17:52:48Z fabriziogiudici $
+ * $Id: pom.xml 120 2009-07-09 10:11:11Z fabriziogiudici $
  *
- ******************************************************************************************************************* -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ ******************************************************************************************************************* --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     
@@ -410,9 +407,9 @@
         <module>Core</module>
         <module>EL</module>
         <module>SwingBinding</module>
+        <module>SwingExamples</module>
         <!-- module>OneJar</module -->
         <module>CoberturaMerge</module>
-    </modules>
+  </modules>
 
 </project>
-
