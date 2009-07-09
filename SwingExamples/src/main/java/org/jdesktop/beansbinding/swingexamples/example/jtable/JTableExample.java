@@ -24,47 +24,22 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: Example.java 123 2009-07-09 12:10:42Z fabriziogiudici $
+ * $Id: JTableExample.java 123 2009-07-09 12:10:42Z fabriziogiudici $
  *
  **********************************************************************************************************************/
-package org.jdesktop.beansbinding.swingexamples.example;
+package org.jdesktop.beansbinding.swingexamples.example.jtable;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JComponent;
-import org.jdesktop.beansbinding.swingexamples.example.jlist.JListExample;
-import org.jdesktop.beansbinding.swingexamples.example.jtable.JTableExample;
+import org.jdesktop.beansbinding.swingexamples.example.Example;
 
 /***********************************************************************************************************************
  *
  * @author Fabrizio Giudici
  *
  **********************************************************************************************************************/
-public class Example {
+public class JTableExample extends Example {
 
-    protected final String displayName;
-    protected final JComponent component;
-
-    public static List<Example> findAll() {
-        final List<Example> result = new ArrayList<Example>();
-
-        result.add(new JListExample()); // FIXME: lookup META-INF/services
-        result.add(new JTableExample()); // FIXME: lookup META-INF/services
-        
-        return result;
+    public JTableExample() {
+        super("JTable 1", new JTableExampleView());
     }
 
-    protected Example(final String displayName, final JComponent component) {
-        this.displayName = displayName;
-        this.component = component;
-    }
-
-
-    public JComponent getComponent() {
-        return component;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
 }

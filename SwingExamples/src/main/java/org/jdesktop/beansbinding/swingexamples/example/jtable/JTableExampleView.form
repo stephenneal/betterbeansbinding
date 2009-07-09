@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <Properties>
+    <Property name="name" type="java.lang.String" value="Form" noResource="true"/>
+  </Properties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="1">
+                      <Component id="lbLastName" linkSize="2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="tfLastName" pref="235" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lbFirstName" linkSize="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbZip" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="tfZip" min="-2" pref="119" max="-2" attributes="0"/>
+                          <Component id="tfFirstName" alignment="0" pref="235" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="spScrollPane" alignment="1" pref="311" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="btDelete" linkSize="1" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="btClear" linkSize="1" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="btReset" linkSize="1" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="btAdd" linkSize="1" alignment="1" min="-2" pref="96" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="btAdd" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btDelete" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btClear" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btReset" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="spScrollPane" pref="217" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lbFirstName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfFirstName" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lbLastName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfLastName" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="tfZip" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbZip" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JButton" name="btAdd">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="btAdd" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btDelete">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="btDelete" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btClear">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="btClear" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btReset">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="btReset" noResource="true"/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="spScrollPane">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="spScrollPane" noResource="true"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="taTable">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="4" rowCount="4">
+                <Column editable="true" title="Title 1" type="java.lang.Object"/>
+                <Column editable="true" title="Title 2" type="java.lang.Object"/>
+                <Column editable="true" title="Title 3" type="java.lang.Object"/>
+                <Column editable="true" title="Title 4" type="java.lang.Object"/>
+              </Table>
+            </Property>
+            <Property name="name" type="java.lang.String" value="taTable" noResource="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JTextField" name="tfFirstName">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="tfFirstName.text"/>
+        <Property name="name" type="java.lang.String" value="tfFirstName" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="tfZip">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="tfZip.text"/>
+        <Property name="name" type="java.lang.String" value="tfZip" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbFirstName">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="lbFirstName.text"/>
+        <Property name="name" type="java.lang.String" value="lbFirstName" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbLastName">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="lbLastName.text"/>
+        <Property name="name" type="java.lang.String" value="lbLastName" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbZip">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="lbZip.text"/>
+        <Property name="name" type="java.lang.String" value="lbZip" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="tfLastName">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="tfLastName.text"/>
+        <Property name="name" type="java.lang.String" value="tfLastName" noResource="true"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>
