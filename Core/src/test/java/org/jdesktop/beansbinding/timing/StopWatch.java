@@ -24,7 +24,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: StopWatch.java 117 2009-07-09 08:29:28Z fabriziogiudici $
+ * $Id: StopWatch.java 130 2009-07-09 14:04:35Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding.timing;
@@ -46,11 +46,15 @@ public class StopWatch {
 
     private long elapsedTimeBaseTime = 0;
     private long elapsedTimeAccumulator = 0;
+
+    private double calibrationFactor = 1;
     
     public StopWatch() {
         assertTrue("isThreadCpuTimeEnabled == false", threadBean.isThreadCpuTimeEnabled());
         assertTrue("isThreadCpuTimeSupported == false", threadBean.isThreadCpuTimeSupported());
         assertTrue("isCurrentThreadCpuTimeSupported == false", threadBean.isCurrentThreadCpuTimeSupported());
+
+        calibrate();
     }
 
     public void start() {
@@ -83,6 +87,20 @@ public class StopWatch {
 
     @Override
     public String toString() {
-        return String.format("StopWatch[elapsedTime: %dms, threadCpuTime: %fms]", elapsedTimeAccumulator, threadCpuTimeAccumulator / 1E6);
+        return String.format("StopWatch[elapsedTime: %dms, threadCpuTime: %fms calibrationFactor: %f]",
+                             elapsedTimeAccumulator,
+                             threadCpuTimeAccumulator / 1E6,
+                             calibrationFactor);
+    }
+
+    private void calibrate() {
+        final long base = threadBean.getCurrentThreadCpuTime();
+        int n = 0;
+
+        for (int i = 0; i < 100000000; i++) {
+            n += i; // just to make sure the compiler doesn't optimize it out - but it could be smart...
+        }
+
+        calibrationFactor = (threadBean.getCurrentThreadCpuTime() - base) / 23650000.0;
     }
 }
