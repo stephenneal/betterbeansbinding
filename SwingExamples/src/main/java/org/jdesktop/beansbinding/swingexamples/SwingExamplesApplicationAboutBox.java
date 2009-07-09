@@ -24,7 +24,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: SwingExamplesApplicationAboutBox.java 118 2009-07-09 09:32:08Z fabriziogiudici $
+ * $Id: SwingExamplesApplicationAboutBox.java 121 2009-07-09 10:48:11Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding.swingexamples;
@@ -130,7 +130,7 @@ public class SwingExamplesApplicationAboutBox extends JDialog {
                             .add(appVendorLabel)
                             .add(appHomepageLabel)))
                     .add(org.jdesktop.layout.GroupLayout.LEADING, appTitleLabel)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, appDescLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, appDescLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
                     .add(closeButton))
                 .addContainerGap())
         );
@@ -154,7 +154,7 @@ public class SwingExamplesApplicationAboutBox extends JDialog {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(homepageLabel)
                     .add(appHomepageLabel))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 27, Short.MAX_VALUE)
                 .add(closeButton)
                 .addContainerGap())
         );

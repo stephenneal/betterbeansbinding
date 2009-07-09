@@ -24,11 +24,12 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: SwingExamplesApplicationView.java 118 2009-07-09 09:32:08Z fabriziogiudici $
+ * $Id: SwingExamplesApplicationView.java 121 2009-07-09 10:48:11Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding.swingexamples;
 
+import java.util.List;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -40,6 +41,7 @@ import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import org.jdesktop.beansbinding.swingexamples.example.Example;
 
 /***********************************************************************************************************************
  *
@@ -108,6 +110,12 @@ public class SwingExamplesApplicationView extends FrameView {
                 }
             }
         });
+
+        final List<? extends Example> examples = Example.findAll();
+
+        for (final Example example : examples) {
+            tpTabbedPane.add(example.getDisplayName(), example.getComponent());
+        }
     }
 
     @Action
@@ -130,6 +138,7 @@ public class SwingExamplesApplicationView extends FrameView {
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
+        tpTabbedPane = new javax.swing.JTabbedPane();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
@@ -143,15 +152,20 @@ public class SwingExamplesApplicationView extends FrameView {
 
         mainPanel.setName("mainPanel"); // NOI18N
 
+        tpTabbedPane.setName("tpTabbedPane"); // NOI18N
+
         org.jdesktop.layout.GroupLayout mainPanelLayout = new org.jdesktop.layout.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 400, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, mainPanelLayout.createSequentialGroup()
+                .add(0, 0, 0)
+                .add(tpTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
+                .add(0, 0, 0))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 252, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, tpTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
         );
 
         menuBar.setName("menuBar"); // NOI18N
@@ -191,11 +205,11 @@ public class SwingExamplesApplicationView extends FrameView {
         statusPanel.setLayout(statusPanelLayout);
         statusPanelLayout.setHorizontalGroup(
             statusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(statusPanelSeparator, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .add(statusPanelSeparator, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
             .add(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(statusMessageLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 226, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 561, Short.MAX_VALUE)
                 .add(progressBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(statusAnimationLabel)
@@ -225,6 +239,7 @@ public class SwingExamplesApplicationView extends FrameView {
     private javax.swing.JLabel statusAnimationLabel;
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
+    private javax.swing.JTabbedPane tpTabbedPane;
     // End of variables declaration//GEN-END:variables
 
     private final Timer messageTimer;
