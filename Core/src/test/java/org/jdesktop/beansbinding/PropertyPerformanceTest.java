@@ -24,7 +24,7 @@
  * 
  ***********************************************************************************************************************
  * 
- * $Id: PropertyPerformanceTest.java 116 2009-07-09 08:21:46Z fabriziogiudici $
+ * $Id: PropertyPerformanceTest.java 117 2009-07-09 08:29:28Z fabriziogiudici $
  * 
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
@@ -79,10 +79,14 @@ public class PropertyPerformanceTest {
             stopWatch.resume();
             valueProperty.getValue(bean);
             stopWatch.pause();
+//
+//            if (i % 1000 == 0) {
+//                logger.info(">>>> completed %d iterations", i);
+//            }
         }
 
         stopWatch.stop();
-        logger.fine(">>>> %s", stopWatch);
+        logger.info(">>>> %s", stopWatch);
 
         final long cpuTime = stopWatch.getCurrentThreadCpuTime();
         final double cpuTimePerIteration = 1.0 * cpuTime / iterations;

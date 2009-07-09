@@ -24,7 +24,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: StopWatch.java 116 2009-07-09 08:21:46Z fabriziogiudici $
+ * $Id: StopWatch.java 117 2009-07-09 08:29:28Z fabriziogiudici $
  *
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding.timing;
@@ -43,6 +43,9 @@ public class StopWatch {
     private final ThreadMXBean threadBean = ManagementFactory.getThreadMXBean();
     private long threadCpuTimeBaseTime = 0;
     private long threadCpuTimeAccumulator = 0;
+
+    private long elapsedTimeBaseTime = 0;
+    private long elapsedTimeAccumulator = 0;
     
     public StopWatch() {
         assertTrue("isThreadCpuTimeEnabled == false", threadBean.isThreadCpuTimeEnabled());
@@ -51,6 +54,7 @@ public class StopWatch {
     }
 
     public void start() {
+        elapsedTimeAccumulator = 0;
         threadCpuTimeAccumulator = 0;
         resume();
     }
@@ -60,11 +64,17 @@ public class StopWatch {
     }
 
     public void pause() {
+        elapsedTimeAccumulator += System.currentTimeMillis() - elapsedTimeBaseTime;
         threadCpuTimeAccumulator += threadBean.getCurrentThreadCpuTime() - threadCpuTimeBaseTime;
     }
 
     public void resume() {
+        elapsedTimeBaseTime = System.currentTimeMillis();
         threadCpuTimeBaseTime = threadBean.getCurrentThreadCpuTime();
+    }
+
+    public long getElapsedTime() {
+        return elapsedTimeAccumulator * 1000000;
     }
 
     public long getCurrentThreadCpuTime() {
@@ -73,6 +83,6 @@ public class StopWatch {
 
     @Override
     public String toString() {
-        return String.format("StopWatch[threadCpuTime: %fms]", threadCpuTimeAccumulator / 1E6);
+        return String.format("StopWatch[elapsedTime: %dms, threadCpuTime: %fms]", elapsedTimeAccumulator, threadCpuTimeAccumulator / 1E6);
     }
 }
