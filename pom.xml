@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 137 2009-07-12 22:55:59Z fabriziogiudici $
+ * $Id: pom.xml 138 2009-07-13 17:58:38Z fabriziogiudici $
  *
  ******************************************************************************************************************* --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
@@ -106,6 +106,13 @@
         </license>
     </licenses>
 
+    <distributionManagement>
+        <repository>
+            <id>java.net-m2-repository</id>
+            <url>java-net:/maven2-repository/trunk/repository/</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -135,7 +142,15 @@
     <build>
         <finalName>${project.artifactId}-${project.version}.${buildNumber}</finalName>
         <!-- For buildNumber to be properly evaluated by assembly:assembly, use also the validate goal -->
-        
+       
+        <extensions>
+            <extension>
+                <groupId>org.jvnet.wagon-svn</groupId>
+                <artifactId>wagon-svn</artifactId>
+                <version>1.8</version>
+            </extension>
+        </extensions>
+ 
         <resources>
             <resource>
                 <filtering>true</filtering>
