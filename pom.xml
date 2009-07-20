@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 142 2009-07-20 13:11:20Z fabriziogiudici $
+ * $Id: pom.xml 144 2009-07-20 14:44:55Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -152,7 +152,7 @@
     *
     **************************************************************************************************************** -->
     <build>
-        <finalName>${project.artifactId}-${project.version}.${buildNumber}</finalName>
+        <finalName>bbb-${project.artifactId}-${project.version}.${buildNumber}</finalName>
         <!-- For buildNumber to be properly evaluated by assembly:assembly, use also the validate goal -->
        
         <extensions>
