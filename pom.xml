@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 146 2009-07-21 14:44:56Z fabriziogiudici $
+ * $Id: pom.xml 148 2009-07-21 15:56:49Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -110,14 +110,14 @@
     <distributionManagement>
         <repository>
             <id>maven2-repository.tidalwave.kenai.com</id>
-            <name>Tidalwave Maven Repository</name>
-            <url>svn:https://kenai.com/svn/tidalwave~maven-repo/2</url>
+            <name>Tidalwave Maven Release Repository</name>
+            <url>svn:https://kenai.com/svn/tidalwave~maven-repo/release/2</url>
             <uniqueVersion>false</uniqueVersion>
         </repository>
         <snapshotRepository>
             <id>maven2-snapshot-repository.tidalwave.kenai.com</id>
             <name>Tidalwave Maven Snapshot Repository</name>
-            <url>svn:https://kenai.com/svn/tidalwave~maven-snapshot-repo/2</url>
+            <url>svn:https://kenai.com/svn/tidalwave~maven-repo/snapshot/2</url>
             <uniqueVersion>true</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>
@@ -432,8 +432,7 @@
         <module>Core</module>
         <module>EL</module>
         <module>SwingBinding</module>
-        <module>Examples/BeanExamples</module>
-        <module>Examples/SwingExamples</module>
+        <module>Examples</module>
   </modules>
 
 </project>
