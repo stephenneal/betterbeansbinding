@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 145 2009-07-21 12:38:21Z fabriziogiudici $
+ * $Id: pom.xml 146 2009-07-21 14:44:56Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -107,15 +107,6 @@
         </license>
     </licenses>
 
-    <repositories>
-        <repository>
-            <id>maven2-repository.dev.java.net</id>
-            <name>Java.net Repository for Maven</name>
-            <url>http://download.java.net/maven/2</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
-
     <distributionManagement>
         <repository>
             <id>maven2-repository.tidalwave.kenai.com</id>
@@ -165,7 +156,7 @@
             <extension>
                 <groupId>org.jvnet.wagon-svn</groupId>
                 <artifactId>wagon-svn</artifactId>
-                <version>1.8</version>
+                <version>1.9</version>
             </extension>
         </extensions>
  
