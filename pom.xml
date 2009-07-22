@@ -143,6 +143,18 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>default</id>
+            <properties>
+                <buildNumber>unknown</buildNumber>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
     <!-- ***************************************************************************************************************
     *
     *
