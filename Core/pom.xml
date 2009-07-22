@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 143 2009-07-20 13:37:20Z fabriziogiudici $
+ * $Id: pom.xml 149 2009-07-22 00:27:27Z fabriziogiudici $
  *
  ******************************************************************************************************************* -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
@@ -40,7 +40,7 @@
         <version>1.3.0-SNAPSHOT</version>
     </parent>
     
-    <artifactId>core</artifactId>
+    <artifactId>betterbeansbinding-core</artifactId>
     <version>1.3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>BetterBeansBinding Core</name>
@@ -48,7 +48,7 @@
     <dependencies>
         <dependency>
             <groupId>org.jdesktop.betterbeansbinding</groupId>
-            <artifactId>el</artifactId>
+            <artifactId>betterbeansbinding-el</artifactId>
             <version>1.3.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
