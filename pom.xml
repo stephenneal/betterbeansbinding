@@ -225,11 +225,6 @@
 
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>buildnumber-maven-plugin</artifactId>
-                    <version>1.0-beta-1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
                     <artifactId>nbm-maven-plugin</artifactId>
                     <version>3.0</version>
                     <extensions>true</extensions>
@@ -286,24 +281,6 @@
                         <descriptor>etc/bin.xml</descriptor>
                         <descriptor>etc/project.xml</descriptor>
                     </descriptors>
-                </configuration>
-            </plugin>
-
-            <!-- Retrieves the 4th build number from Subversion revision. -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <doCheck>false</doCheck>
-                    <doUpdate>false</doUpdate>
                 </configuration>
             </plugin>
 
