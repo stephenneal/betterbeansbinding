@@ -24,7 +24,7 @@
  * 
  ***********************************************************************************************************************
  * 
- * $Id: BindingTest.java 34 2009-04-25 17:27:10Z fabriziogiudici $
+ * $Id$
  * 
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
@@ -32,7 +32,8 @@ package org.jdesktop.beansbinding;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /*
  * BindingTests.java
@@ -51,17 +52,14 @@ import junit.framework.TestCase;
 /**
  *
  * @author bchristi
+ * @author Fabrizio Giudici
  */
-public class BindingTest extends TestCase {
-    
-    /** Creates a new instance of BindingTests */
-    public BindingTest() {
-    }
-    
+public class BindingTest extends TestSupport {
     /*
      * It would be nice if calling println() on an unbound Binding did not
      * throw an exception.
      */
+    @Test
     public void testPrintln() {
         Object source = new Object();
         Property classProp = BeanProperty.create("class");
@@ -114,6 +112,7 @@ public class BindingTest extends TestCase {
     /*
      * Test Binding.isSourceUnreadableValueSet()
      */
+    @Test
     public void testIsSourceUnreadableValueSet() {
         Binding binding = createTestBinding();
         
@@ -137,6 +136,7 @@ public class BindingTest extends TestCase {
     /*
      * Test Binding.unsetSourceUnreadableValue()
      */
+    @Test
     public void testUnsetSourceUnreadableValue() {
         Binding binding = createTestBinding();
         SourceUnreadableListener pcl = new SourceUnreadableListener();
@@ -176,6 +176,7 @@ public class BindingTest extends TestCase {
    /*
     * Test Binding.getSourceUnreadableValue()
     */
+    @Test
     public void testgetSourceUnreadableValue() {
         // If called with value unset, should throw exception
         Binding binding = createTestBinding();
@@ -192,6 +193,7 @@ public class BindingTest extends TestCase {
    /*
     * Test Binding.setSourceUnreadableValue()
     */
+    @Test
     public void testSetSourceUnreadableValue() {
         // TEST: Set value.  isSourceUnreadableValueSet() should become true and
         // event(s) should be fired.
@@ -257,6 +259,7 @@ public class BindingTest extends TestCase {
      * Note: It shouldn't matter whether the Binding is bound or not.  For
      * simplicity, this test case tests unbound Bindings.
      */
+    @Test
     public void testGetSourceValueForTarget() {
         TestBean source, target;
         Binding binding;
@@ -403,6 +406,7 @@ public class BindingTest extends TestCase {
      * Note: It shouldn't matter whether the Binding is bound or not.  For
      * simplicity, this test case tests unbound Bindings.
      */
+    @Test
     public void testGetTargetValueForSource() {
         TestBean source, target;
         Binding binding;

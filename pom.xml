@@ -25,7 +25,7 @@
  *
  ***********************************************************************************************************************
  *
- * $Id: pom.xml 151 2009-07-22 17:14:40Z fabriziogiudici $
+ * $Id$
  *
  ******************************************************************************************************************* -->
  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -141,6 +141,12 @@
             <version>1.7</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>it.tidalwave.thesefoolishthings</groupId>
+            <artifactId>it.tidalwave.singlelinelogformatter</artifactId>
+            <version>1.0.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <profiles>
@@ -163,7 +169,7 @@
     <build>
         <finalName>${project.artifactId}-${project.version}.${buildNumber}</finalName>
         <!-- For buildNumber to be properly evaluated by assembly:assembly, use also the validate goal -->
-       
+
         <extensions>
             <extension>
                 <groupId>org.jvnet.wagon-svn</groupId>
@@ -171,7 +177,7 @@
                 <version>1.9</version>
             </extension>
         </extensions>
- 
+
         <resources>
             <resource>
                 <filtering>true</filtering>
@@ -307,12 +313,6 @@
                     <excludes>
                         <exclude>**/*InteractiveTest.java</exclude>
                     </excludes>
-                    <systemProperties>
-                        <property>
-                            <name>testset.folder</name>
-                            <value>${testset.folder}</value>
-                        </property>
-                    </systemProperties>
                 </configuration>
             </plugin>
 
@@ -337,7 +337,7 @@
                 <artifactId>nbm-maven-plugin</artifactId>
                 <extensions>true</extensions>
             </plugin>
-            
+
             <!-- Produces the OSGi bundle information. -->
             <plugin>
                 <groupId>org.apache.felix</groupId>
@@ -425,3 +425,4 @@
   </modules>
 
 </project>
+

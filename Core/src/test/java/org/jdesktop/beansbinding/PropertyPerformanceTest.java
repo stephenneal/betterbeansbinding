@@ -24,7 +24,7 @@
  * 
  ***********************************************************************************************************************
  * 
- * $Id: PropertyPerformanceTest.java 132 2009-07-09 16:02:42Z fabriziogiudici $
+ * $Id$
  * 
  **********************************************************************************************************************/
 package org.jdesktop.beansbinding;
@@ -40,7 +40,7 @@ import static org.junit.Assert.*;
  * @author Fabrizio Giudici
  *
  **********************************************************************************************************************/
-public class PropertyPerformanceTest {
+public class PropertyPerformanceTest extends TestSupport {
 
     private final static String CLASS = PropertyPerformanceTest.class.getName();
     private final static Logger logger = Logger.getLogger(CLASS);
