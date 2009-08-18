@@ -5,3 +5,6 @@ Examples/SwingExamples/target
 Examples/target
 SwingBinding/target
 target
+.repository
+hudson.env
+
