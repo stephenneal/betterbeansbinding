@@ -154,6 +154,7 @@
             <id>default</id>
             <properties>
                 <buildNumber>unknown</buildNumber>
+                <testReportsDirectory>${project.build.directory}/surefire-reports</testReportsDirectory>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -307,6 +308,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
+                    <reportsDirectory>${testReportsDirectory}</reportsDirectory>
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
