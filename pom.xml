@@ -117,7 +117,7 @@
         <snapshotRepository>
             <id>maven2-snapshot-repository.tidalwave.kenai.com</id>
             <name>Tidalwave Maven Snapshot Repository</name>
-            <url>svn:https://kenai.com/svn/tidalwave~maven-repo/snapshot/2</url>
+            <url>dav:http://services.tidalwave.it/nexus/content/repositories/snapshots/</url>
             <uniqueVersion>true</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>
@@ -176,6 +176,11 @@
                 <groupId>org.jvnet.wagon-svn</groupId>
                 <artifactId>wagon-svn</artifactId>
                 <version>1.9</version>
+            </extension>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav-jackrabbit</artifactId>
+                <version>1.0-beta-5</version>
             </extension>
         </extensions>
 

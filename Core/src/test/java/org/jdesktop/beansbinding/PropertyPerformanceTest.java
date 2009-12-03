@@ -55,6 +55,8 @@ public class PropertyPerformanceTest extends TestSupport {
     @Test
     public void testPerformance() throws Exception {
         logger.info("testPerformance()");
+
+        System.err.println("XXXX " + System.getProperties());
         
         double limit = 10000.0; // nanoseconds per operation
         final int iterations = 50000;
