@@ -115,9 +115,9 @@
             <uniqueVersion>false</uniqueVersion>
         </repository>
         <snapshotRepository>
-            <id>maven2-snapshot-repository.tidalwave.kenai.com</id>
+            <id>maven2-snapshot-repository.tidalwave.it</id>
             <name>Tidalwave Maven Snapshot Repository</name>
-            <url>dav:http://services.tidalwave.it/nexus/content/repositories/snapshots/</url>
+            <url>http://services.tidalwave.it/nexus/content/repositories/snapshots/</url>
             <uniqueVersion>true</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>
