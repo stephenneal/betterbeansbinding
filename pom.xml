@@ -78,24 +78,19 @@
 
     <mailingLists>
         <mailingList>
-            <name>Commits</name>
-            <post>commits@betterbeansbinding.kenai.com</post>
-            <archive>http://kenai.com/projects/betterbeansbinding/lists/commits/archive</archive>
+            <name>Continuous Integration</name>
+            <post>betterbeansbinding-ci@googlegroups.com</post>
+            <archive>http://groups.google.com/group/betterbeansbinding-ci</archive>
         </mailingList>
         <mailingList>
-            <name>Dev</name>
-            <post>dev@betterbeansbinding.kenai.com</post>
-            <archive>http://kenai.com/projects/betterbeansbinding/lists/dev/archive</archive>
-        </mailingList>
-        <mailingList>
-            <name>Issues</name>
-            <post>issues@betterbeansbinding.kenai.com</post>
-            <archive>http://kenai.com/projects/betterbeansbinding/lists/issues/archive</archive>
+            <name>Developers</name>
+            <post>betterbeansbinding-dev@googlegroups.com</post>
+            <archive>http://groups.google.com/group/betterbeansbinding-dev</archive>
         </mailingList>
         <mailingList>
             <name>Users</name>
-            <post>users@betterbeansbinding.kenai.com</post>
-            <archive>http://kenai.com/projects/betterbeansbinding/lists/users/archive</archive>
+            <post>betterbeansbinding-users@googlegroups.com</post>
+            <archive>http://groups.google.com/group/betterbeansbinding-users</archive>
         </mailingList>
     </mailingLists>
 
