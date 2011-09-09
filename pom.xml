@@ -52,16 +52,23 @@
     </organization>
     <inceptionYear>2009</inceptionYear>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <scm.repo.url>https://kenai.com/hg/betterbeansbinding~src</scm.repo.url>
+        <scm.repo.readonly.url>http://kenai.com/hg/betterbeansbinding~src</scm.repo.readonly.url>
+        <scm.repo.browse.url>http://kenai.com/projects/betterbeansbinding/sources/src/show</scm.repo.browse.url>
+
+        <tft.UmlGraphDoc.additionalParam>-views -attributes -operations -types -postfixpackage -nodefontpackagesize 6 -nodefontclasssize 8 -nodefontsize 7 -edgefontsize 7 -nodesep 0.05 -ranksep 0.1 -visibility -inferrel -hide java.*|javax.*</tft.UmlGraphDoc.additionalParam>
+
+        <tft.javac.source>1.5</tft.javac.source> <!-- For Android compatibility -->
+        <tft.javac.target>1.5</tft.javac.target>
+    </properties>
+
     <issueManagement>
         <system>Jira</system>
         <url>http://kenai.com/jira/browse/BETTERBEANSBINDING</url>
     </issueManagement>
-
-    <scm>
-        <connection>scm:hg:http://kenai.com/hg/betterbeansbinding~src</connection>
-        <developerConnection>scm:hg:https://kenai.com/hg/betterbeansbinding~src</developerConnection>
-        <url>http://kenai.com/projects/betterbeansbinding/sources/src/show</url>
-    </scm>
 
     <developers>
         <developer>
@@ -78,14 +85,10 @@
         </developer>
     </developers>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <mailingLists>
         <mailingList>
             <name>Continuous Integration</name>
-            <post>betterbeansbinding-ci@googlegroups.com</post>
+            <post>ci@googlegroups.com</post>
             <archive>http://groups.google.com/group/betterbeansbinding-ci</archive>
         </mailingList>
         <mailingList>
@@ -123,12 +126,6 @@
     </repositories>
 
     <distributionManagement>
-        <repository>
-            <id>maven2-repository.tidalwave.kenai.com</id>
-            <name>Tidalwave Maven Release Repository</name>
-            <url>svn:https://kenai.com/svn/tidalwave~maven-repo/release/2</url>
-            <uniqueVersion>false</uniqueVersion>
-        </repository>
         <snapshotRepository>
             <id>maven2-snapshot-repository.tidalwave.it</id>
             <name>Tidalwave Maven Snapshot Repository</name>
@@ -136,6 +133,13 @@
             <uniqueVersion>true</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>
+
+    <!-- Repeated because of http://jira.codehaus.org/browse/SCM-442 -->
+    <scm>
+        <connection>scm:hg:${scm.repo.readonly.url}</connection>
+        <developerConnection>scm:hg:${scm.repo.effective.url}</developerConnection>
+        <url>${scm.repo.browse.url}</url>
+    </scm>
 
     <dependencies>
         <dependency>
@@ -179,7 +183,6 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptors>
-                        <!-- descriptor>etc/jar.xml</descriptor -->
                         <descriptor>etc/bin.xml</descriptor>
                         <descriptor>etc/project.xml</descriptor>
                     </descriptors>
