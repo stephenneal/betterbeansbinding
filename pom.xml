@@ -56,7 +56,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <scm.repo.url>ssh://hg@bitbucket.org/tidalwave/betterbeansbinding-src</scm.repo.url>
-        <scm.repo.readonly.url>https://tidalwave@bitbucket.org/tidalwave/betterbeansbinding-src</scm.repo.readonly.url>
+        <scm.repo.readonly.url>https://bitbucket.org/tidalwave/betterbeansbinding-src</scm.repo.readonly.url>
         <scm.repo.browse.url>https://bitbucket.org/tidalwave/betterbeansbinding-src/src</scm.repo.browse.url>
 
         <tft.UmlGraphDoc.additionalParam>-views -attributes -operations -types -postfixpackage -nodefontpackagesize 6 -nodefontclasssize 8 -nodefontsize 7 -edgefontsize 7 -nodesep 0.05 -ranksep 0.1 -visibility -inferrel -hide java.*|javax.*</tft.UmlGraphDoc.additionalParam>
