@@ -1,10 +1,13 @@
-Core/target
-EL/target
-Examples/BeanExamples/target
-Examples/SwingExamples/target
-Examples/target
-SwingBinding/target
 target
 .repository
-hudson.env
+.description
+.classpath
+.project
+.settings
+release.properties
+\.orig\..*$
+\.orig$
+\.chg\..*$
+\.rej$
+\.conflict\~$
 
