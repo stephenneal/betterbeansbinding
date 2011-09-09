@@ -88,18 +88,18 @@
     <mailingLists>
         <mailingList>
             <name>Continuous Integration</name>
-            <post>ci@googlegroups.com</post>
-            <archive>http://groups.google.com/group/betterbeansbinding-ci</archive>
+            <post>ci@betterbeansbinding.kenai.com</post>
+            <archive>http://kenai.com/projects/betterbeansbinding/lists/ci/archive</archive>
         </mailingList>
         <mailingList>
             <name>Developers</name>
-            <post>betterbeansbinding-dev@googlegroups.com</post>
-            <archive>http://groups.google.com/group/betterbeansbinding-dev</archive>
+            <post>dev@betterbeansbinding.kenai.com</post>
+            <archive>http://kenai.com/projects/betterbeansbinding/lists/dev/archive</archive>
         </mailingList>
         <mailingList>
             <name>Users</name>
-            <post>betterbeansbinding-users@googlegroups.com</post>
-            <archive>http://groups.google.com/group/betterbeansbinding-users</archive>
+            <post>users@betterbeansbinding.kenai.com</post>
+            <archive>http://kenai.com/projects/betterbeansbinding/lists/users/archive</archive>
         </mailingList>
     </mailingLists>
 
