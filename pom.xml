@@ -63,6 +63,9 @@
 
         <tft.javac.source>1.5</tft.javac.source> <!-- For Android compatibility -->
         <tft.javac.target>1.5</tft.javac.target>
+
+        <stableAPI>true</stableAPI>
+        <stableAPIVersion>1.3.0</stableAPIVersion>
     </properties>
 
     <issueManagement>
