@@ -170,25 +170,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
-
-            <!-- Assembler to produce final artifacts. Creates a -bin and -project (source) tarball. -->
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptors>
-                        <descriptor>etc/bin.xml</descriptor>
-                        <descriptor>etc/project.xml</descriptor>
-                    </descriptors>
-                </configuration>
-            </plugin>
-
             <!-- Executes tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
