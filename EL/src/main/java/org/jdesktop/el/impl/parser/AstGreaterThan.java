@@ -24,7 +24,7 @@
  * 
  ***********************************************************************************************************************
  * 
- * $Id: AstGreaterThan.java 49 2009-04-25 22:31:22Z fabriziogiudici $
+ * $Id$
  * 
  **********************************************************************************************************************/
 /*
@@ -42,7 +42,7 @@ import org.jdesktop.el.impl.lang.EvaluationContext;
 
 /**
  * @author Jacob Hookom [jacob@hookom.net]
- * @version $Change: 181177 $$DateTime: 2001/06/26 08:45:09 $$Author: fabriziogiudici $
+ * @version $Change: 181177 $$DateTime: 2001/06/26 08:45:09 $$Author$
  */
 public final class AstGreaterThan extends BooleanNode {
     public AstGreaterThan(int id) {

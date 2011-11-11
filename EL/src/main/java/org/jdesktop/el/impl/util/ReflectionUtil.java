@@ -24,7 +24,7 @@
  * 
  ***********************************************************************************************************************
  * 
- * $Id: ReflectionUtil.java 49 2009-04-25 22:31:22Z fabriziogiudici $
+ * $Id$
  * 
  **********************************************************************************************************************/
 package org.jdesktop.el.impl.util;
@@ -47,7 +47,7 @@ import org.jdesktop.el.impl.lang.ELSupport;
  * Utilities for Managing Serialization and Reflection
  * 
  * @author Jacob Hookom [jacob@hookom.net]
- * @version $Change: 181177 $$DateTime: 2001/06/26 08:45:09 $$Author: fabriziogiudici $
+ * @version $Change: 181177 $$DateTime: 2001/06/26 08:45:09 $$Author$
  */
 public class ReflectionUtil {
 
