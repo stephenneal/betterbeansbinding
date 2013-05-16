@@ -163,6 +163,12 @@
         </dependency>
         <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
+            <artifactId>it-tidalwave-util-test</artifactId>
+            <version>1.0.27</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it.tidalwave.singlelinelogformatter</artifactId>
             <version>1.0.2</version>
             <scope>test</scope>
