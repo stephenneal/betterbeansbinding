@@ -5,9 +5,9 @@ http://kenai.com/jira/browse/BETTERBEANSBINDING
 
 ### What is this repository for? ###
 
-* Quick summary
+* Quick summary: 
 It has been some time since a release of the original project, this fork has been created to deliver a released version with fixes for bugs raised against the the original project and to deliver some enhancements identified during my years of using BetterBeansBinding.
-* Version
+* Version: 
 1.3.1-SNAPSHOT
 
 ### How do I get set up? ###
