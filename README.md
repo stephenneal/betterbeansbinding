@@ -8,7 +8,8 @@ http://kenai.com/jira/browse/BETTERBEANSBINDING
 * Quick summary: 
 It has been some time since a release of the original project, this fork has been created to deliver a released version with fixes for bugs raised against the the original project and to deliver some enhancements identified during my years of using BetterBeansBinding.
 * Version: 
-1.3.1-SNAPSHOT
+1.3.1-SNAPSHOT : Fixes and enhancements raised against the parent project (https://kenai.com/jira/browse/BETTERBEANSBINDING)
+2.0.0-SNAPSHOT : Fixes and enhancements not identified by an issue against the parent project
 
 ### How do I get set up? ###
 
