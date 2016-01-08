@@ -239,6 +239,7 @@
         <module>EL</module>
         <module>SwingBinding</module>
         <module>Examples</module>
+        <module>Bundle</module>
     </modules>
 
     <profiles>
