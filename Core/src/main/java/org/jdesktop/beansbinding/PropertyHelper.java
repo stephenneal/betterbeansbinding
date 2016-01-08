@@ -201,6 +201,10 @@ public abstract class PropertyHelper<S, V> extends Property<S, V> {
         listeners.remove(listener);
 
         if (wasListening && (listeners.size() == 0)) {
+            if (!ignoresSource) {
+                IdentityHashMap<S, List<PropertyStateListener>> map = (IdentityHashMap<S, List<PropertyStateListener>>) this.listeners;
+                map.remove(source);
+            }
             listeningStopped(ignoresSource ? null : source);
         }
     }
