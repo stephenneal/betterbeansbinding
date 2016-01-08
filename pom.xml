@@ -54,9 +54,9 @@
     </organization>
 
     <properties>
-        <scm.repo.url>ssh://hg@bitbucket.org/tidalwave/betterbeansbinding-src</scm.repo.url>
-        <scm.repo.readonly.url>https://bitbucket.org/tidalwave/betterbeansbinding-src</scm.repo.readonly.url>
-        <scm.repo.browse.url>https://bitbucket.org/tidalwave/betterbeansbinding-src/src</scm.repo.browse.url>
+        <scm.repo.url>ssh://git@github.com:stephenneal/betterbeansbinding.git</scm.repo.url>
+        <scm.repo.readonly.url>https://github.com/stephenneal/betterbeansbinding/</scm.repo.readonly.url>
+        <scm.repo.browse.url>https://github.com/stephenneal/betterbeansbinding/src</scm.repo.browse.url>
 
         <tft.UmlGraphDoc.additionalParam>-views -attributes -operations -types -postfixpackage -nodefontpackagesize 6 -nodefontclasssize 8 -nodefontsize 7 -edgefontsize 7 -nodesep 0.05 -ranksep 0.1 -visibility -inferrel -hide java.*|javax.*</tft.UmlGraphDoc.additionalParam>
 
@@ -84,6 +84,15 @@
                 <role>developer</role>
             </roles>
             <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <name>Stephen Neal</name>
+            <email>stephen.neal1@gmail.com</email>
+            <url>http://au.linkedin.com/pub/stephen-neal/31/331/167/</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+9</timezone>
         </developer>
     </developers>
 
@@ -183,7 +192,7 @@
             </plugin>
 
             <!-- Produces the JARs, with OSGi support and the Subversion revision in the Manifest -->
-<!--
+<!-- SN: disable OSGi
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
@@ -206,6 +215,7 @@
             </plugin>
 
             <!-- Produces the OSGi bundle information. -->
+<!-- SN: disable OSGi
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -220,6 +230,7 @@
                     </execution>
                 </executions>
             </plugin>
+-->
         </plugins>
     </build>
 
@@ -230,5 +241,29 @@
         <module>Examples</module>
     </modules>
 
-</project>
+    <profiles>
+        <profile>
+          <id>sn</id>
+          <activation>
+              <activeByDefault>true</activeByDefault>
+          </activation>
+          <build>
+            <!-- Not using buildnumber-maven-plugin, use standard maven naming convention -->
+            <finalName>${project.artifactId}-${project.version}</finalName>
+            <plugins>
+                <!-- Disable some plugins for TRUMPS builds... -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>buildnumber-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>none</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+          </build>
+        </profile>
+    </profiles>
 
+</project>
